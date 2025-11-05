@@ -14,11 +14,10 @@ public class SipSyncController {
         return "HomePage";
     }
 
-    @PostMapping("/add")
-    @ResponseBody
+    @GetMapping("/add")
     public String addPage(@RequestParam String addLog){
         logsArr.add(addLog);
-        return "Added";
+        return "HomePage";
     }
 
 

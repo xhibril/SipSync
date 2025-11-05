@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "waterlogs")
 public class AddLog {
+
     //   “Let the database itself handle ID creation for new rows — I don’t want to generate IDs manually in Java.”
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
