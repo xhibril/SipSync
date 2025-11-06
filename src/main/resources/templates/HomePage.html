@@ -2,36 +2,33 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/HomePage.css">
-
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>SipSync</title>
 </head>
 <body>
 
-<div class = "center">
-    <div>
-
+<section class="inputContainer">
     <form action="/add" method="post">
         <input type="text" name="add" placeholder="Enter amount of water you drank"><br>
         <button type="submit">Add</button>
     </form>
+</section>
+
+<section class = "showcaseContainer">
+
+
+
 
     <table>
         <tr>
-
             <td>
                 <span th:text="${date}"></span>
                 <span th:text="${amount}"></span>
             </td>
         </tr>
     </table>
-    </div>
-
-</div>
-
+</section>
 
 
 
