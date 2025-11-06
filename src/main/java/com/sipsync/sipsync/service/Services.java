@@ -25,16 +25,22 @@ public class Services {
     }
 
     
-    public todayTotal(Model model){
-        List<Logs> totals = repo.findAll();
+    public Totals todayTotal(){
+        List<Logs> savedAmounts = repo.findAll();
+        LocalDate today = LocalDate.now();
         int sum = 0;
-        for (Logs total : totals){
-            model.addAttribute("amount", total.getAmount());
-            model.addAttribute("date", total.getTime());
+        for (Logs saved : savedAmounts){
+
+            if(String.valueOf(today).equals(saved.getTime())){
+                sum += saved.getAmount();
+            }
+
         }
-
-
+        return new Totals(sum, String.valueOf(today));
     }
+
+
+
 
 
 
