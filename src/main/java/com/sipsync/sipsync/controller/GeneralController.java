@@ -13,24 +13,29 @@ import java.time.LocalDate;
 public class GeneralController {
 
     @Autowired private AddLogRepository repo;
-
     @Autowired private Services service;
 
     @GetMapping("/")
     // show amount of water drank today in homepage
-    public String MainPage(Model model){
-        Totals total = service.todayTotal();
-
-        model.addAttribute("amount",  "Water drank today: "+  total.amount());
-        model.addAttribute("date",  total.date());
+    public String MainPage(){
         return "HomePage";
     }
 
 
+
+
+    @ResponseBody
+    @GetMapping("/today")
+    public Totals getTodayTotals(){
+        return service.todayTotal();
+    }
+
+
+
+
     @PostMapping("/add")
-    public String addLog(@RequestParam int add){
-        service.addLog(add);
-        return "redirect:/";
+    public void addLog(@RequestParam int add){
+         service.addLog(add);
     }
 
 

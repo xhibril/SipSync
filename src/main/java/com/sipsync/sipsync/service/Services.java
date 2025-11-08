@@ -4,7 +4,6 @@ import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.repository.AddLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.List;
 import java.time.LocalDate;
@@ -12,8 +11,7 @@ import java.time.LocalDate;
 @Service
 public class Services {
 
-    @Autowired
-    private AddLogRepository repo;
+    @Autowired private AddLogRepository repo;
 
     public void addLog(int add){
 

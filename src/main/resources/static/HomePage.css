@@ -5,10 +5,12 @@
     border-radius: 20px;
     height: 32vh;
     margin-right:20%;
-    display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    display: flex;
+
+    min-width:150px;
 }
 
 .showcaseContainer{
@@ -21,7 +23,7 @@
     display: flex;
     position: relative;
     flex-direction: column;
-      min-width: 270px;
+      min-width: 360px;
       max-width: 800px;
 
 }
@@ -83,7 +85,7 @@ text-align: center;
 #dateDisplay{
   position: absolute;
   right: 0;
-  top: 6%;
+  top: 4%;
   margin-right: 20px;
 }
 

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/HomePage.css">
+    <link rel="stylesheet" href="/HomePage.css">
     <title>SipSync</title>
 </head>
 <body>
@@ -11,15 +11,15 @@
 <section class="inputContainer">
 
     <select id = "inputTypeSelection">
-        <option>ADD</option>
-        <option>EDIT</option>
-        <option>GOAL</option>
+        <option value = "ADD"> ADD</option>
+        <option value = "EDIT">EDIT</option>
+        <option value = "GOAL">GOAL</option>
     </select>
 
-    <form action="/add" method="post">
+
         <input type="text" name="add" placeholder="Enter amount"><br>
-        <button type="submit">Add</button>
-    </form>
+         <button type="submit" id = "submitBtn">Add</button>
+
 </section>
 
 
@@ -32,19 +32,17 @@
     </select>
 
 
-
-                <span th:text="${date}" id = "dateDisplay"></span>
-                <h4 id = "goalText">Goal:</h4>
+    <p id = "dateDisplay"> Loading date...</p>
+    <h4 id = "goalText">Goal:</h4>
 
 
 
 
     <div id = "bottle">
-        <h4 id = "drankText"> Drank today: </h4>
-        <span th:text="${amount}"></span>
+        <p id = "amount">Loading amount...</p>
     </div>
 </section>
 
-<script src="script.js"></script>
+<script src = "/Main.js"></script>
 </body>
 </html>
