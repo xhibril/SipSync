@@ -9,28 +9,42 @@
 <body>
 
 <section class="inputContainer">
+
+    <select id = "inputTypeSelection">
+        <option>ADD</option>
+        <option>EDIT</option>
+        <option>GOAL</option>
+    </select>
+
     <form action="/add" method="post">
-        <input type="text" name="add" placeholder="Enter amount of water you drank"><br>
+        <input type="text" name="add" placeholder="Enter amount"><br>
         <button type="submit">Add</button>
     </form>
 </section>
 
+
 <section class = "showcaseContainer">
 
+    <select id = "periodSelection">
+        <option>DAILY</option>
+        <option>WEEKLY</option>
+        <option>MONTHLY</option>
+    </select>
 
 
 
-    <table>
-        <tr>
-            <td>
-                <span th:text="${date}"></span>
-                <span th:text="${amount}"></span>
-            </td>
-        </tr>
-    </table>
+                <span th:text="${date}" id = "dateDisplay"></span>
+                <h4 id = "goalText">Goal:</h4>
+
+
+
+
+    <div id = "bottle">
+        <h4 id = "drankText"> Drank today: </h4>
+        <span th:text="${amount}"></span>
+    </div>
 </section>
 
-
-
+<script src="script.js"></script>
 </body>
 </html>

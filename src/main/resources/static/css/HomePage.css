@@ -1,24 +1,29 @@
 .inputContainer{
 
-    border: 2px #FFF7DD solid;
-    background-color: #FFF7DD;
+    border: 2px #FFFFFF solid;
+    background-color: #dbe7e4;
     border-radius: 20px;
     height: 32vh;
     margin-right:20%;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .showcaseContainer{
     align-items: center;
     border-radius: 20px;
-    border: 2px #FFF7DD solid;
-    background-color: #FFF7DD;
-    height: 32vh;
+    border: 2px #FFFFFF solid;
+    background-color: #dbe7e4;
+    height: 60vh;
     width: 40%;
     display: flex;
+    position: relative;
     flex-direction: column;
+      min-width: 270px;
+      max-width: 800px;
+
 }
 
 
@@ -29,33 +34,56 @@ form {
 }
 
 
-
-
-
 body{
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
-    background-color:#9dc5c4;
+    background-color:#e0e1dd;
 }
 
 input[type="text"] {
+
+  text-align: center;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 2px solid #000000;
   border-radius: 4px;
+  width: 60%
 }
 
 #addBtn{
   margin-top: 10px;
   padding: 8px 16px;
   border: none;
-  background: #4d89ca;
+  background: #0d1b2a;
   color: white;
   border-radius: 4px;
   cursor: pointer;
 }
 
+#bottle {
+background-color: rgb(255, 255, 255);
+height: 75%;
+width: 30%;
+border-radius: 50px;
+text-align: center;
+}
+
+#periodSelection, #inputTypeSelection {
+  border: #000000 2px solid;
+  border-radius: 4px;
+  position: absolute;
+  left: 0;
+  top: 6%;
+  margin-left: 20px;
+}
+
+#dateDisplay{
+  position: absolute;
+  right: 0;
+  top: 6%;
+  margin-right: 20px;
+}
 

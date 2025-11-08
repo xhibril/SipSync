@@ -22,7 +22,7 @@ public class GeneralController {
         Totals total = service.todayTotal();
 
         model.addAttribute("amount",  "Water drank today: "+  total.amount());
-        model.addAttribute("date", "-"+ total.date());
+        model.addAttribute("date",  total.date());
         return "HomePage";
     }
 
