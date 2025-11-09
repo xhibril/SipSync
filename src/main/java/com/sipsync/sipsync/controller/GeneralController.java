@@ -1,13 +1,11 @@
 package com.sipsync.sipsync.controller;
-import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.repository.AddLogRepository;
+import com.sipsync.sipsync.service.GoalRecord;
 import com.sipsync.sipsync.service.Services;
-import com.sipsync.sipsync.service.Totals;
+import com.sipsync.sipsync.service.TotalsRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
 
 @Controller
 public class GeneralController {
@@ -26,18 +24,29 @@ public class GeneralController {
 
     @ResponseBody
     @GetMapping("/today")
-    public Totals getTodayTotals(){
+    public TotalsRecord getTodayTotals(){
         return service.todayTotal();
     }
 
 
 
-
+    @ResponseBody
     @PostMapping("/add")
     public void addLog(@RequestParam int add){
          service.addLog(add);
     }
 
+    @ResponseBody
+    @PostMapping("/add/goal")
+    public void setGoal(@RequestParam int goal){
+        service.setGoal(goal);
+    }
+
+    @ResponseBody
+    @GetMapping("/goal")
+    public GoalRecord getSetGoal(){
+        return service.getSetGoal();
+    }
 
 
 

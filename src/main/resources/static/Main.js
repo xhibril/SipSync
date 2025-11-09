@@ -1,28 +1,20 @@
-// show water drank for today, goal and date
-fetch("/today")
-    .then(res => res.json())
-    .then(data => {
-        console.log(data);
-        document.getElementById("amount").innerHTML = "Water drank: <br> " + data.amount + " ml";
-        document.getElementById("dateDisplay").innerHTML = "Date: " + data.date;
-    });
-
-
-// update input type selection menu
 const select = document.getElementById("inputTypeSelection");
+const input = document.getElementById("input");
 const submitBtn = document.getElementById("submitBtn");
-select.addEventListener("change", function() {
 
-    const choice = select.value;
-    console.log("changed:", select.value);
+let choice = "ADD";
+select.addEventListener("change", function () {
+    choice = select.value;
 
     switch (choice) {
         case "ADD":
             submitBtn.textContent = "ADD";
             break;
+
         case "EDIT":
             submitBtn.textContent = "EDIT";
             break;
+
         case "GOAL":
             submitBtn.textContent = "GOAL";
             break;
@@ -30,15 +22,55 @@ select.addEventListener("change", function() {
 });
 
 
+submitBtn.addEventListener("click", () => {
 
-submitBtn.addEventListener("click", function() {
-
-    const added = parseFloat(input.value);
-    if (isNaN(added) || added <= 0) return;
-    drank += added;
-
-    const percent = (drank / goal) * 100;
-
-    bottle.style.background = `linear-gradient(to top, #e2eafc ${percent}%, white ${percent}%)`
+    const amount = parseInt(input.value);
+    if (isNaN(amount) || amount <= 0) return;
+    input.value = "";
+    callDB(amount);
 });
+
+
+input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        submitBtn.click();
+        input.value = "";
+    }
+});
+
+
+function callDB(amount) {
+
+    switch (choice) {
+        case "ADD":
+
+            fetch(`/add?add=${amount}`, {method: "POST"})
+                .then(() => console.log("Saved successfully!"))
+                .catch(err => console.error("Error:", err));
+
+            break;
+
+        case "GOAL":
+            fetch(`/add/goal?goal=${amount}`, {method: "POST"})
+                .then(() => console.log("Saved successfully!"))
+                .catch(err => console.error("Error:", err));
+
+            break;
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

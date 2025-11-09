@@ -14,7 +14,6 @@ public class Logs {
     String time;
 
 
-
     public void setAmount(int amount){this.amount = amount;}
     public int getAmount(){return amount;}
 

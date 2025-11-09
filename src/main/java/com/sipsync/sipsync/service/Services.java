@@ -1,17 +1,21 @@
 package com.sipsync.sipsync.service;
 
+import com.sipsync.sipsync.model.Goal;
 import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.repository.AddLogRepository;
+import com.sipsync.sipsync.repository.SetGoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class Services {
 
-    @Autowired private AddLogRepository repo;
+    @Autowired private AddLogRepository addRepo;
+    @Autowired private SetGoalRepository goalRepo;
 
     public void addLog(int add){
 
@@ -19,12 +23,12 @@ public class Services {
         LocalDate today = LocalDate.now();
         log.setAmount(add);
         log.setTime(String.valueOf(today));
-        repo.save(log);
+        addRepo.save(log);
     }
 
     
-    public Totals todayTotal(){
-        List<Logs> savedAmounts = repo.findAll();
+    public TotalsRecord todayTotal(){
+        List<Logs> savedAmounts = addRepo.findAll();
         LocalDate today = LocalDate.now();
         int sum = 0;
         for (Logs saved : savedAmounts){
@@ -34,7 +38,31 @@ public class Services {
             }
 
         }
-        return new Totals(sum, String.valueOf(today));
+        return new TotalsRecord(sum, String.valueOf(today));
+    }
+
+
+
+
+
+    public void setGoal(float amount){
+        Goal goal = new Goal();
+        goal.setGoal(amount);
+        goalRepo.save(goal);
+    }
+
+
+    public GoalRecord getSetGoal() {
+        Optional<Goal> result = goalRepo.findById(1L);
+
+        // check if sum is inside the wrapper optional
+        if (result.isPresent()) {
+            // return if found
+            Goal goal = result.get();
+            return new GoalRecord(goal.getGoal());
+        } else {
+            return null;
+        }
     }
 
 
