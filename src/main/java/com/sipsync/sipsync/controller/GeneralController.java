@@ -32,10 +32,10 @@ public class GeneralController {
 
     @ResponseBody
     @PostMapping("/add")
-    public void addLog(@RequestParam int add){
-         service.addLog(add);
+    public TotalsRecord addLog(@RequestParam int add){
+        service.addLog(add);
+        return service.todayTotal();
     }
-
     @ResponseBody
     @PostMapping("/add/goal")
     public void setGoal(@RequestParam int goal){

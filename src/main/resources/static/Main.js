@@ -1,6 +1,7 @@
 const select = document.getElementById("inputTypeSelection");
 const input = document.getElementById("input");
 const submitBtn = document.getElementById("submitBtn");
+import {frontPageContents} from "/Display.js";
 
 let choice = "ADD";
 select.addEventListener("change", function () {
@@ -28,6 +29,7 @@ submitBtn.addEventListener("click", () => {
     if (isNaN(amount) || amount <= 0) return;
     input.value = "";
     callDB(amount);
+
 });
 
 
@@ -45,20 +47,28 @@ function callDB(amount) {
         case "ADD":
 
             fetch(`/add?add=${amount}`, {method: "POST"})
-                .then(() => console.log("Saved successfully!"))
+                .then(e  => {
+            console.log("Saved successfully!");
+            frontPageContents();
+            })
                 .catch(err => console.error("Error:", err));
 
             break;
 
         case "GOAL":
             fetch(`/add/goal?goal=${amount}`, {method: "POST"})
-                .then(() => console.log("Saved successfully!"))
+                .then(e  => {
+                    console.log("Saved successfully!");
+                    frontPageContents();
+                })
                 .catch(err => console.error("Error:", err));
 
             break;
 
     }
 }
+
+
 
 
 
