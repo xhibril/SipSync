@@ -2,9 +2,10 @@ package com.sipsync.sipsync.service;
 
 import com.sipsync.sipsync.model.Goal;
 import com.sipsync.sipsync.model.Logs;
+import com.sipsync.sipsync.model.Edit;
 import com.sipsync.sipsync.repository.AddLogRepository;
+import com.sipsync.sipsync.repository.EditLogRepository;
 import com.sipsync.sipsync.repository.SetGoalRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,9 @@ public class Services {
 
     @Autowired private AddLogRepository addRepo;
     @Autowired private SetGoalRepository goalRepo;
+    @Autowired private EditLogRepository editRepo;
 
-    @Transactional
+
     public void addLog(int add){
 
         Logs log = new Logs();
@@ -45,8 +47,20 @@ public class Services {
 
 
 
+    public void editLatestValue(int value){
 
-@Transactional
+        Logs last = addRepo.findTopByOrderByIdDesc();
+        Long id = last.getId();
+
+        Edit edit = new Edit();
+        edit.setAmount(value);
+        edit.setId(id);
+
+        editRepo.save(edit);
+    }
+
+
+
     public void setGoal(float amount){
         Goal goal = new Goal();
         goal.setGoal(amount);
@@ -62,10 +76,15 @@ public class Services {
             // return if found
             Goal goal = result.get();
             return new GoalRecord(goal.getGoal());
+
         } else {
             return null;
         }
     }
+
+
+
+
 
 
 

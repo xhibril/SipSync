@@ -2,6 +2,7 @@ const dateDisplay = document.getElementById("dateDisplay");
 const amountDisplay = document.getElementById("amount");
 const goalDisplay = document.getElementById("goal");
 
+frontPageContents();
 
 function frontPageContents() {
 // show today total amount drank and date

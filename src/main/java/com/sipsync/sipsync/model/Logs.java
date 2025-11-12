@@ -19,4 +19,7 @@ public class Logs {
 
     public void setTime(String time){this.time = time;}
     public String getTime(){return time;}
+
+
+    public Long getId(){ return id; }
 }

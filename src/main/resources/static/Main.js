@@ -1,7 +1,6 @@
 const select = document.getElementById("inputTypeSelection");
 const input = document.getElementById("input");
 const submitBtn = document.getElementById("submitBtn");
-import {frontPageContents} from "/Display.js";
 
 let choice = "ADD";
 select.addEventListener("change", function () {
@@ -58,13 +57,20 @@ function callDB(amount) {
         case "GOAL":
             fetch(`/add/goal?goal=${amount}`, {method: "POST"})
                 .then(e  => {
-                    console.log("Saved successfully!");
                     frontPageContents();
                 })
                 .catch(err => console.error("Error:", err));
 
             break;
 
+
+        case "EDIT":
+            fetch(`add/edit?value=${amount}`, {method: "POST"})
+
+                .then(e => frontPageContents())
+                .catch (err => console.error("Error:", err));
+
+            break;
     }
 }
 

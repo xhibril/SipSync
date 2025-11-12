@@ -21,6 +21,7 @@ public class GeneralController {
 
 
 
+    // get total amount drank today
 
     @ResponseBody
     @GetMapping("/today")
@@ -30,24 +31,38 @@ public class GeneralController {
 
 
 
+    // add amount
     @ResponseBody
     @PostMapping("/add")
-    public TotalsRecord addLog(@RequestParam int add){
+    public void addLog(@RequestParam int add){
         service.addLog(add);
-        return service.todayTotal();
     }
+
+
+    // add goal
     @ResponseBody
     @PostMapping("/add/goal")
     public void setGoal(@RequestParam int goal){
         service.setGoal(goal);
     }
 
+
+    // get set goal
     @ResponseBody
     @GetMapping("/goal")
     public GoalRecord getSetGoal(){
         return service.getSetGoal();
     }
 
+
+
+    // edit latest value
+
+    @ResponseBody
+    @PostMapping("/add/edit")
+    public void editLatestValue(@RequestParam int value){
+        service.editLatestValue(value);
+    }
 
 
 
