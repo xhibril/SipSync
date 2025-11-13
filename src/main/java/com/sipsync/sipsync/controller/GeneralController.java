@@ -13,8 +13,9 @@ public class GeneralController {
     @Autowired private AddLogRepository repo;
     @Autowired private Services service;
 
+
+    // load homepage
     @GetMapping("/")
-    // show amount of water drank today in homepage
     public String MainPage(){
         return "HomePage";
     }
@@ -22,7 +23,6 @@ public class GeneralController {
 
 
     // get total amount drank today
-
     @ResponseBody
     @GetMapping("/today")
     public TotalsRecord getTodayTotals(){
@@ -30,7 +30,6 @@ public class GeneralController {
     }
 
     // get total amount drank this week
-
     @ResponseBody
     @GetMapping("/weekly")
     public TotalsRecord getWeeklyTotals(){
@@ -39,7 +38,6 @@ public class GeneralController {
 
 
     // get total amount drank this month
-
     @ResponseBody
     @GetMapping("/monthly")
     public TotalsRecord getMonthlyTotals(){
@@ -74,17 +72,10 @@ public class GeneralController {
 
 
     // edit latest value
-
     @ResponseBody
     @PostMapping("/add/edit")
     public void editLatestValue(@RequestParam int value){
         service.editLatestValue(value);
     }
-
-
-
-
-
-
 
 }

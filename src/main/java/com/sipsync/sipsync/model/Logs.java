@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Table(name = "waterlogs")
 public class Logs {
 
-    //   “Let the database itself handle ID creation for new rows — I don’t want to generate IDs manually in Java.”
+    // Let the database itself handle ID creation for new rows
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -19,7 +19,6 @@ public class Logs {
 
     public void setTime(String time){this.time = time;}
     public String getTime(){return time;}
-
 
     public Long getId(){ return id; }
 }

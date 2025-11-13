@@ -1,5 +1,4 @@
 package com.sipsync.sipsync.service;
-
 import com.sipsync.sipsync.model.Goal;
 import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.model.Edit;
@@ -7,10 +6,7 @@ import com.sipsync.sipsync.repository.AddLogRepository;
 import com.sipsync.sipsync.repository.EditLogRepository;
 import com.sipsync.sipsync.repository.SetGoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
-
-import java.rmi.server.LogStream;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -36,6 +32,8 @@ public class Services {
     public TotalsRecord totals(final String type) {
         List<Logs> savedAmounts = addRepo.findAll();
         LocalDate today = LocalDate.now();
+        LocalDate prevLogDate = null;
+
         int sum = 0;
 
         switch (type) {
@@ -46,44 +44,52 @@ public class Services {
                         sum += saved.getAmount();
                     }
                 }
-                return new TotalsRecord(sum, String.valueOf(today));
+                return new TotalsRecord(sum, String.valueOf(today), 0);
 
             case "WEEKLY":
-
                 LocalDate sevenDaysAgo = today.minusDays(-7);
+                int weeklyDaysCount = 0;
 
                 for (Logs saved : savedAmounts) {
 
                     // convert string to local date obj
-                    LocalDate logDate = LocalDate.parse(saved.getTime());
+                    LocalDate currLogDate = LocalDate.parse(saved.getTime());
 
-                    if (!(sevenDaysAgo.isBefore(logDate) && !(today.isAfter(logDate)))) {
+                    if (!(sevenDaysAgo.isBefore(currLogDate) && !(today.isAfter(currLogDate)))) {
+
+                        // if not a dupe, increment weekly days count
+                        if(prevLogDate == null || !(prevLogDate.equals(currLogDate))){
+                            weeklyDaysCount++;
+                            prevLogDate = currLogDate;
+                        }
                         sum += saved.getAmount();
                     }
                 }
-                return new TotalsRecord(sum, "Weekly");
+                return new TotalsRecord(sum, String.valueOf(today), weeklyDaysCount);
 
 
             case "MONTHLY":
-
-                LocalDate thirtyDaysAgo = today.minusDays(-30);
+               LocalDate thirtyDaysAgo = today.minusDays(-30);
+               int monthlyDaysCount = 0;
 
                 for (Logs saved : savedAmounts) {
-
                     // convert string to local date obj
-                    LocalDate logDate = LocalDate.parse(saved.getTime());
+                    LocalDate currLogDate = LocalDate.parse(saved.getTime());
 
-                    if (!(thirtyDaysAgo.isBefore(logDate) && !(today.isAfter(logDate)))) {
+                    if (!(thirtyDaysAgo.isBefore(currLogDate) && !(today.isAfter(currLogDate)))) {
+
+                        // if not a dupe, increment monthly days count
+                        if(prevLogDate == null || !(prevLogDate.equals(currLogDate))){
+                            monthlyDaysCount++;
+                            prevLogDate = currLogDate;
+                        }
                         sum += saved.getAmount();
                     }
                 }
-                return new TotalsRecord(sum, "Monthly");
+                return new TotalsRecord(sum, String.valueOf(today), monthlyDaysCount);
         }
             return null;
         }
-
-
-
 
 
 
@@ -124,18 +130,6 @@ public class Services {
             return null;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

@@ -1,48 +1,71 @@
 const dateDisplay = document.getElementById("dateDisplay");
 const amountDisplay = document.getElementById("amount");
 const goalDisplay = document.getElementById("goal");
+const averageAmount = document.querySelector("#averageAmount");
+
+let amountDrank = 0;
+let goal = 0;
 
 dailyFrontPageContents();
 
-function dailyFrontPageContents() {
-// show today total amount drank and date
-    fetch("/today")
-        .then(res => res.json())
-        .then(data => {
-            dateDisplay.innerHTML = data.date;
-            amountDisplay.innerHTML = "Water drank today:<br>" + data.amount;
-        })
+async function dailyFrontPageContents() {
+    const todayRes = await fetch("/today").then(r => r.json())
+    const goalRes = await  fetch("/goal").then(r => r.json())
 
-// show input for goal
-    fetch("/goal")
-        .then(res => res.json())
-        .then(data => {
-            goalDisplay.innerHTML = "Goal: <br>" + data.amount;
-        })
+    // display daily water intake and date
+    dateDisplay.innerHTML = todayRes.date;
+    amountDisplay.innerHTML = "Today's Hydration:<br>" + todayRes.amount + " ML";
+    averageAmount.hidden = true;
+
+    // display goal
+    goalDisplay.innerHTML = "Goal: <br>" + goalRes.amount + " ML";
+
+    amountDrank = todayRes.amount;
+    goal = goalRes.amount;
+    bottleFilling(goal, amountDrank);
+
+}
+
+
+async function weeklyFrontPageContents() {
+    // show total amount drank past 7 days, average per day and date
+    const weeklyRes = await fetch("/weekly").then(r => r.json())
+
+    dateDisplay.innerHTML = weeklyRes.date;
+    amountDisplay.innerHTML = "Weekly Water Intake:<br>" + weeklyRes.amount + " ML";
+    averageAmount.hidden = false;
+    averageAmount.innerHTML = "Average Per Day: <br>" + Math.ceil(weeklyRes.amount / weeklyRes.count) + " ML";
+
+
+    // pass avg amount of water drank daily past week
+    amountDrank = Math.ceil(weeklyRes.amount / weeklyRes.count);
+    bottleFilling(goal, amountDrank)
+}
+
+
+async function monthlyFrontPageContents(){
+    // show total amount drank past 30 days, average per day and date
+    const monthlyRes = await fetch("/monthly").then(r => r.json())
+
+    dateDisplay.innerHTML = monthlyRes.date;
+    amountDisplay.innerHTML = "Monthly Water Intake:<br>" + monthlyRes.amount + " ML";
+    averageAmount.hidden = false;
+    averageAmount.innerHTML = "Average Per Day: <br>" + Math.ceil(monthlyRes.amount / monthlyRes.count) + " ML";
+
+    // pass avg amount of water drank daily past month
+    amountDrank = Math.ceil(monthlyRes.amount / monthlyRes.count);
+    bottleFilling(goal, amountDrank)
 }
 
 
 
-function weeklyFrontPageContents(){
-    // show total amount drank past 7 days
+function bottleFilling(goal, amountDrank){
 
-    fetch("/weekly")
-        .then(res => res.json())
-        .then(data => {
-            dateDisplay.innerHTML = data.date;
-            amountDisplay.innerHTML = "Water drank past Seven Days:<br>" + data.amount;
-        })
-}
+let percent = Math.ceil((amountDrank * 100) / goal);
 
+if(percent > 100) percent = 100;
+if(percent < 0) percent = 0;
 
-function monthlyFrontPageContents(){
-    // show total amount drank past 30 days
-
-    fetch("/monthly")
-        .then(res => res.json())
-        .then(data => {
-            dateDisplay.innerHTML = data.date;
-            amountDisplay.innerHTML = "Water past month:<br>" + data.amount;
-        })
+document.querySelector("#bottle").style.backgroundSize = `100% ${percent}%`;
 }
 
