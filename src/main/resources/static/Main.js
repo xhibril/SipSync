@@ -1,10 +1,12 @@
-const select = document.getElementById("inputTypeSelection");
+const inputType = document.getElementById("inputTypeSelection");
 const input = document.getElementById("input");
 const submitBtn = document.getElementById("submitBtn");
+const viewPeriods = document.querySelector("#periodSelection");
 
 let choice = "ADD";
-select.addEventListener("change", function () {
-    choice = select.value;
+
+inputType.addEventListener("change", function () {
+    choice = inputType.value;
 
     switch (choice) {
         case "ADD":
@@ -40,6 +42,45 @@ input.addEventListener("keydown", (e) => {
 });
 
 
+let view = "DAILY";
+
+viewPeriods.addEventListener("change", function (){
+
+    view = viewPeriods.value;
+
+    switch(view){
+        case "DAILY":
+            dailyFrontPageContents();
+            break;
+
+
+        case "WEEKLY":
+            weeklyFrontPageContents();
+            break;
+
+
+        case "MONTHLY":
+            monthlyFrontPageContents();
+            break;
+
+    }
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function callDB(amount) {
 
     switch (choice) {
@@ -48,7 +89,7 @@ function callDB(amount) {
             fetch(`/add?add=${amount}`, {method: "POST"})
                 .then(e  => {
             console.log("Saved successfully!");
-            frontPageContents();
+                    dailyFrontPageContents();
             })
                 .catch(err => console.error("Error:", err));
 
@@ -57,7 +98,7 @@ function callDB(amount) {
         case "GOAL":
             fetch(`/add/goal?goal=${amount}`, {method: "POST"})
                 .then(e  => {
-                    frontPageContents();
+                    dailyFrontPageContents();
                 })
                 .catch(err => console.error("Error:", err));
 
@@ -67,7 +108,7 @@ function callDB(amount) {
         case "EDIT":
             fetch(`add/edit?value=${amount}`, {method: "POST"})
 
-                .then(e => frontPageContents())
+                .then(e => dailyFrontPageContents())
                 .catch (err => console.error("Error:", err));
 
             break;

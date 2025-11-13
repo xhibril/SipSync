@@ -26,7 +26,24 @@ public class GeneralController {
     @ResponseBody
     @GetMapping("/today")
     public TotalsRecord getTodayTotals(){
-        return service.todayTotal();
+        return service.totals("DAILY");
+    }
+
+    // get total amount drank this week
+
+    @ResponseBody
+    @GetMapping("/weekly")
+    public TotalsRecord getWeeklyTotals(){
+        return service.totals("WEEKLY");
+    }
+
+
+    // get total amount drank this month
+
+    @ResponseBody
+    @GetMapping("/monthly")
+    public TotalsRecord getMonthlyTotals(){
+        return service.totals("MONTHLY");
     }
 
 
