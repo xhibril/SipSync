@@ -1,46 +1,98 @@
-<!doctype html>
-<html lang="en" >
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/HomePage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="homepage.css">
     <title>SipSync</title>
 </head>
+
 <body>
 
-<section class="inputContainer">
+<div class="left">
 
-    <select id = "inputTypeSelection">
-        <option value = "ADD"> ADD</option>
-        <option value = "EDIT">EDIT</option>
-        <option value = "GOAL">GOAL</option>
-    </select>
+    <div class="siteTitleContainer">
+        <h1 class="siteTitle">SIPSYNC </h1>
+    </div>
 
-        <input type="number" id ="input" placeholder="Enter amount"><br>
-        <button type="submit" id = "submitBtn">Add</button>
-</section>
+    <div class="inputContainer">
+
+        <div class="inputTypeSelection">
+            <label class="radio">
+
+                <input type="radio" name="inputType" checked="Add">
+                <span class="name">Add</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio" name="inputType">
+                <span class="name">Edit</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio" name="inputType">
+                <span class="name">Goal</span>
+            </label>
+        </div>
+
+        <input type="number" class="input" placeholder="Enter amount"><br>
+        <button type="submit" id="submitBtn">Confirm</button>
+
+    </div>
+
+</div>
 
 
-<section class = "showcaseContainer">
 
-    <select id = "periodSelection">
-        <option value = "DAILY">DAILY</option>
-        <option value = "WEEKLY">WEEKLY</option>
-        <option value = "MONTHLY">MONTHLY</option>
-    </select>
 
-    <p id = "dateDisplay"> Loading date...</p>
-    <h4 id = "goal">Loading goal...</h4>
 
-    <div id="bottle">
+<div class="right">
+
+    <button type="button" id="logoutBtn">
+        <img src="logout.png" alt="Logout">
+    </button>
+
+
+    <div class = "showcaseContainer">
+
+
+
+        <div class="periodSelection">
+
+            <label class="radio">
+                <input type="radio" name="period" checked="Daily">
+                <span class="name">Daily</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio" name="period">
+                <span class="name">Weekly</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio" name="period">
+                <span class="name">Monthly</span>
+            </label>
+        </div>
+
+        <div class = "detailsContainer">
+            <p id = "dateDisplay"> Loading date...</p>
+            <p id = "goal">Loading goal...</p>
+
 
             <p id="amount">Loading amount...</p>
             <p id="averageAmount" hidden>Loading average...</p>
-    </div>
+        </div>
 
-</section>
+        <div class="bottle">
+        </div>
+    </div>
+</div>
 
 <script src = "/Main.js"></script>
 <script src = "/Display.js"></script>
 </body>
+
 </html>
