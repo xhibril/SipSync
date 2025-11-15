@@ -1,22 +1,22 @@
-const inputType = document.querySelector("#inputTypeSelection");
-const input = document.querySelector("#input");
+const inputType = document.querySelectorAll('input[name="inputType"]');
+const input = document.querySelector(".input");
 
 const submitBtn = document.querySelector("#submitBtn");
 
-const viewPeriods = document.querySelector("#periodSelection");
-
-
+const viewPeriods = document.querySelectorAll('input[name="period"]');
 // change button text based on input menu type
 let choice = "ADD";
+inputType.forEach(radio => {
+    radio.addEventListener("change", () => {
+        choice = radio.value;
+        console.log(choice);
 
-inputType.addEventListener("change", function () {
-    choice = inputType.value;
-
-    switch (choice) {
-        case "ADD": submitBtn.textContent = "ADD"; break;
-        case "EDIT": submitBtn.textContent = "EDIT"; break;
-        case "GOAL": submitBtn.textContent = "GOAL"; break;
-    }
+        switch (choice) {
+            case "ADD": submitBtn.textContent = "ADD"; break;
+            case "EDIT": submitBtn.textContent = "EDIT"; break;
+            case "GOAL": submitBtn.textContent = "GOAL"; break;
+        }
+    });
 });
 
 
@@ -78,16 +78,19 @@ function handleSubmit(amount) {
 
 // handler for view period changes
 let view = "DAILY";
+viewPeriods.forEach(period => {
+    period.addEventListener("change", function (){
+        view = period.value;
+        console.log(view);
+        switch(view){
+            case "DAILY": dailyFrontPageContents(); break;
+            case "WEEKLY": weeklyFrontPageContents(); break;
+            case "MONTHLY": monthlyFrontPageContents(); break;
+        }
+    })
 
-viewPeriods.addEventListener("change", function (){
-view = viewPeriods.value;
-
-    switch(view){
-        case "DAILY": dailyFrontPageContents(); break;
-        case "WEEKLY": weeklyFrontPageContents(); break;
-        case "MONTHLY": monthlyFrontPageContents(); break;
-    }
 })
+
 
 
 

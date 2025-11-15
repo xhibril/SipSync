@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -8,78 +8,75 @@
     <link rel="stylesheet" href="homepage.css">
     <title>SipSync</title>
 </head>
-
 <body>
+
+<button type="button" id="logoutBtn">
+    <img src="logout.png" alt="Logout">
+</button>
 
 <div class="left">
 
-    <div class="siteTitleContainer">
-        <h1 class="siteTitle">SIPSYNC </h1>
+    <div class="brandingContainer">
+        <h1 id="siteTitle">SIPSYNC </h1>
+        <p id="siteDesc">Track. Improve. Stay hydrated.</p>
     </div>
 
-    <div class="inputContainer">
+    <div class="celebrationContainer">
+        <img src="celebrationGif.gif" id="celebrateIcon" hidden >
+        <p id="celebrateText" hidden >Goal reached!</p>
 
+    </div>
+
+
+    <div class="inputContainer">
         <div class="inputTypeSelection">
             <label class="radio">
 
-                <input type="radio" name="inputType" checked="Add">
+                <input type="radio" name="inputType" value="ADD" checked>
                 <span class="name">Add</span>
             </label>
 
             <label class="radio">
-                <input type="radio" name="inputType">
+                <input type="radio" value = "EDIT" name="inputType">
                 <span class="name">Edit</span>
             </label>
 
             <label class="radio">
-                <input type="radio" name="inputType">
+                <input type="radio" value = "GOAL" name="inputType">
                 <span class="name">Goal</span>
             </label>
         </div>
 
-        <input type="number" class="input" placeholder="Enter amount"><br>
+        <input type="number" class="input" placeholder="Enter amount"> <br>
         <button type="submit" id="submitBtn">Confirm</button>
-
     </div>
-
 </div>
 
 
 
-
-
 <div class="right">
-
-    <button type="button" id="logoutBtn">
-        <img src="logout.png" alt="Logout">
-    </button>
-
-
-    <div class = "showcaseContainer">
-
-
-
+    <div class="showcaseContainer">
         <div class="periodSelection">
 
             <label class="radio">
-                <input type="radio" name="period" checked="Daily">
-                <span class="name">Daily</span>
+                <input type="radio" name="period" value = "DAILY" checked>
+                <span class="name"> Daily</span>
             </label>
 
             <label class="radio">
-                <input type="radio" name="period">
+                <input type="radio" name="period" value = "WEEKLY">
                 <span class="name">Weekly</span>
             </label>
 
             <label class="radio">
-                <input type="radio" name="period">
+                <input type="radio" name="period" value = "MONTHLY">
                 <span class="name">Monthly</span>
             </label>
         </div>
 
-        <div class = "detailsContainer">
-            <p id = "dateDisplay"> Loading date...</p>
-            <p id = "goal">Loading goal...</p>
+        <div class="detailsContainer">
+            <p id="dateDisplay"> Loading date...</p>
+            <p id="goal">Loading goal...</p>
 
 
             <p id="amount">Loading amount...</p>
@@ -91,8 +88,10 @@
     </div>
 </div>
 
-<script src = "/Main.js"></script>
-<script src = "/Display.js"></script>
+<script src="/Main.js" defer></script>
+<script src="/Display.js" defer></script>
+
 </body>
+
 
 </html>
