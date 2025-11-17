@@ -7,6 +7,8 @@ import com.sipsync.sipsync.repository.EditLogRepository;
 import com.sipsync.sipsync.repository.SetGoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.DayOfWeek;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -33,6 +35,10 @@ public class Services {
         List<Logs> savedAmounts = addRepo.findAll();
         LocalDate today = LocalDate.now();
         LocalDate prevLogDate = null;
+        DayOfWeek dayOfWeek = today.getDayOfWeek();
+        String date =  String.valueOf(today);
+        String day = String.valueOf(dayOfWeek);
+
 
         int sum = 0;
 
@@ -44,7 +50,7 @@ public class Services {
                         sum += saved.getAmount();
                     }
                 }
-                return new TotalsRecord(sum, String.valueOf(today), 0);
+                return new TotalsRecord(sum, date, day, 0);
 
             case "WEEKLY":
                 LocalDate sevenDaysAgo = today.minusDays(-7);
@@ -65,7 +71,7 @@ public class Services {
                         sum += saved.getAmount();
                     }
                 }
-                return new TotalsRecord(sum, String.valueOf(today), weeklyDaysCount);
+                return new TotalsRecord(sum, date, day, weeklyDaysCount);
 
 
             case "MONTHLY":
@@ -86,7 +92,7 @@ public class Services {
                         sum += saved.getAmount();
                     }
                 }
-                return new TotalsRecord(sum, String.valueOf(today), monthlyDaysCount);
+                return new TotalsRecord(sum, date, day, monthlyDaysCount);
         }
             return null;
         }

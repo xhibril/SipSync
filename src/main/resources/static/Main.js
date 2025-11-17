@@ -4,17 +4,16 @@ const input = document.querySelector(".input");
 const submitBtn = document.querySelector("#submitBtn");
 
 const viewPeriods = document.querySelectorAll('input[name="period"]');
-// change button text based on input menu type
+// change input text based on input menu type
 let choice = "ADD";
 inputType.forEach(radio => {
     radio.addEventListener("change", () => {
         choice = radio.value;
-        console.log(choice);
 
         switch (choice) {
-            case "ADD": submitBtn.textContent = "ADD"; break;
-            case "EDIT": submitBtn.textContent = "EDIT"; break;
-            case "GOAL": submitBtn.textContent = "GOAL"; break;
+            case "ADD": input.placeholder = "Enter amount"; break;
+            case "EDIT": input.placeholder = "Edit latest amount entered"; break;
+            case "GOAL": input.placeholder = "Set goal"; break;
         }
     });
 });
