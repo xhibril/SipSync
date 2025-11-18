@@ -42,7 +42,7 @@ public class User {
     @PostPersist
     public void generateTokenAfterSave() {
 
-        String secret = System.getenv("JWT_SECRET");
+        String secret = 
         SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
 
          this.verification_token = Jwts.builder()

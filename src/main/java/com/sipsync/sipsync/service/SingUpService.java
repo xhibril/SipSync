@@ -1,38 +1,81 @@
 package com.sipsync.sipsync.service;
 import com.sipsync.sipsync.model.User;
+import com.sipsync.sipsync.model.Verify;
 import com.sipsync.sipsync.repository.SignUpRepository;
+import com.sipsync.sipsync.repository.VerifyUserRepository;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.Date;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 
 
 @Service
 public class SingUpService {
 
-    @Autowired SignUpRepository repo;
-     @Autowired JavaMailSender mailSender;
+    @Autowired SignUpRepository signUpRepo;
+    @Autowired JavaMailSender mailSender;
+    @Autowired VerifyUserRepository verifyRepo;
 
 
     public void addUser(String email, String password){
 
         User user = new User(email, password);
-        repo.save(user);
+        signUpRepo.save(user);
 
 
-            // send email
+        String encodedToken = URLEncoder.encode(user.getToken(), StandardCharsets.UTF_8);
+
+        System.out.println(encodedToken);
+
+        String link = "http://localhost:8080/verify?token=" + encodedToken;
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("voidedbin@gmail.com");
-        message.setSubject("Hi");
-        message.setText("Test email");
+        message.setTo(email);
+        message.setSubject("Please clicking the following link to verify: ");
+        message.setText(link);
         mailSender.send(message);
 
-
-
     }
+
+    public void verifyUser(String token) {
+        String secretKey =
+
+        System.out.println(secretKey);
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+
+            Long id = claims.get("id", Long.class);
+            String email = claims.get("email", String.class);
+            verifyRepo.verifyById(id);
+
+            System.out.print("Worked" + id +email);
+
+
+        } catch (ExpiredJwtException e) {
+            System.out.print("Expired");
+        } catch (SignatureException e) {
+            System.out.print("Invalid sig");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 }
 
 
