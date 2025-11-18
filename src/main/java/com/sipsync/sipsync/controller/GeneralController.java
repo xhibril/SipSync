@@ -17,7 +17,7 @@ public class GeneralController {
     // load homepage
     @GetMapping("/")
     public String MainPage(){
-        return "HomePage";
+        return "SignUpPage";
     }
 
 

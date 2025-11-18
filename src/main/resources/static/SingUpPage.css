@@ -1,6 +1,5 @@
 body {
     background-color: #F5F7FA;
-    color: white;
     display: flex;
     flex-direction: row;
     font-family: "Inter", sans-serif;
@@ -93,7 +92,6 @@ body::before {
 .input {
     width: 200px;
     min-height: 40px;
-    color: white;
     padding: 0px 7px;
     background-color: #F3F4F6;
     border-radius: 6px;
@@ -101,7 +99,7 @@ body::before {
 }
 
 
-#btn {
+#continueBtn {
     margin-top: 25px;
     padding: 10px 35px;
     cursor: pointer;
@@ -115,7 +113,7 @@ body::before {
 }
 
 
-#btn:hover {
+#continueBtn:hover {
     background-color: #2563EB;
 }
 
@@ -142,6 +140,7 @@ a {
 .siteTitleContainer {
     width: 350px;
     text-align: center;
+    color:white;
 }
 
 .greetingContainer {
@@ -150,6 +149,7 @@ a {
     margin-bottom: auto;
     width: 450px;
     align-self: center;
+    color:white;
 
 }
 
