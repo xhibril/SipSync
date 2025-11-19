@@ -1,6 +1,5 @@
 package com.sipsync.sipsync.service;
 import com.sipsync.sipsync.model.User;
-import com.sipsync.sipsync.model.Verify;
 import com.sipsync.sipsync.repository.SignUpRepository;
 import com.sipsync.sipsync.repository.VerifyUserRepository;
 import io.jsonwebtoken.*;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 
 
 @Service
@@ -44,7 +42,7 @@ public class SingUpService {
     }
 
     public void verifyUser(String token) {
-        String secretKey =
+        String secretKey = System.getenv("JWT_SECRET");
 
         System.out.println(secretKey);
         try {

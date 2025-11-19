@@ -1,10 +1,7 @@
 package com.sipsync.sipsync.model;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -40,13 +37,15 @@ public class User {
 
 
     @PostPersist
-    public void generateTokenAfterSave() {
+    public void genTokenAfterSignUp() {
 
-        String secret = 
+        String secret = System.getenv("JWT_SECRET");
         SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
 
          this.verification_token = Jwts.builder()
                 .setSubject(String.valueOf(this.id))
+                 .claim("id", this.id)
+                 .claim("email", this.email)
                 .setExpiration(new Date(System.currentTimeMillis() + 1000*60*60))
                 .signWith(key)
                 .compact();
@@ -54,6 +53,11 @@ public class User {
 
 
 
+
+
+    public void genTokenAfterLogin(){
+
+    }
 
 
     public void setEmail(String email){ this.email = email; }
