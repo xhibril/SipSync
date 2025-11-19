@@ -22,13 +22,16 @@ public class SingUpService {
     @Autowired VerifyUserRepository verifyRepo;
 
 
-    public void addUser(String email, String password){
+    public User addUser(String email, String password){
 
         User user = new User(email, password);
         signUpRepo.save(user);
+        return user;
+    }
 
 
-        String encodedToken = URLEncoder.encode(user.getToken(), StandardCharsets.UTF_8);
+    public void sendVerificationEmail(String email, String token){
+        String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
 
         System.out.println(encodedToken);
 

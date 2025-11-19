@@ -21,17 +21,15 @@ public class User {
 
 
 
-
-
+    public User() {
+    }
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public User() {
 
-    }
 
 
 
@@ -55,9 +53,11 @@ public class User {
 
 
 
-    public void genTokenAfterLogin(){
 
-    }
+
+
+
+
 
 
     public void setEmail(String email){ this.email = email; }
