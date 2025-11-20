@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class Edit {
 
     @Id
-
     private Long id;
     private int amount;
 

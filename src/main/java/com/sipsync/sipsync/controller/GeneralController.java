@@ -1,8 +1,10 @@
 package com.sipsync.sipsync.controller;
 import com.sipsync.sipsync.repository.AddLogRepository;
+import com.sipsync.sipsync.service.Cookies;
 import com.sipsync.sipsync.service.GoalRecord;
 import com.sipsync.sipsync.service.Services;
 import com.sipsync.sipsync.service.TotalsRecord;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +14,32 @@ public class GeneralController {
 
     @Autowired private AddLogRepository repo;
     @Autowired private Services service;
+    @Autowired private Cookies cookiesService;
 
 
-    // load homepage
+
     @GetMapping("/")
-    public String MainPage(){
+    public String LoginPage(){
+        return "LoginPage";
+    }
+
+
+    @GetMapping("/Signup")
+    public String SignUpPage(){
         return "SignUpPage";
     }
+
+
+    @GetMapping("/Home")
+    public String MainPage(){
+        return "HomePage";
+    }
+
+
+
+
+
+
 
 
 
@@ -49,8 +70,8 @@ public class GeneralController {
     // add amount
     @ResponseBody
     @PostMapping("/add")
-    public void addLog(@RequestParam int add){
-        service.addLog(add);
+    public void addLog(@RequestParam int add, HttpServletRequest request){
+        service.addLog(add, request);
     }
 
 

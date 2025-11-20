@@ -1,6 +1,6 @@
 package com.sipsync.sipsync.service;
 import com.sipsync.sipsync.model.User;
-import com.sipsync.sipsync.repository.SignUpRepository;
+import com.sipsync.sipsync.repository.UserRepository;
 import com.sipsync.sipsync.repository.VerifyUserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -17,11 +17,12 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class SingUpService {
 
-    @Autowired SignUpRepository signUpRepo;
+    @Autowired UserRepository signUpRepo;
     @Autowired JavaMailSender mailSender;
     @Autowired VerifyUserRepository verifyRepo;
 
 
+    // add user and return it
     public User addUser(String email, String password){
 
         User user = new User(email, password);
@@ -29,6 +30,8 @@ public class SingUpService {
         return user;
     }
 
+
+    // send verification email
 
     public void sendVerificationEmail(String email, String token){
         String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
@@ -44,10 +47,10 @@ public class SingUpService {
 
     }
 
+    // rebuild token to verify user
     public void verifyUser(String token) {
         String secretKey = System.getenv("JWT_SECRET");
 
-        System.out.println(secretKey);
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
@@ -71,6 +74,9 @@ public class SingUpService {
             e.printStackTrace();
         }
     }
+
+
+
 
 
 

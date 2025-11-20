@@ -27,13 +27,6 @@ public class SignUpController {
         service.sendVerificationEmail(email, token);
     }
 
-    @GetMapping("/Home")
-    public String ri(){
-        return "HomePage";
-    }
-
-
-
 
     @ResponseBody
     @GetMapping("/verify")

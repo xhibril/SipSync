@@ -18,20 +18,12 @@ public class User {
     private String password;
     private String verification_token;
 
-
-
-
-    public User() {
-    }
+    public User() {}
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
-
-
-
-
 
 
     @PostPersist

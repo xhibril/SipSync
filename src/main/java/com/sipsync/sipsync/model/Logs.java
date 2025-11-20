@@ -10,8 +10,9 @@ public class Logs {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
-    int amount;
-    String time;
+    private Long userId;
+    private int amount;
+    private String time;
 
 
     public void setAmount(int amount){this.amount = amount;}
@@ -21,4 +22,9 @@ public class Logs {
     public String getTime(){return time;}
 
     public Long getId(){ return id; }
+    public void setId(Long id){ this.id = id; }
+
+    public Long getUserId(){ return userId; }
+    public void setUserId(Long userId){  this.userId = userId; }
+
 }

@@ -74,6 +74,12 @@ body::before {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+span{
+    color:black;
 }
 
 
@@ -90,10 +96,10 @@ body::before {
 
 
 
-.input {
+.loginInputs {
     width: 200px;
     min-height: 40px;
-    color: white;
+    color: black;
     padding: 0px 7px;
     background-color: #F3F4F6;
     border-radius: 6px;
@@ -101,7 +107,7 @@ body::before {
 }
 
 
-#btn {
+#loginContinueBtn {
     margin-top: 25px;
     padding: 10px 35px;
     cursor: pointer;
@@ -115,7 +121,7 @@ body::before {
 }
 
 
-#btn:hover {
+#loginContinueBtn:hover {
     background-color: #2563EB;
 }
 

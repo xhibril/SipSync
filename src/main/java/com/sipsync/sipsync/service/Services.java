@@ -5,6 +5,7 @@ import com.sipsync.sipsync.model.Edit;
 import com.sipsync.sipsync.repository.AddLogRepository;
 import com.sipsync.sipsync.repository.EditLogRepository;
 import com.sipsync.sipsync.repository.SetGoalRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,24 @@ public class Services {
     @Autowired private AddLogRepository addRepo;
     @Autowired private SetGoalRepository goalRepo;
     @Autowired private EditLogRepository editRepo;
+    @Autowired private Cookies cookiesService;
+    @Autowired private TokenService tokenService;
 
 
-    public void addLog(int add){
+    // add amount
+    public void addLog(int amount, HttpServletRequest req){
+
+       String token =  cookiesService.getTokenByCookie(req);
+       Long userId = tokenService.extractId(token);
+
+       System.out.println(userId);
+
 
         Logs log = new Logs();
         LocalDate today = LocalDate.now();
-        log.setAmount(add);
+        log.setUserId(userId);
+
+        log.setAmount(amount);
         log.setTime(String.valueOf(today));
         addRepo.save(log);
     }
