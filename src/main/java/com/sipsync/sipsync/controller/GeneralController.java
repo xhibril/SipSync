@@ -46,23 +46,23 @@ public class GeneralController {
     // get total amount drank today
     @ResponseBody
     @GetMapping("/today")
-    public TotalsRecord getTodayTotals(){
-        return service.totals("DAILY");
+    public TotalsRecord getTodayTotals(HttpServletRequest req){
+        return service.totals("DAILY", req);
     }
 
     // get total amount drank this week
     @ResponseBody
     @GetMapping("/weekly")
-    public TotalsRecord getWeeklyTotals(){
-        return service.totals("WEEKLY");
+    public TotalsRecord getWeeklyTotals(HttpServletRequest req){
+        return service.totals("WEEKLY", req);
     }
 
 
     // get total amount drank this month
     @ResponseBody
     @GetMapping("/monthly")
-    public TotalsRecord getMonthlyTotals(){
-        return service.totals("MONTHLY");
+    public TotalsRecord getMonthlyTotals(HttpServletRequest req){
+        return service.totals("MONTHLY", req);
     }
 
 

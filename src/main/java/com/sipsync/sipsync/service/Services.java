@@ -43,8 +43,10 @@ public class Services {
     }
 
     
-    public TotalsRecord totals(final String type) {
-        List<Logs> savedAmounts = addRepo.findAll();
+    public TotalsRecord totals(final String type, HttpServletRequest req) {
+        String token = cookiesService.getTokenByCookie(req);
+        Long userId = tokenService.extractId(token);
+        List<Logs> savedAmounts = addRepo.findByUserId(userId);
         LocalDate today = LocalDate.now();
         LocalDate prevLogDate = null;
         DayOfWeek dayOfWeek = today.getDayOfWeek();
