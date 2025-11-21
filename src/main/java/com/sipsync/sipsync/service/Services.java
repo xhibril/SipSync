@@ -30,9 +30,6 @@ public class Services {
        String token =  cookiesService.getTokenByCookie(req);
        Long userId = tokenService.extractId(token);
 
-       System.out.println(userId);
-
-
         Logs log = new Logs();
         LocalDate today = LocalDate.now();
         log.setUserId(userId);
@@ -130,21 +127,29 @@ public class Services {
 
 
 
-    public void setGoal(float amount){
+    public void setGoal(int amount, HttpServletRequest req){
+
+        String token = cookiesService.getTokenByCookie(req);
+        Long userId = tokenService.extractId(token);
         Goal goal = new Goal();
         goal.setGoal(amount);
+        goal.setUserId(userId);
         goalRepo.save(goal);
     }
 
 
-    public GoalRecord getSetGoal() {
-        Optional<Goal> result = goalRepo.findById(1L);
+    public GoalRecord getSetGoal(HttpServletRequest req) {
+
+        String token = cookiesService.getTokenByCookie(req);
+        Long userId = tokenService.extractId(token);
+
+        Optional<Goal> result = goalRepo.findById(userId);
 
         // check if sum is inside the wrapper optional
         if (result.isPresent()) {
             // return if found
             Goal goal = result.get();
-            return new GoalRecord(goal.getGoal());
+            return new GoalRecord(goal.getGoal(), goal.getUserId());
 
         } else {
             return null;

@@ -78,16 +78,16 @@ public class GeneralController {
     // add goal
     @ResponseBody
     @PostMapping("/add/goal")
-    public void setGoal(@RequestParam int goal){
-        service.setGoal(goal);
+    public void setGoal(@RequestParam int goal, HttpServletRequest request){
+        service.setGoal(goal, request);
     }
 
 
     // get set goal
     @ResponseBody
     @GetMapping("/goal")
-    public GoalRecord getSetGoal(){
-        return service.getSetGoal();
+    public GoalRecord getSetGoal(HttpServletRequest request){
+        return service.getSetGoal(request);
     }
 
 

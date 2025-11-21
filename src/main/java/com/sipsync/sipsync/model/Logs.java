@@ -10,7 +10,11 @@ public class Logs {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
+
+    @Column(name = "user_id")
     private Long userId;
+
+
     private int amount;
     private String time;
 

@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
     public interface AddLogRepository  extends JpaRepository<Logs, Long> {
         Logs findTopByOrderByIdDesc();
-        List<Logs> findByUserId(Long userId);
+        List<Logs> findByUserId(Long userid);
     }
 
