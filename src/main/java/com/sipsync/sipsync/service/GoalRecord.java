@@ -1,3 +1,3 @@
 package com.sipsync.sipsync.service;
 
-public record GoalRecord(float amount, Long user_id){}
+public record GoalRecord(float amount, Long userId){}

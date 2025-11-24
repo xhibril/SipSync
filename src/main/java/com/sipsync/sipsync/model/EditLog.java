@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "waterlogs")
 
-public class Edit {
+public class EditLog {
 
     @Id
     private Long id;
+
     private int amount;
 
     public int getAmount(){ return amount; }

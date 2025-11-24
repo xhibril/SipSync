@@ -16,7 +16,7 @@ async function dailyFrontPageContents() {
 
 
     const todayRes = await fetch("/today").then(r => r.json())
-    const goalRes = await  fetch("/goal").then(r => r.json())
+    const goalRes = await fetch("/goal").then(r => r.json())
 
     // display daily water intake and date
     dateDisplay.innerHTML = todayRes.date + " | " + todayRes.day;
@@ -41,7 +41,7 @@ async function weeklyFrontPageContents() {
     averageAmount.style.display = "flex";
     // show total amount drank past 7 days, average per day and date
     const weeklyRes = await fetch("/weekly").then(r => r.json())
-    const goalRes = await  fetch("/goal").then(r => r.json())
+    const goalRes = await fetch("/goal").then(r => r.json())
 
     dateDisplay.innerHTML = weeklyRes.date + " | " + weeklyRes.day;
     amountDisplay.innerHTML = "Weekly Water Intake:<br>" + weeklyRes.amount + " ML";
@@ -66,7 +66,7 @@ async function monthlyFrontPageContents(){
     averageAmount.style.display = "flex";
     // show total amount drank past 30 days, average per day and date
     const monthlyRes = await fetch("/monthly").then(r => r.json())
-    const goalRes = await  fetch("/goal").then(r => r.json())
+    const goalRes = await fetch("/goal").then(r => r.json())
 
 
 

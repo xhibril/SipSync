@@ -1,0 +1,448 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #f4f6fa;
+    display:flex;
+    flex-direction: column;
+    font-family: "Inter", sans-serif;
+    margin: 0;
+}
+
+.mainSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+/* header */
+
+.headerSection {
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+/* title and desc */
+.brandingContainer {
+    width: 17em;
+}
+
+#siteTitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-left: 0.7em;
+}
+
+#siteDesc {
+    margin-left: 2em;
+}
+/* --- */
+
+
+/* nav */
+.navContainer {
+    margin-bottom: 3em;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 2em;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+/* --- */
+
+
+/* settings */
+.settingsContainer {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+}
+
+.settingsPanelContainer {
+    width: 12em;
+    height: 9em;
+    gap: .5em;
+    margin-right: 2em;
+    border-radius: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    visibility: hidden;
+
+}
+
+.settingsBtn {
+    border: transparent;
+    background-color: transparent;
+    margin-bottom:6em;
+    cursor: pointer;
+    margin-right: 2em;
+}
+
+.settingsBtn img {
+    width: 30px;
+    height: 30px;
+}
+
+.periodSelection {
+    gap: .3em;
+}
+
+.periodSelection button, #logoutBtn, #resetDataBtn {
+    border: transparent;
+    padding: .5em;
+    border-radius: .5em;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #f4f6fa;
+}
+
+.periodSelection button:hover {
+    background-color: #9e9e9e;
+    transition: 0.35s;
+}
+
+#resetDataBtn, #logoutBtn {
+    color: rgb(255, 95, 95);
+}
+
+#resetDataBtn:hover, #logoutBtn:hover {
+    background-color: rgb(255, 213, 213);
+    transition: 0.35s;
+}
+
+/* --- */
+
+
+/* main content */
+
+.appContent {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+}
+
+/* input */
+.inputContainer {
+    width: 24em;
+    height: 32em;
+    border-radius: 1em;
+    background-color: #ffffff;
+    gap: .5em;
+    margin-left: 6em;
+    margin-right: 6em;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input {
+    width: 15em;
+    height: 3em;
+    color: black;
+    padding: 0px 7px;
+    background-color: #F3F4F6;
+    border-radius:  0.5em;
+    border: 1px solid black;
+    align-self: center;
+    margin-top: 4em;
+}
+
+.inputTypeSelection {
+    display: flex;
+    border-radius: 0.5em;
+    background-color: #EEE;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25em;
+    width: 300px;
+    font-size: .9em;
+    margin-bottom: 2em;
+    border: 1px solid #9e9e9e;
+}
+
+
+.inputTypeSelection {
+    align-self: center;
+    margin-top: 2em;
+}
+
+
+.inputTypeSelection .radio {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.inputTypeSelection .radio input {
+    display: none;
+}
+
+.inputTypeSelection .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: .6em 0;
+    color: rgba(51, 65, 85, 1);
+    transition: all .15s ease-in-out;
+}
+
+.inputTypeSelection .radio input:checked+.name {
+    background-color: #9e9e9e;
+    font-weight: 600;
+}
+
+
+.progressBar {
+    border: 1px solid rgb(237, 235, 235);
+    width: 90%;
+    height: 2em;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    background:
+            linear-gradient(#8CA9FF, #5b84ff) bottom,
+            white;
+    background-repeat: no-repeat;
+    background-size: 100% 0%;
+    transition: background-size 0.4s ease;
+    background-color: #EEE;
+
+}
+
+.progressBar p {
+    opacity: 0.5;
+}
+
+
+#dateDisplay, #goal, #amount, #averageAmount {
+    width: 6em;
+    height: 1em;
+    border-radius: 6px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* only needed when user clicks weekly or monthly */
+#avgAmount {
+    display: none;
+}
+
+#dateDisplay{
+    width:12em;
+    margin-left:.7em;
+}
+
+
+
+.quickAddAmount, .quickAddGoal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3em;
+    gap: 1em;
+    display: flex;
+}
+
+
+/* hide it by default */
+.quickAddGoal {
+    display: none;
+}
+
+
+.quickAddBtns {
+    border-radius: .4em;
+    border-color: transparent;
+    padding: 0.75em 1.25em;
+    cursor: pointer;
+    background-color: #f4f6fa;
+    transition: 0.2s;
+    font-weight: bold;
+}
+
+.quickAddBtns:hover {
+    background-color: #dddee3;
+    transform: scale(1.1);
+}
+
+.quickAddBtns img {
+    width: 2.5em;
+    height: 2.3em;
+}
+
+.confirmBtn {
+    padding: .8em 2.8em;
+    cursor: pointer;
+    background-color: #8CA9FF;
+    border: 0px;
+    border-radius: .4em;
+    font-size: 1em;
+    font-weight: bold;
+    transition: 0.35s;
+    color: #111827;
+    align-self: center;
+}
+
+
+.confirmBtn:hover {
+    background-color: #476EAE;
+}
+/* --- */
+
+/* widgets (stats, fact gen and logs) */
+.widgets {
+    display: flex;
+    align-items: flex-start;
+    align-self: flex-start;
+    flex-direction: column;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.randomFact {
+    width: 24em;
+    height: 4em;
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    justify-content: center;
+}
+
+.randomFact p {
+    opacity: 0;
+    transition: opacity 1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 380px;
+    text-align: center;
+    position: absolute;
+}
+
+
+.progressStats {
+    width: 24em;
+    height: 5em;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: .7em;
+}
+
+.streakStat, .remainingStat {
+    background-color: white;
+    width: 15em;
+    border-radius: .7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 2em;
+}
+
+.streakStat{
+    position: relative;
+}
+
+.streakStat #streakImg, .remainingStat img {
+    width: 1.7em;
+    height: 1.7em;
+}
+
+/* shown after reaching goal, hidden by default */
+#celebrationGif {
+    position:absolute;
+    z-index:2;
+    align-self: center;
+    display: none;
+}
+
+.streakStat #streakImg, .remainingStat img  {
+    background-color: rgb(255, 223, 163);
+    border-radius: 3em;
+    padding: 0.2em;
+}
+
+.remainingStat img  {
+    background: rgb(198, 251, 198);
+}
+
+
+.streakStat p, .remainingStat p {
+    scale: 0.8;
+    color: rgb(192, 192, 239);
+}
+
+
+.logs {
+    height: 150px;
+    width: 200px;
+    overflow-y: auto;
+    padding: 5px;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    gap: .5em;
+    margin-top: 3em;
+}
+
+#dateDisplay {
+
+    width: 12em;
+}
+
+#todayLogsText{
+    color: rgb(192, 192, 239);
+}
+
+#noLogsGif{
+    width:8em;
+    align-self: center;
+    margin-bottom: 1em;
+}
+/* --- */

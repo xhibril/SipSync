@@ -1,10 +1,12 @@
 package com.sipsync.sipsync.service;
+import com.sipsync.sipsync.model.EditGoal;
 import com.sipsync.sipsync.model.Goal;
 import com.sipsync.sipsync.model.Logs;
-import com.sipsync.sipsync.model.Edit;
+import com.sipsync.sipsync.model.EditLog;
 import com.sipsync.sipsync.repository.AddLogRepository;
 import com.sipsync.sipsync.repository.EditLogRepository;
-import com.sipsync.sipsync.repository.SetGoalRepository;
+import com.sipsync.sipsync.repository.AddUserGoalRepository;
+import com.sipsync.sipsync.repository.EditUserGoalRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +20,12 @@ import java.util.Optional;
 public class Services {
 
     @Autowired private AddLogRepository addRepo;
-    @Autowired private SetGoalRepository goalRepo;
+    @Autowired private AddUserGoalRepository addUserGoalRepo;
     @Autowired private EditLogRepository editRepo;
+    @Autowired private EditUserGoalRepository editUserGoalRepo;
     @Autowired private Cookies cookiesService;
     @Autowired private TokenService tokenService;
+
 
 
     // add amount
@@ -43,6 +47,7 @@ public class Services {
     public TotalsRecord totals(final String type, HttpServletRequest req) {
         String token = cookiesService.getTokenByCookie(req);
         Long userId = tokenService.extractId(token);
+
         List<Logs> savedAmounts = addRepo.findByUserId(userId);
         LocalDate today = LocalDate.now();
         LocalDate prevLogDate = null;
@@ -118,7 +123,7 @@ public class Services {
         Logs last = addRepo.findTopByOrderByIdDesc();
         Long id = last.getId();
 
-        Edit edit = new Edit();
+        EditLog edit = new EditLog();
         edit.setAmount(value);
         edit.setId(id);
 
@@ -131,10 +136,30 @@ public class Services {
 
         String token = cookiesService.getTokenByCookie(req);
         Long userId = tokenService.extractId(token);
-        Goal goal = new Goal();
-        goal.setGoal(amount);
-        goal.setUserId(userId);
-        goalRepo.save(goal);
+
+
+        // if goal already exits edit the existing one
+        Optional<Goal> result = addUserGoalRepo.findByUserId(userId);
+
+        if(result.isPresent()){
+
+            EditGoal editGoal = new EditGoal();
+            Goal goal = new Goal();
+
+            goal = result.get();
+           Long id = goal.getId();
+
+            editGoal.setGoal(amount);
+            editGoal.setId(id);
+            editUserGoalRepo.save(editGoal);
+        } else {
+
+            Goal goal = new Goal();
+            goal.setGoal(amount);
+            goal.setUserId(userId);
+            addUserGoalRepo.save(goal);
+
+        }
     }
 
 
@@ -143,17 +168,15 @@ public class Services {
         String token = cookiesService.getTokenByCookie(req);
         Long userId = tokenService.extractId(token);
 
-        Optional<Goal> result = goalRepo.findById(userId);
+        Optional<Goal> result = addUserGoalRepo.findByUserId(userId);
 
         // check if sum is inside the wrapper optional
         if (result.isPresent()) {
             // return if found
             Goal goal = result.get();
-            return new GoalRecord(goal.getGoal(), goal.getUserId());
-
-        } else {
-            return null;
+            return new GoalRecord(goal.getGoal(), userId);
         }
+       return new GoalRecord(0,  userId);
     }
 
 
