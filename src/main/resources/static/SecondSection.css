@@ -1,10 +1,4 @@
-html {
-    scroll-behavior: smooth;
-}
 
-section{
-    width:100%;
-}
 
 .secondSection{
     display:flex;
@@ -12,6 +6,7 @@ section{
     align-items: center;
     flex-direction: column;
     background-color:#021526;
+    width:100%;
 
 }
 
@@ -19,7 +14,6 @@ section{
 /* header */
 .headerHeaderSection{
     width:100%;
-
     height:5em;
     display:flex;
     flex-direction: column;
@@ -48,6 +42,9 @@ section{
     flex-direction: row;
     gap:10em;
     margin-bottom:5em;
+
+
+    flex: 1;
 }
 
 /* input */
@@ -59,8 +56,6 @@ section{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    margin-left:6em;
     gap:1em;
     background-color: white;
     border-radius: 1em;
@@ -116,7 +111,7 @@ select{
 .card{
     width:200px;
     height:200px;
-    background: #D9E3EC;
+    background: white;
     border-radius: 30px;
 }
 
@@ -132,11 +127,12 @@ select{
 svg{
     display: block;
     width: 100%;
-    height: 100%;
+    height:100%;
     position: relative;
     z-index: -1;
     fill: #021526;
-    pointer-events: none;
+    margin-bottom:-1em;
+
 }
 
 

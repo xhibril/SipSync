@@ -1,0 +1,42 @@
+/* desktops */
+@media (max-width: 1024px) {
+    .mainSection, .appContent, .secondAppContent, .cardsContainer, .widgets {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        align-self: center;
+        gap: 2em;
+    }
+
+    .inputContainer, .calcInputContainer, .cardsContainer {
+        margin: 1em auto;
+    }
+
+    .inputContainer{
+        flex-direction: column;
+    }
+
+    .quickAddAmount, .quickAddGoal, .progressStats {
+        flex-direction: row;
+        gap: 1em;
+        width: 100%;
+    }
+
+    #siteTitle, #title {
+        text-align: center;
+        font-size: 2em;
+    }
+
+    .cardsContainer{
+        flex-direction: row;
+    }
+
+    svg{
+        margin-bottom: -3em;
+    }
+
+    .nav-links{
+        align-self: center;
+
+    }
+}
