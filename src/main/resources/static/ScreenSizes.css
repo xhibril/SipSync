@@ -1,4 +1,3 @@
-/* desktops */
 @media (max-width: 1024px) {
     .mainSection, .appContent, .secondAppContent, .cardsContainer, .widgets {
         flex-direction: column;
@@ -8,8 +7,9 @@
         gap: 2em;
     }
 
+
     .inputContainer, .calcInputContainer, .cardsContainer {
-        margin: 1em auto;
+        margin: auto;
     }
 
     .inputContainer{
@@ -18,13 +18,13 @@
 
     .quickAddAmount, .quickAddGoal, .progressStats {
         flex-direction: row;
-        gap: 1em;
+        gap: 1rem;
         width: 100%;
     }
 
     #siteTitle, #title {
-        text-align: center;
-        font-size: 2em;
+
+
     }
 
     .cardsContainer{
@@ -39,4 +39,219 @@
         align-self: center;
 
     }
+
+    .settingsPanelContainer button{
+        font-size:.7em;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+        font-size:12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+
+
+
+    .headerSection{
+        flex-direction: column;
+    }
+
+    .nav-links{
+
+        margin-left:-3rem;
+    }
+
+    .mainSection, .appContent, .secondAppContent, .cardsContainer, .widgets {
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        gap: 1.5em;
+    }
+
+    #siteTitle, #title {
+        font-size: 1.6rem;
+    }
+
+    .brandingContainer{
+        display:flex;
+    }
+
+    #siteDesc{
+        align-self: center;
+    }
+
+    .settingsBtn{
+
+        align-self:center;
+        margin-right:-2rem;
+
+    }
+
+
+
+    #calcTitle{
+        font-size: 1rem;
+    }
+
+
+
+    #dateDisplay{
+        margin-top:3rem;
+    }
+
+    .inputContainer, .calcInputContainer{
+        width:80%;
+    }
+
+    .inputContainer{
+        height: 100%;
+        align-self: center;
+    }
+
+    .leftCards, .rightCards{
+        flex-direction: row;
+    }
+
+    .card{
+        height:10rem;
+        width:10rem;
+    }
+
+    .mainSection, .appContent, .secondAppContent, .cardsContainer, .widgets {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5em;
+    }
+
+    .quickAddAmount, .quickAddGoal, .progressStats {
+        flex-direction: column;
+        width: 100%;
+        gap: 1rem;
+    }
+
+
+    .settingsContainer{
+        flex-direction: column;
+
+    }
+
+    .settingsPanelContainer{
+        font-size:1.5rem;
+        align-self: flex-start;
+    }
+
+
+}
+
+
+@media (max-width: 480px) {
+    body {
+        overflow-x: hidden;
+        font-size:12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+
+
+
+    .headerSection{
+        flex-direction: column;
+    }
+
+    .nav-links{
+
+        margin-left:-3rem;
+    }
+
+    .mainSection, .appContent, .secondAppContent, .cardsContainer, .widgets {
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        gap: 1.5em;
+    }
+
+    #siteTitle, #title {
+        font-size: 1.6rem;
+    }
+
+    .brandingContainer{
+        display:flex;
+    }
+
+    #siteDesc{
+        align-self: center;
+    }
+
+    .settingsBtn{
+
+        align-self:center;
+        margin-right:-2rem;
+
+    }
+
+
+
+    #calcTitle{
+        font-size: 1rem;
+    }
+
+
+
+    #dateDisplay{
+        margin-top:3rem;
+    }
+
+    .inputContainer, .calcInputContainer{
+        width:80%;
+    }
+
+    .inputContainer{
+        height: 100%;
+        align-self: center;
+    }
+
+    .leftCards, .rightCards{
+        flex-direction: row;
+    }
+
+    .card{
+        height:10rem;
+        width:10rem;
+    }
+
+    .mainSection, .appContent, .secondAppContent, .cardsContainer, .widgets {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5em;
+    }
+
+    .quickAddAmount, .quickAddGoal, .progressStats {
+        flex-direction: column;
+        width: 100%;
+        gap: 1rem;
+    }
+
+
+    .settingsContainer{
+        flex-direction: column;
+
+    }
+
+    .settingsPanelContainer{
+        font-size:1.5rem;
+        align-self: flex-start;
+    }
+
+
 }
