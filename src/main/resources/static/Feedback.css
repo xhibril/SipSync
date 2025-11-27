@@ -1,0 +1,42 @@
+.appContent{
+    gap:15rem;
+}
+
+.feedback{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.feedback form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.feedback textarea{
+    border-radius:  0.5em;
+}
+
+.input{
+    margin:0;
+    align-self:flex-start;
+}
+
+.confirmBtn{
+    margin-top:1rem;
+}
+
+#lineOne{
+    font-family: 'Montserrat', sans-serif;
+}
+
+#lineTwo{
+    font-size:4rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(90deg, #000000, #000000, #758fab, #94aac2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

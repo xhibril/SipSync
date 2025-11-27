@@ -1,0 +1,121 @@
+@media (max-width: 1024px) {
+    .mainSection, .appContent, .secondAppContent, .cardsContainer, .widgets {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        align-self: center;
+        gap: 2em;
+    }
+
+    .nav-links {
+        align-self: center;
+    }
+
+    .timeRange {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .inputContainer, .calcInputContainer, .cardsContainer {
+        margin: auto;
+    }
+
+    .inputContainer {
+        flex-direction: column;
+    }
+
+    .cardsContainer {
+        flex-direction: row;
+    }
+
+    .quickAddAmount, .quickAddGoal, .progressStats {
+        flex-direction: row;
+        gap: 1rem;
+        width: 100%;
+    }
+
+
+    svg {
+        margin-bottom: -3em;
+    }
+}
+
+
+
+@media (max-width: 768px){
+    body {
+        overflow-x: hidden;
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mainSection, .appContent, .secondAppContent, .cardsContainer, .widgets {
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        gap: 1.5em;
+    }
+
+    .brandingContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: flex-start;
+        width: 100%;
+    }
+
+
+    #siteTitle #siteDesc, .settingsBtn {
+        align-self: center;
+    }
+
+    #siteTitle {
+        font-size: 1.6rem;
+    }
+
+    #calcTitle {
+        font-size: 1rem;
+    }
+
+    .settingsContainer, .headerSection, .inputContainer, .quickAddAmount, .quickAddGoal, .progressStats  {
+        flex-direction: column;
+    }
+
+
+    .settingsMenu {
+        flex-direction: row;
+        width: 100%;
+        top: 1rem;
+        width: 100rem;
+    }
+
+    .timeRange {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .inputContainer, .calcInputContainer {
+        width: 90%;
+    }
+
+    .inputContainer {
+        height: 100%;
+    }
+
+    .quickAddAmount, .quickAddGoal, .progressStats {
+        width: 100%;
+        gap: 1rem;
+    }
+
+    #dateDisplay {
+        margin-top: 3rem;
+    }
+
+    .leftCards, .rightCards {
+        flex-direction: row;
+    }
+
+
+}

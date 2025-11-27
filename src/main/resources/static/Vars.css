@@ -1,0 +1,21 @@
+:root {
+    --danger: #fd9797;
+    --success: #c6fbc6;
+    --warning: #ffdfa3;
+
+    --bg: #F4F6FA;
+    --bg-second: #021526;
+
+    --gray: #c5c5c5;
+    --gray-light: #EEE;
+    --gray-medium: #9e9e9e;
+    --gray-dark: #111827;
+
+    --overlay: rgba(0,0,0,0.7);
+
+    --text-light: #ffffff;
+    --text-dark: #000000;
+
+    --light-blue: #8CA9FF;
+    --blue: #5b84ff;
+}

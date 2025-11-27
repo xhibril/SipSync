@@ -1,17 +1,27 @@
+.maxwidth90 { max-width: 90%; }
+
 html {
     scroll-behavior: smooth;
     overflow-x: auto;
+    font-size: clamp(15px, 1vw, 500px);
+}
 
+
+/* so they scale */
+button{
+    font-size:1rem;
+}
+
+input{
+    font-size:1rem;
 }
 
 body {
-    display: block;
-    background: #f4f6fa;
+    background: var(--bg);
     flex-direction: column;
     font-family: "Inter", sans-serif;
     margin: 0;
     min-width: max-content;
-
 }
 
 .mainSection {
@@ -23,24 +33,23 @@ body {
 
 
 /* header */
-
 .headerSection {
-    color: black;
+    color: var(--text-dark);
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
 }
 
+
 /* title and desc */
 .brandingContainer {
     width: 17rem;
-    max-width: 90%;
 }
 
 #siteTitle {
     font-family: 'Montserrat', sans-serif;
-    font-size: 2.6rem;
+    font-size: 2.5rem;
     font-weight: 800;
     letter-spacing: -0.1rem;
     margin-left: 2rem;
@@ -48,6 +57,7 @@ body {
 
 #siteDesc {
     margin-left: 2rem;
+
 }
 /* --- */
 
@@ -60,7 +70,6 @@ body {
     justify-content: center;
     align-items: center;
     align-self: center;
-    margin-left:5rem;
 }
 
 .nav-links {
@@ -73,79 +82,129 @@ body {
 
 .nav-links li a {
     text-decoration: none;
-    color: rgb(0, 0, 0);
+    color: var(--text-dark);
     font-weight: bold;
 }
 /* --- */
 
 
 /* settings */
-.settingsContainer {
+.settingsBtnContainer {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: row;
-    width: 18rem;
-    max-width:90%;
-}
-
-.settingsPanelContainer {
-    width: 100%;
-    gap: .5rem;
-    margin-right: 2rem;
-    border-radius: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    width: 13rem;
+    height:100%;
 }
 
 .settingsBtn {
     border: transparent;
     background-color: transparent;
     cursor: pointer;
+    z-index:5;
+    align-self: center;
+    margin-left: 4rem;
+
 }
 
 .settingsBtn img {
     width: 2rem;
     height: 2rem;
-    margin-right: 2rem;
     margin-bottom:4rem;
 }
 
-.periodSelection {
-    gap: .3rem;
+
+.settingsMenu {
+    display: none;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width:14rem;
+    background-color:   var(  --gray-dark);
+    position: fixed;
+    right:0;
+    z-index:4;
+    margin-right:1rem;
+    margin-top:7rem;
+    border-radius: .5rem;
+    transition: ease-in;
+    gap:2rem;
 }
 
-.periodSelection button, #logoutBtn, #resetDataBtn {
-    border: transparent;
-    padding: .4rem;
-    border-radius: .1rem;
+/* settings options */
+
+/* titles for each setting section */
+.settingsSpan{
+    color:var(--text-light);
+    letter-spacing: -1px;
+    font-size:1rem;
+}
+
+.timeRange, .dataAndAccount{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:1rem;
+    color:var(--text-light);
+    width:100%;
+    border-bottom:1px solid white;
+    padding-bottom:1rem;
+    padding-top:1rem;
+    margin-bottom:2rem;
+}
+
+.dataAndAccount{
+    border-bottom:0;
+}
+
+.timeRange{
+    padding-bottom:5rem;
+}
+
+.timeRangeBtn, .dataAndAccBtn {
+    color: var(--text-dark);
+    padding: .5rem 2rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
     cursor: pointer;
-    font-weight: bold;
-    background-color: #f4f6fa;
+    border: 0;
+    transition: all 0.3s;
+    box-shadow: 1px 1px 3px var(--gray), -1px -1px 3px var(--text-light);
 }
 
-.periodSelection button:hover {
-    background-color: #9e9e9e;
-    transition: 0.35s;
+.timeRangeBtn:hover {
+    box-shadow: 4px 4px 12px var(--gray), -4px -4px 12px var(--text-light);
 }
 
-#resetDataBtn, #logoutBtn {
-    color: rgb(255, 95, 95);
+.dataAndAccBtn{
+    background-color: #dd9d9d;
+    box-shadow: 1px 1px 3px #dd9d9d, -1px -1px 3px #dd9d9d;
 }
 
-#resetDataBtn:hover, #logoutBtn:hover {
-    background-color: rgb(255, 213, 213);
-    transition: 0.35s;
+.dataAndAccBtn:hover {
+    box-shadow: 4px 4px 12px #dd9d9d, -4px -4px 12px #dd9d9d;
+}
+
+
+/* overlay when settings panel is on */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color:var(--overlay);
+    display:none;
+    z-index: 2;
 }
 
 /* --- */
 
 
 /* main content */
-
 .appContent {
+    position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -157,27 +216,22 @@ body {
 .inputContainer {
     width: 24rem;
     height: 34rem;
-    max-width:90%;
-    max-height:90%;
     border-radius: 1rem;
-    background-color:#FAF7F0;
     gap: .5rem;
-    margin-right: 6rem;
     margin-top: 1rem;
+    margin-right:6rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+/* input field */
 .input {
     width: 14rem;
     height: 3rem;
-    max-width:90%;
-    max-height: 90%;
-    color: black;
-    padding: 0px 7px;
-    background-color: #F3F4F6;
+    color: var(--text-dark);
+    padding: 0 .5rem;
     border-radius:  0.5em;
     border: 1px solid black;
     align-self: center;
@@ -185,18 +239,20 @@ body {
     max-width: 100%;
 }
 
+.input::placeholder {
+    font-size: .8rem;
+}
+
 .inputTypeSelection {
     display: flex;
     border-radius: 0.5rem;
-    background-color: #EEE;
+    background-color: var(--gray-light);
     box-sizing: border-box;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
     padding: 0.2rem;
     width: 20rem;
-    font-size: .9rem;
+    font-size: 1rem;
     margin-bottom: 2rem;
-    border: 1px solid #9e9e9e;
-    max-width: 90%;
+    border: 1px solid var(--gray-medium);
 }
 
 
@@ -228,16 +284,14 @@ body {
 }
 
 .inputTypeSelection .radio input:checked+.name {
-    background-color: #9e9e9e;
+    background-color: var(--gray-medium);
     font-weight: 600;
 }
 
 
 .progressBar {
-    border: 1px solid rgb(237, 235, 235);
     width: 20rem;
     height: 2rem;
-    max-width:90%;
     border-radius: 1rem;
     display: flex;
     justify-content: center;
@@ -249,8 +303,8 @@ body {
     background-repeat: no-repeat;
     background-size: 100% 0%;
     transition: background-size 0.4s ease;
-    background-color: #EEE;
-    border: 1px solid #9e9e9e;
+    background-color: var(--gray-light);
+    border: 1px solid var(--gray-medium);
 }
 
 .progressBar p {
@@ -262,11 +316,7 @@ body {
     width: 6rem;
     height: 1rem;
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
-
 
 /* only needed when user clicks weekly or monthly */
 #avgAmount {
@@ -274,12 +324,10 @@ body {
 }
 
 #dateDisplay{
-    width:12rem;
+    width: 14rem;
     margin-left:.7rem;
     max-width:50%
 }
-
-
 
 .quickAddAmount, .quickAddGoal {
     display: flex;
@@ -301,9 +349,8 @@ body {
 .quickAddBtns {
     border-radius: .4rem;
     border-color: transparent;
-    padding: 0.7rem 1.2rem;
+    padding: 0.5rem 1rem;
     cursor: pointer;
-    background-color: #f4f6fa;
     transition: 0.2s;
     font-weight: bold;
 }
@@ -321,19 +368,18 @@ body {
 .confirmBtn {
     padding: .8rem 2.8rem;
     cursor: pointer;
-    background-color: #8CA9FF;
+    background-color: var(--light-blue);
     border: transparent;
-    border-radius: .4rem;
+    border-radius: .5rem;
     font-size: 1rem;
     font-weight: bold;
-    transition: 0.35s;
+    transition:all 0.3s;
     color: #111827;
     align-self: center;
 }
 
-
 .confirmBtn:hover {
-    background-color: #476EAE;
+    box-shadow: 4px 4px 12px var(--light-blue), -4px -4px 12px var(--blue);
 }
 /* --- */
 
@@ -349,7 +395,6 @@ body {
 
 .randomFact {
     width: 24rem;
-    max-width:90%;
     height: 4rem;
     display: flex;
     align-items: center;
@@ -360,9 +405,6 @@ body {
 .randomFact p {
     opacity: 0;
     transition: opacity 1s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 23.75rem;
     text-align: center;
     position: absolute;
@@ -377,11 +419,10 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: .7em;
+    gap: 1em;
 }
 
 .streakStat, .remainingStat {
-    background-color: white;
     width: 15rem;
     border-radius: .7rem;
     display: flex;
@@ -389,8 +430,6 @@ body {
     align-items: center;
     flex-direction: row;
     gap: 2rem;
-    background-color:#FAF7F0;
-    max-width: 90%;
 }
 
 .streakStat{
@@ -398,8 +437,8 @@ body {
 }
 
 .streakStat #streakImg, .remainingStat img {
-    width: 1.7rem;
-    height: 1.7rem;
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 /* shown after reaching goal, hidden by default */
@@ -407,7 +446,7 @@ body {
     position:absolute;
     z-index:2;
     align-self: center;
-    display: none;
+
 }
 
 .streakStat #streakImg, .remainingStat img  {
@@ -428,10 +467,10 @@ body {
 
 
 .logs {
-    height: 9.3rem;
+    height: 10rem;
     width: 12.5rem;
     overflow-y: auto;
-    padding: .3rem;
+    padding: .5rem;
     align-self: center;
     display: flex;
     align-items: center;
@@ -440,9 +479,6 @@ body {
 }
 
 .date {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     align-self: center;
     gap: .5rem;
     margin-top: 3rem;
@@ -464,4 +500,3 @@ body {
     margin-bottom: 1rem;
 }
 /* --- */
-

@@ -7,17 +7,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="MainSection.css">
     <link rel="stylesheet" href="SecondSection.css">
-    <link rel="stylesheet" href="ScreenSizes.css">
+    <link rel="stylesheet" href="Responsive.css">
+    <link rel="stylesheet" href="Vars.css">
 
     <title>SipSync</title>
 </head>
 
 <body>
+<div class="overlay"></div>
+
+<div class="settingsMenu maxwidth90">
+
+    <div class="timeRange maxwidth90">
+        <span class="settingsSpan">Time Range</span>
+        <button type="button" id="dailyViewBtn" class="timeRangeBtn">Daily</button>
+        <button type="button" id="weeklyViewBtn" class="timeRangeBtn">Weekly</button>
+        <button type="button" id="monthlyViewBtn" class="timeRangeBtn">Monthly</button>
+    </div>
+
+    <div class="dataAndAccount maxwidth90">
+        <span class="settingsSpan">Data & Account</span>
+        <button type="button" id="resetDataBtn" class="dataAndAccBtn">Reset Data</button>
+        <button type="button" id="logoutBtn" class="dataAndAccBtn">Logout</button>
+    </div>
+
+</div>
 
 <div class="mainSection">
     <div class="headerSection">
 
-        <div class="brandingContainer">
+        <div class="brandingContainer maxwidth90">
             <h1 id="siteTitle">SIPSYNC</h1>
             <p id="siteDesc">Track. Improve. Stay hydrated.</p>
         </div>
@@ -27,291 +46,274 @@
 
                 <ul class="nav-links">
                     <li><a href="#calcTitle">Calculator</a></li>
-                    <li><a href="#">Feedback</a></li>
+                    <li>
+                        <a href="FeedbackPage.html" target="_blank" rel="noopener noreferrer">Feedback</a>
+                    </li>
                     <li>
                         <a href="https://github.com/xhibril" target="_blank" rel="noopener noreferrer">Other Projects</a>
                     </li>
-
                 </ul>
             </nav>
         </div>
 
-        <div class="settingsContainer">
+
+        <div class="settingsBtnContainer maxwidth90">
             <button type="button" class="settingsBtn"> <img src="settingsIcon.png"></button>
-            <div class="settingsPanelContainer">
+        </div>
+    </div>
+</div>
 
-                <div class="periodSelection">
-                    <button type="button" id="dailyViewBtn">Daily</button>
-                    <button type="button" id="weeklyViewBtn">Weekly</button>
-                    <button type="button" id="monthlyViewBtn">Monthly</button>
-                </div>
 
-                <button type="button" id="resetDataBtn">Reset Data</button>
-                <button type="button" id="logoutBtn">Logout</button>
-            </div>
+
+<div class="appContent">
+
+    <div class="inputContainer maxwidth90">
+        <div class="inputTypeSelection maxwidth90">
+
+            <label class="radio">
+                <input type="radio" name="actionType" value="ADD" checked>
+                <span class="name">Add</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio" value="GOAL" name="actionType">
+                <span class="name">Goal</span>
+            </label>
 
         </div>
+
+        <div class="progressBar maxwidth90">
+            <p id="amount">... mL</p>
+            <p id="avgAmount">Loading average...</p>
+            <p>of</p>
+            <p id="goal">... mL</p>
+        </div>
+
+
+        <div class="quickAddAmount">
+            <button type="submit" class="quickAddBtns" id="quickAdd250"> <img src="waterDroplet.png "> <br>+ 250
+                mL</button>
+            <button type="submit" class="quickAddBtns" id="quickAdd500"> <img src="waterDroplet.png "> <br>+ 500
+                mL</button>
+            <button type="submit" class="quickAddBtns" id="quickAdd750"> <img src="waterDroplet.png "> <br>+ 750
+                mL</button>
+        </div>
+
+        <div class="quickAddGoal">
+            <button type="submit" class="quickAddBtns" id="quickGoalAdd2000"> <img src="waterDroplet.png "> <br>+ 2000
+                mL</button>
+            <button type="submit" class="quickAddBtns" id="quickGoalAdd2500"> <img src="waterDroplet.png "> <br>+ 2500
+                mL</button>
+            <button type="submit" class="quickAddBtns" id="quickGoalAdd3000"> <img src="waterDroplet.png "> <br>+ 3000
+                mL</button>
+
+
+        </div>
+
+        <input type="number" class="input" placeholder="Enter amount"> <br>
+        <button type="submit" id="amountSumbitBtn" class="confirmBtn">Confirm</button>
+
     </div>
 
 
 
-    <div class="appContent">
-        <div class="inputContainer">
+    <div class="widgets">
 
-            <div class="inputTypeSelection">
-
-                <label class="radio">
-                    <input type="radio" name="actionType" value="ADD" checked>
-                    <span class="name">Add</span>
-                </label>
-
-                <label class="radio">
-                    <input type="radio" value="GOAL" name="actionType">
-                    <span class="name">Goal</span>
-                </label>
-
-            </div>
-
-            <div class="progressBar">
-                <p id="amount">... mL</p>
-                <p id="avgAmount">Loading average...</p>
-                <p>of</p>
-                <p id="goal">... mL</p>
-            </div>
-
-
-            <div class="quickAddAmount">
-                <button type="submit" class="quickAddBtns" id="quickAdd250"> <img src="waterDroplet.png "> <br>+ 250
-                    mL</button>
-                <button type="submit" class="quickAddBtns" id="quickAdd500"> <img src="waterDroplet.png "> <br>+ 500
-                    mL</button>
-                <button type="submit" class="quickAddBtns" id="quickAdd750"> <img src="waterDroplet.png "> <br>+ 750
-                    mL</button>
-            </div>
-
-            <div class="quickAddGoal">
-                <button type="submit" class="quickAddBtns" id="quickGoalAdd2000"> <img src="waterDroplet.png "> <br>+ 2000
-                    mL</button>
-                <button type="submit" class="quickAddBtns" id="quickGoalAdd2500"> <img src="waterDroplet.png "> <br>+ 2500
-                    mL</button>
-                <button type="submit" class="quickAddBtns" id="quickGoalAdd3000"> <img src="waterDroplet.png "> <br>+ 3000
-                    mL</button>
-
-
-            </div>
-
-            <input type="number" class="input" placeholder="Enter amount"> <br>
-            <button type="submit" id="amountSumbitBtn" class="confirmBtn">Confirm</button>
-
+        <div class="randomFact maxwidth90">
+            <p id="1">The human body is about 60% water.</p>
+            <p id="2">Adults need 2–3 liters of water daily.</p>
+            <p id="3">Losing just 2% of body water affects performance.</p>
+            <p id="4">Drinking water can slightly boost metabolism.</p>
+            <p id="5">Clear urine shows proper hydration.</p>
+            <p id="6">Dark urine indicates dehydration.</p>
+            <p id="7">Thirst often comes too late; you may already be dehydrated.</p>
+            <p id="8">Drink water before meals to feel fuller.</p>
+            <p id="9">Too much water can cause dangerous sodium loss.</p>
+            <p id="10">Exercise increases water needs, especially in heat.</p>
+            <p id="11">Caffeine in moderation doesn’t dehydrate much.</p>
+            <p id="12">Alcohol can dehydrate you.</p>
+            <p id="13">Infants and elderly are more prone to dehydration.</p>
+            <p id="14">Water helps regulate body temperature.</p>
+            <p id="15">Water supports kidney function and prevents stones.</p>
+            <p id="16">Hydration can improve skin health.</p>
+            <p id="17">Fruits and veggies provide 20–30% of your water.</p>
+            <p id="18">Sports drinks replace electrolytes during heavy exercise.</p>
+            <p id="19">Carbonated water hydrates as well as plain water.</p>
+            <p id="20">Hydration needs vary with climate and activity.</p>
         </div>
 
 
 
-        <div class="widgets">
+        <img id="celebrationGif" src="celebrationGif.gif">
+        <div class="progressStats">
 
-            <div class="randomFact">
-                <p id="1">The human body is about 60% water.</p>
-                <p id="2">Adults need 2–3 liters of water daily.</p>
-                <p id="3">Losing just 2% of body water affects performance.</p>
-                <p id="4">Drinking water can slightly boost metabolism.</p>
-                <p id="5">Clear urine shows proper hydration.</p>
-                <p id="6">Dark urine indicates dehydration.</p>
-                <p id="7">Thirst often comes too late; you may already be dehydrated.</p>
-                <p id="8">Drink water before meals to feel fuller.</p>
-                <p id="9">Too much water can cause dangerous sodium loss.</p>
-                <p id="10">Exercise increases water needs, especially in heat.</p>
-                <p id="11">Caffeine in moderation doesn’t dehydrate much.</p>
-                <p id="12">Alcohol can dehydrate you.</p>
-                <p id="13">Infants and elderly are more prone to dehydration.</p>
-                <p id="14">Water helps regulate body temperature.</p>
-                <p id="15">Water supports kidney function and prevents stones.</p>
-                <p id="16">Hydration can improve skin health.</p>
-                <p id="17">Fruits and veggies provide 20–30% of your water.</p>
-                <p id="18">Sports drinks replace electrolytes during heavy exercise.</p>
-                <p id="19">Carbonated water hydrates as well as plain water.</p>
-                <p id="20">Hydration needs vary with climate and activity.</p>
-            </div>
+            <div class="streakStat">
+                <img id="streakImg" src="streakImg.png">
 
-
-
-            <img id = "celebrationGif" src = "celebrationGif.gif">
-            <div class="progressStats">
-
-                <div class="streakStat">
-                    <img id = "streakImg" src="streakImg.png">
-
-                    <div class="streakInfo">
-                        <p>Streak</p>
-                        <h3><span id="displayStreak">...</span> days</h3>
-
-                    </div>
-
-                </div>
-
-
-                <div class="remainingStat">
-                    <img src="pie-chart.png">
-
-                    <div class="remainingInfo">
-                        <p>Remaining</p>
-                        <h3><span id="displayRemaining">...</span> mL</h3>
-                    </div>
-
+                <div class="streakInfo maxwidth90">
+                    <p>Streak</p>
+                    <h3><span id="displayStreak">...</span> days</h3>
                 </div>
             </div>
 
 
-            <div class="date">
-                <span id="dateDisplay">Loading date...</span>
-                <p id = "todayLogsText">Today's Logs</p>
+            <div class="remainingStat maxwidth90">
+                <img src="pie-chart.png">
 
-            </div>
+                <div class="remainingInfo">
+                    <p>Remaining</p>
+                    <h3><span id="displayRemaining">...</span> mL</h3>
 
-            <div class="logs">
-                <img id = "noLogsGif" src = "noLogsGif.gif">
+                </div>
             </div>
 
         </div>
+
+
+        <div class="date">
+            <span id="dateDisplay">Loading...</span>
+            <p id="todayLogsText">Today's Logs</p>
+        </div>
+
+        <div class="logs">
+            <img id="noLogsGif" src="noLogsGif.gif">
+        </div>
+
     </div>
+</div>
 
 
 
-    <svg class preserveAspectRatio="none" viewBox="0 0 1440 300" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,60
+<svg class preserveAspectRatio="none" viewBox="0 0 1440 300" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,60
        C360,130 1080,0 1440,80
        L1440,300
        L0,300
        Z" />
-    </svg>
+</svg>
 
 
 
-    <div class="secondSection">
+<div class="secondSection">
 
-
-        <div class="secondHeaderSection">
-            <h1 id="calcTitle">WATER INTAKE CALCULATOR</h1>
-        </div>
-
-
-
-        <div class="secondAppContent">
-
-            <div class="calcInputContainer">
-
-                <div class="inputTypeSelection">
-
-                    <label class="radio">
-
-                        <input type="radio" name="unitType" value="IMPERIAL" checked>
-                        <span class="name">Imperial</span>
-                    </label>
-
-                    <label class="radio">
-                        <input type="radio" value="METRIC" name="unitType">
-                        <span class="name">Metric</span>
-                    </label>
-                </div>
-
-
-                <table>
-                    <tr>
-                        <td>
-                            <p>Age</p>
-                        </td>
-
-                        <td>
-                            <input type="number" class="input" id="calcAgeInput" placeholder="Enter age">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <p>Gender</p>
-                        </td>
-                        <td>
-                            <input type="radio" name="inputTypeMale" value="MALE">
-                            <span>Male</span>
-
-                            <input type="radio" name="inputTypeFemale" value="FEMALE">
-                            <span>Female</span>
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td>
-                            <p>Height</p>
-                        </td>
-                        <td>
-                            <input type="number" class="input" placeholder="Feet">
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td>
-                            <p>Weight</p>
-                        </td>
-                        <td>
-                            <input type="number" class="input" id="calcWeightInput" placeholder="Pounds">
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td>
-                            <p>Activity</p>
-                        </td>
-                        <td>
-                            <select>
-                                <option value="" disabled selected hidden>Pick an option</option>
-                                <option value="activityNone"> Sedentary(little to no excerises)</option>
-                                <option value="acitivityLight"> Light (excerise 1-3 times a week)</option>
-                                <option value="acitivityModerate"> Moderate (excerise 3-5 times a week)</option>
-                                <option value="acitivityHigh"> High (heavy 5-6 times a week)</option>
-                                <option value="acitivityExtreme"> Extreme (very heavy excerise or physical job)</option>
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-
-                <button type="button" id="calcSubmitBtn" class="confirmBtn">Confirm</button>
-            </div>
-
-
-            <div class="cardsContainer">
-
-                <div class="leftCards">
-
-                    <div class="card">
-                    </div>
-
-                    <div class="card">
-                    </div>
-
-                </div>
-
-
-                <div class="rightCards">
-
-                    <div class="card">
-                    </div>
-
-                    <div class="card">
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
+    <div class="secondHeaderSection">
+        <h1 id="calcTitle">WATER INTAKE CALCULATOR</h1>
     </div>
 
-    <script src="/Main.js" defer></script>
-    <script src="/Display.js" defer></script>
-    <script src="/randomFactDisplayer.js" defer></script>
+
+    <div class="secondAppContent">
+
+        <div class="calcInputContainer maxwidth90">
+
+            <div class="inputTypeSelection">
+
+                <label class="radio">
+                    <input type="radio" name="unitType" value="IMPERIAL" checked>
+                    <span class="name">Imperial</span>
+                </label>
+
+                <label class="radio">
+                    <input type="radio" value="METRIC" name="unitType">
+                    <span class="name">Metric</span>
+                </label>
+            </div>
+
+
+            <table>
+                <tr>
+                    <td>
+                        <p>Age</p>
+                    </td>
+
+                    <td>
+                        <input type="number" class="input" id="calcAgeInput" placeholder="Enter age">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>Gender</p>
+                    </td>
+                    <td>
+                        <label>
+                            <input type="radio" name="inputGender" value="MALE">
+                            <span class="name">Male</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" name="inputGender" value="FEMALE">
+                            <span class="name">Female</span>
+                        </label>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <p>Height</p>
+                    </td>
+                    <td>
+                        <input type="number" class="input" placeholder="Feet">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <p>Weight</p>
+                    </td>
+                    <td>
+                        <input type="number" class="input" id="calcWeightInput" placeholder="Pounds">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <p>Activity</p>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="" disabled selected hidden>Pick an option</option>
+                            <option value="activityNone"> Sedentary(little to no excerises)</option>
+                            <option value="acitivityLight"> Light (excerise 1-3 times a week)</option>
+                            <option value="acitivityModerate"> Moderate (excerise 3-5 times a week)</option>
+                            <option value="acitivityHigh"> High (heavy 5-6 times a week)</option>
+                            <option value="acitivityExtreme"> Extreme (very heavy excerise or physical job)</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+
+            <button type="button" id="calcSubmitBtn" class="confirmBtn">Confirm</button>
+        </div>
+
+
+        <div class="cardsContainer maxwidth90">
+
+            <div class="leftCards">
+                <div class="card">
+                </div>
+
+                <div class="card">
+                </div>
+            </div>
+
+            <div class="rightCards">
+                <div class="card">
+                </div>
+
+                <div class="card">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+<script src="/Main.js" defer></script>
+<script src="/Display.js" defer></script>
+<script src="/randomFactDisplayer.js" defer></script>
 
 </body>
-
-
 </html>

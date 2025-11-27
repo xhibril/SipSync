@@ -1,13 +1,34 @@
-
-
 .secondSection{
     display:flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color:#021526;
+    background-color:var(--bg-second);
     width:100%;
+}
 
+
+td{
+    padding-left:2rem;
+}
+
+table{
+    margin-right:1rem;
+
+}
+
+select{
+    width:11rem;
+    padding:0.5rem;
+    border-radius: 0.5rem;
+    height:3rem;
+    max-width:90%;
+    font-size: 1rem;
+    padding: 0.5rem 0.5rem;
+}
+
+select option {
+    font-size: 1rem;
 }
 
 
@@ -16,22 +37,18 @@
     width:100%;
     height:5rem;
     max-width:100%;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color:white;
 }
 
+/* title */
 #calcTitle{
     scroll-margin-top:1rem;
     max-width:100%;
     font-family: 'Montserrat', sans-serif;
-    font-size: 2.6rem;
+    font-size: 2.5rem;
     font-weight: 800;
     letter-spacing: -0.05rem;
-    margin-left:0.7rem;
-    color:white;
+    margin-left:1rem;
+    color:var(--text-light);
 }
 /* --- */
 
@@ -52,14 +69,12 @@
     margin-top:5rem;
     width:24rem;
     height:30rem;
-    max-width:90%;
-    max-height: 90%;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap:1rem;
     background-color: white;
+    gap:1rem;
     border-radius: 1rem;
 }
 
@@ -69,26 +84,6 @@
     margin:0;
     max-width:90%;
 }
-
-td{
-    padding-left:2rem;
-
-
-}
-
-table{
-    margin-right:1rem;
-
-}
-
-select{
-    width:11rem;
-    padding:0.5rem;
-    border-radius: 0.5rem;
-    height:3rem;
-    max-width:90%;
-}
-
 
 /* --- */
 
@@ -105,8 +100,6 @@ select{
     align-items: center;
     align-self: flex-end;
     margin-top: 1rem;
-    max-width:90%;
-
 }
 
 .leftCards, .rightCards{
@@ -121,8 +114,8 @@ select{
 .card{
     width:12.5rem;
     height:12.5rem;
-    background: white;
     border-radius: 2rem;
+    background-color: white;
 }
 
 
@@ -140,9 +133,8 @@ svg{
     height:100%;
     position: relative;
     z-index: -1;
-    fill: #021526;
+    fill: var(--bg-second);
     margin-bottom:-10em;
-
 }
 
 
