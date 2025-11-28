@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="MainSection.css">
-    <link rel="stylesheet" href="Feedback.css">
-    <link rel="stylesheet" href ="Vars.css">
-    <link rel="stylesheet" href ="Responsive.css">
-
+    <link rel="stylesheet" href="Global.css">
+    <link rel="stylesheet" href="feedback.css">
+    <link rel="stylesheet" href="Vars.css">
+    <link rel="stylesheet" href="Responsive.css">
+    <title>SipSync Feedback</title>
 </head>
 <body>
-<div class="overlay"></div>
 
+<div class="overlay"></div>
 <div class="settingsMenu maxwidth90">
 
     <div class="timeRange maxwidth90">
@@ -51,47 +51,36 @@
             </nav>
         </div>
 
-
         <div class="settingsBtnContainer maxwidth90">
             <button type="button" class="settingsBtn"> <img src="settingsIcon.png"></button>
         </div>
-
     </div>
 
 
-    <div class = "appContent">
-
-        <div class = "description">
-            <h2  id ="lineOne">EVERY OPINION</h2>
-            <h1 id ="lineTwo">MATTERS</h1>
-
+    <div class="appContent">
+        <div class="description">
+            <h2 id="lineOne">EVERY OPINION</h2>
+            <h1 id="lineTwo">MATTERS</h1>
         </div>
 
-        <div class ="feedback maxwidth90">
-
-            <form class = "maxwidth90">
+        <div class="feedback maxwidth90">
+            <form class="maxwidth90">
 
                 <label>Name</label>
-                <input type = "text" class = "input" placeholder="John Smith">
+                <input type="text" class="input" placeholder="John Smith">
 
                 <label>Email</label>
-                <input type = "email" class = "input" placeholder="example@gmail.com">
+                <input type="email" class="input" placeholder="example@gmail.com">
 
                 <label>Message</label>
                 <textarea id="comments" name="comments" rows="20" cols="50" placeholder=""></textarea>
+
             </form>
-
-            <button type ="submit" class="confirmBtn">Confirm</button>
+            <button type="submit" class="confirmBtn">Confirm</button>
         </div>
-
     </div>
-
-
-
-
 </div>
 
-
-
 </body>
+
 </html>

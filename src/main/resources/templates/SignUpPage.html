@@ -1,53 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/SingUpPage.css">
-    <title>SipSync</title>
+    <link rel="stylesheet" href="Global.css">
+    <link rel="stylesheet" href="Vars.css">
+    <link rel="stylesheet" href="Responsive.css">
+    <link rel="stylesheet" href="Login-Signup.css">
+    <title>SipSync Login</title>
 </head>
 
-<body class="box">
-
-<div class="left">
-
-    <div class="siteTitleContainer">
-        <h1 class="siteTitle">SIPSYNC </h1>
+<body>
+<div class="mainSection">
+    <div class="headerSection">
+        <div class="brandingContainer maxwidth90">
+            <h1 id="siteTitle">SIPSYNC</h1>
+            <p id="siteDesc">Track. Improve. Stay hydrated.</p>
+        </div>
     </div>
 
-    <div class="greetingContainer">
-        <h1 class="welcomeMsg">Welcome. </h1>
-        <p class="description">Track your daily hydration effortlessly. <br> Sign Up to continue staying on top of
-            your water goals.</p>
-    </div>
-
-</div>
-
-<div class="right">
-    <form class="form">
-        <span class="pageTitle">Sign Up</span>
-
-        <div class="inputContainer">
-
-            <input type="email" class="signUpInputs" id = "emailSignUp" placeholder="Email">
-            <input type="password" class="signUpInputs" id = "passwordSignUp" placeholder="Password">
-
+    <div class="appContent">
+        <div class="greetingContainer">
+            <h1 class="welcomeMsg maxwidth90">Welcome. </h1>
+            <p class="description maxwidth90">Track your daily hydration effortlessly. <br> Log in to continue
+                staying on top of
+                your water goals.</p>
         </div>
 
-        <button type = "submit" id="signUpContinueBtn">Continue</button>
-    </form>
+        <div class="inputContainer">
+            <form class="form maxwidth90">
+                <span id="pageTitle">SignUp</span>
+                <input type="email" class="input" placeholder="Email">
+                <input type="password" class="input" placeholder="Password">
 
-    <div class="footerContainer">
-        <label>Already have an account? <a href="">Login</a> </label>
+                <button class="confirmBtn">Continue</button>
+            </form>
+
+            <div class="footerContainer maxwidth90">
+                <label>Already have an account? <a href="">Login</a> </label>
+            </div>
+        </div>
     </div>
-
 </div>
+
 </body>
-
-<script src ="/SignUp.js" defer> </script>
-
 </html>

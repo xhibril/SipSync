@@ -126,7 +126,6 @@ select option {
 
 /* --- */
 
-
 svg{
     display: block;
     width: 100%;
@@ -136,9 +135,3 @@ svg{
     fill: var(--bg-second);
     margin-bottom:-10em;
 }
-
-
-
-
-
-

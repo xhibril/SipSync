@@ -34,18 +34,19 @@
         width: 100%;
     }
 
-
     svg {
         margin-bottom: -3em;
     }
 }
 
 
+/* -----------------------------------*/
+
 
 @media (max-width: 768px){
     body {
         overflow-x: hidden;
-        font-size: 12px;
+        font-size: 14px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -116,6 +117,4 @@
     .leftCards, .rightCards {
         flex-direction: row;
     }
-
-
 }

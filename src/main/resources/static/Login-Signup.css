@@ -1,0 +1,117 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #b1c2dc;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    font-family: "Inter", sans-serif;
+}
+.appContent{
+    gap:5rem;
+}
+
+.brandingContainer{
+    color:white;
+}
+
+.greetingContainer {
+    margin-top: auto;
+    margin-bottom: auto;
+    align-self: center;
+}
+
+.welcomeMsg {
+    font-size: 4rem;
+    width:29rem;
+    letter-spacing: -0.5px;
+}
+
+
+.inputContainer {
+    margin:0;
+}
+
+.input{
+    max-width:60%;
+    margin-top:0;
+}
+
+#pageTitle{
+    color:var(--text-dark);
+    margin-bottom:4rem;
+    font-size:1.5rem;
+    font-weight:bold;
+}
+
+span{
+    color: var(--text-dark);
+}
+
+.form {
+    width: 18em;
+    height: 22em;
+    padding: 3rem;
+    background: white;
+    border-radius: 1rem;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    max-width:90%;
+    max-height: 90%;
+    gap:1rem;
+
+}
+
+.footerContainer {
+    border-radius: .5rem;
+    padding: .5rem;
+
+    background-color: var(--text-light);
+    color: var(--text-dark);
+}
+
+a {
+    text-decoration: none;
+}
+
+
+@media (max-width: 1024px) {
+    body {
+        flex-direction: column;
+    }
+
+    .greetingContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .input{
+        height:3rem;
+    }
+}
+
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .greetingContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .input{
+        height:5rem;
+    }
+
+}
