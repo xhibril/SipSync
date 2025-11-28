@@ -1,10 +1,11 @@
 const inputType = document.querySelectorAll('input[name="inputType"]');
 const input = document.querySelector(".input");
 
-const submitBtn = document.querySelector("#submitBtn");
+const submitBtn = document.querySelector("#amountSubmitBtn");
 
 const viewPeriods = document.querySelectorAll('input[name="period"]');
 // change input text based on input menu type
+
 let choice = "ADD";
 inputType.forEach(radio => {
     radio.addEventListener("change", () => {
@@ -12,7 +13,6 @@ inputType.forEach(radio => {
 
         switch (choice) {
             case "ADD": input.placeholder = "Enter amount"; break;
-            case "EDIT": input.placeholder = "Edit latest amount entered"; break;
             case "GOAL": input.placeholder = "Set goal"; break;
         }
     });

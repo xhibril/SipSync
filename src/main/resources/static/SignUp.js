@@ -1,7 +1,7 @@
 const continueBtn = document.querySelector("#signUpContinueBtn")
 const emailInput = document.querySelector("#emailSignUp");
 const passwordInput = document.querySelector("#passwordSignUp");
-const inputs = document.querySelector(".signUpInputs");
+const inputs = document.querySelectorAll(".input");
 
 
 let email = "", password = "";

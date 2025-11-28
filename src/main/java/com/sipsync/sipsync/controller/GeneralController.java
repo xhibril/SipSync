@@ -23,12 +23,10 @@ public class GeneralController {
         return "LoginPage";
     }
 
-
     @GetMapping("/Signup")
     public String SignUpPage(){
         return "SignUpPage";
     }
-
 
     @GetMapping("/Home")
     public String MainPage(){
@@ -36,7 +34,8 @@ public class GeneralController {
     }
 
 
-
+    @GetMapping("/Feedback")
+    public String FeedbackPage(){ return "FeedbackPage";}
 
 
 

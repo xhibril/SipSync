@@ -1,6 +1,6 @@
 const emailInput = document.querySelector("#emailLogin");
 const passwordInput = document.querySelector("#passwordLogin");
-const inputs = document.querySelector(".loginInputs");
+const inputs = document.querySelectorAll(".Input");
 const continueBtn = document.querySelector("#loginContinueBtn");
 
 

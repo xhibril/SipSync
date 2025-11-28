@@ -2,7 +2,6 @@ const dateDisplay = document.querySelector("#dateDisplay");
 const amountDisplay = document.querySelector("#amount");
 const goalDisplay = document.querySelector("#goal");
 const averageAmount = document.querySelector("#averageAmount");
-const celebrationContainer = document.querySelector(".celebrationContainer");
 
 let amountDrank = 0;
 let goal = 0;
@@ -12,8 +11,6 @@ dailyFrontPageContents();
 async function dailyFrontPageContents() {
 
     averageAmount.style.display = "none";
-
-
 
     const todayRes = await fetch("/today").then(r => r.json())
     const goalRes = await fetch("/goal").then(r => r.json())
@@ -32,8 +29,6 @@ async function dailyFrontPageContents() {
 
     goalReached(amountDrank, goal);
     bottleFilling(goal, amountDrank);
-
-
 }
 
 
