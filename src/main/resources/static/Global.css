@@ -298,10 +298,10 @@ body {
     align-items: center;
     flex-direction: row;
     background:
-            linear-gradient(#8CA9FF, #5b84ff) bottom,
+            linear-gradient(#8CA9FF, #5b84ff) left,
             white;
     background-repeat: no-repeat;
-    background-size: 100% 0%;
+    background-size: 0% 100%, 100% 100%;
     transition: background-size 0.4s ease;
     background-color: var(--gray-light);
     border: 1px solid var(--gray-medium);
@@ -482,11 +482,10 @@ body {
     align-self: center;
     gap: .5rem;
     margin-top: 3rem;
-}
-
-#dateDisplay {
-    width: 12em;
-    max-width: 50%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 #todayLogsText{

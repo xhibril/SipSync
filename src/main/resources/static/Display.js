@@ -1,64 +1,65 @@
+console.log("test");
 const dateDisplay = document.querySelector("#dateDisplay");
 const amountDisplay = document.querySelector("#amount");
 const goalDisplay = document.querySelector("#goal");
-const averageAmount = document.querySelector("#averageAmount");
-
+const displayRemaining = document.querySelector("#displayRemaining");
+const displayStreak = document.querySelector("#displayStreak");
 let amountDrank = 0;
 let goal = 0;
 
 dailyFrontPageContents();
 
-async function dailyFrontPageContents() {
+export async function dailyFrontPageContents() {
 
-    averageAmount.style.display = "none";
+
 
     const todayRes = await fetch("/today").then(r => r.json())
     const goalRes = await fetch("/goal").then(r => r.json())
+    const streakRes = await fetch("/get/streak").then(r => r.json())
 
     // display daily water intake and date
-    dateDisplay.innerHTML = todayRes.date + " | " + todayRes.day;
-    amountDisplay.innerHTML = "Today's Hydration:<br>" + todayRes.amount + " ML";
-    averageAmount.hidden = true;
+    dateDisplay.innerHTML = todayRes.date;
+    amountDisplay.innerHTML = todayRes.amount + " mL";
 
     // display goal
-    goalDisplay.innerHTML = "Goal: <br>" + goalRes.amount + " ML";
+    goalDisplay.innerHTML = goalRes + " mL";
 
+
+
+    // display streak
+    displayStreak.innerHTML = streakRes;
+    console.log(streakRes);
 
     amountDrank = todayRes.amount;
-    goal = goalRes.amount;
+    goal = goalRes;
 
-    goalReached(amountDrank, goal);
+
+
+
+    displayRemaining.innerHTML = remaining(amountDrank, goal, streakRes);
+
     bottleFilling(goal, amountDrank);
 }
 
 
-async function weeklyFrontPageContents() {
-    averageAmount.style.display = "flex";
+export async function weeklyFrontPageContents() {
     // show total amount drank past 7 days, average per day and date
     const weeklyRes = await fetch("/weekly").then(r => r.json())
     const goalRes = await fetch("/goal").then(r => r.json())
 
     dateDisplay.innerHTML = weeklyRes.date + " | " + weeklyRes.day;
     amountDisplay.innerHTML = "Weekly Water Intake:<br>" + weeklyRes.amount + " ML";
-    averageAmount.hidden = false;
 
-    avgAmountDrank = Math.ceil(weeklyRes.amount / weeklyRes.count);
-
-    if(isAvgEmpty(avgAmountDrank))
-        avgAmountDrank = 0;
-
-    averageAmount.innerHTML = "Average Per Day: <br>" + avgAmountDrank + " ML";
     // display goal
     goalDisplay.innerHTML = "Goal: <br>" + goalRes.amount + " ML";
 
     goal = goalRes.amount;
     bottleFilling(goal, avgAmountDrank)
-    goalReached(amountDrank, goal);
+    remaining(amountDrank, goal);
 }
 
 
-async function monthlyFrontPageContents(){
-    averageAmount.style.display = "flex";
+export async function monthlyFrontPageContents(){
     // show total amount drank past 30 days, average per day and date
     const monthlyRes = await fetch("/monthly").then(r => r.json())
     const goalRes = await fetch("/goal").then(r => r.json())
@@ -67,14 +68,7 @@ async function monthlyFrontPageContents(){
 
     dateDisplay.innerHTML = monthlyRes.date + " | " + monthlyRes.day;
     amountDisplay.innerHTML = "Monthly Water Intake: <br>" + monthlyRes.amount + " ML";
-    averageAmount.hidden = false;
 
-    avgAmountDrank = Math.ceil(monthlyRes.amount / monthlyRes.count);
-
-    if(isAvgEmpty(avgAmountDrank))
-        avgAmountDrank = 0;
-
-    averageAmount.innerHTML = "Average Per Day: <br>" + avgAmountDrank + " ML";
 
     // display goal
     goalDisplay.innerHTML = "Goal: <br>" + goalRes.amount + " ML";
@@ -83,7 +77,7 @@ async function monthlyFrontPageContents(){
 
     goal = goalRes.amount;
     bottleFilling(goal, avgAmountDrank)
-    goalReached(amountDrank, goal);
+    remaining(amountDrank, goal);
 }
 
 
@@ -92,26 +86,31 @@ function bottleFilling(goal, amountDrank) {
     if (percent > 100) percent = 100;
     if (percent < 0) percent = 0;
 
-    document.querySelector(".bottle").style.backgroundSize = `100% ${percent}%`;
+    document.querySelector(".progressBar").style.backgroundSize = `${percent}% 100%, 100% 100%`;
 }
 
 
-
-
-function goalReached(amountDrank, goal){
-
+function remaining(amountDrank, goal, streak){
     if(amountDrank >= goal){
-        celebrationContainer.style.display = "flex";
-
-
-    } else {
-        celebrationContainer.style.display = "none";
-
+    incrementStreak(streak);
+        return 0;
     }
+    return (goal - amountDrank);
 }
 
-// check if avg is not valid
-function isAvgEmpty(avg){
- return !avg || isNaN(avg);
+
+async function incrementStreak(streak) {
+
+    streak++;
+    await fetch(`/set/streak?streak=${streak}`, {method: "POST"})
+        .then(e => {
+            console.log("Streak Saved Successfully");
+        })
+
+        .catch(err => console.log(err));
 }
+
+
+
+
 

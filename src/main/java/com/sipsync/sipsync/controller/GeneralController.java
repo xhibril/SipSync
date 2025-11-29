@@ -1,9 +1,7 @@
 package com.sipsync.sipsync.controller;
 import com.sipsync.sipsync.repository.AddLogRepository;
-import com.sipsync.sipsync.service.Cookies;
-import com.sipsync.sipsync.service.GoalRecord;
-import com.sipsync.sipsync.service.Services;
-import com.sipsync.sipsync.service.TotalsRecord;
+import com.sipsync.sipsync.repository.UserRepository;
+import com.sipsync.sipsync.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 public class GeneralController {
 
     @Autowired private AddLogRepository repo;
+    @Autowired private UserRepository userRepo;
     @Autowired private Services service;
     @Autowired private Cookies cookiesService;
-
+    @Autowired private TokenService tokenService;
+    @Autowired private StreakService streakService;
 
 
     @GetMapping("/")
@@ -40,20 +40,20 @@ public class GeneralController {
 
 
 
-
-
     // get total amount drank today
     @ResponseBody
     @GetMapping("/today")
     public TotalsRecord getTodayTotals(HttpServletRequest req){
-        return service.totals("DAILY", req);
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        return service.totals("DAILY", userId);
     }
 
     // get total amount drank this week
     @ResponseBody
     @GetMapping("/weekly")
     public TotalsRecord getWeeklyTotals(HttpServletRequest req){
-        return service.totals("WEEKLY", req);
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        return service.totals("WEEKLY", userId);
     }
 
 
@@ -61,7 +61,8 @@ public class GeneralController {
     @ResponseBody
     @GetMapping("/monthly")
     public TotalsRecord getMonthlyTotals(HttpServletRequest req){
-        return service.totals("MONTHLY", req);
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        return service.totals("MONTHLY", userId);
     }
 
 
@@ -69,33 +70,50 @@ public class GeneralController {
     // add amount
     @ResponseBody
     @PostMapping("/add")
-    public void addLog(@RequestParam int add, HttpServletRequest request){
-        service.addLog(add, request);
+    public void addLog(@RequestParam int add, HttpServletRequest req){
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        service.addLog(add, userId);
     }
 
 
     // add goal
     @ResponseBody
     @PostMapping("/add/goal")
-    public void setGoal(@RequestParam int goal, HttpServletRequest request){
-        service.setGoal(goal, request);
+    public void setGoal(@RequestParam int goal, HttpServletRequest req){
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        service.setGoal(goal, userId);
     }
 
 
     // get set goal
     @ResponseBody
     @GetMapping("/goal")
-    public GoalRecord getSetGoal(HttpServletRequest request){
-        return service.getSetGoal(request);
+    public Float getSetGoal(HttpServletRequest req){
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        return service.getSetGoal(userId);
     }
 
 
 
-    // edit latest value
+    // get user streak
+@ResponseBody
+@GetMapping("/get/streak")
+public int getStreak(HttpServletRequest req){
+    Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+    return streakService.calcStreak(userId);
+    }
+
+
+    // set streak
     @ResponseBody
-    @PostMapping("/add/edit")
-    public void editLatestValue(@RequestParam int value){
-        service.editLatestValue(value);
+    @PostMapping("/set/streak")
+    public void setStreak(@RequestParam int streak, HttpServletRequest req){
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        userRepo.updateStreak(streak, userId);
     }
+
+
+
 
 }
+

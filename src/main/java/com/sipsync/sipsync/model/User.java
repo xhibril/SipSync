@@ -17,6 +17,8 @@ public class User {
     private String email;
     private String password;
     private String verification_token;
+    private int streak;
+
 
     public User() {}
 
@@ -44,14 +46,6 @@ public class User {
 
 
 
-
-
-
-
-
-
-
-
     public void setEmail(String email){ this.email = email; }
     public String getEmail(){ return email; }
 
@@ -63,5 +57,8 @@ public class User {
 
     public void setToken(String token){ this.verification_token = token; }
     public String getToken(){ return verification_token; }
+
+    public void setStreak(int streak){ this.streak = streak; }
+    public int getStreak(){ return streak; }
 
 }

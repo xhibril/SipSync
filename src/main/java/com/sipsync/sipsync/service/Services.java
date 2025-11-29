@@ -3,10 +3,7 @@ import com.sipsync.sipsync.model.EditGoal;
 import com.sipsync.sipsync.model.Goal;
 import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.model.EditLog;
-import com.sipsync.sipsync.repository.AddLogRepository;
-import com.sipsync.sipsync.repository.EditLogRepository;
-import com.sipsync.sipsync.repository.AddUserGoalRepository;
-import com.sipsync.sipsync.repository.EditUserGoalRepository;
+import com.sipsync.sipsync.repository.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,20 +16,25 @@ import java.util.Optional;
 @Service
 public class Services {
 
-    @Autowired private AddLogRepository addRepo;
-    @Autowired private AddUserGoalRepository addUserGoalRepo;
-    @Autowired private EditLogRepository editRepo;
-    @Autowired private EditUserGoalRepository editUserGoalRepo;
-    @Autowired private Cookies cookiesService;
-    @Autowired private TokenService tokenService;
+    @Autowired
+    private AddLogRepository addRepo;
+    @Autowired
+    private AddUserGoalRepository addUserGoalRepo;
+    @Autowired
+    private EditLogRepository editRepo;
+    @Autowired
+    private EditUserGoalRepository editUserGoalRepo;
+    @Autowired
+    private Cookies cookiesService;
+    @Autowired
+    private TokenService tokenService;
 
+    @Autowired
+    UserRepository userRepo;
 
 
     // add amount
-    public void addLog(int amount, HttpServletRequest req){
-
-       String token =  cookiesService.getTokenByCookie(req);
-       Long userId = tokenService.extractId(token);
+    public void addLog(int amount, Long userId) {
 
         Logs log = new Logs();
         LocalDate today = LocalDate.now();
@@ -43,16 +45,14 @@ public class Services {
         addRepo.save(log);
     }
 
-    
-    public TotalsRecord totals(final String type, HttpServletRequest req) {
-        String token = cookiesService.getTokenByCookie(req);
-        Long userId = tokenService.extractId(token);
+
+    public TotalsRecord totals(final String type, Long userId) {
 
         List<Logs> savedAmounts = addRepo.findByUserId(userId);
         LocalDate today = LocalDate.now();
         LocalDate prevLogDate = null;
         DayOfWeek dayOfWeek = today.getDayOfWeek();
-        String date =  String.valueOf(today);
+        String date = String.valueOf(today);
         String day = String.valueOf(dayOfWeek);
 
 
@@ -80,7 +80,7 @@ public class Services {
                     if (!(sevenDaysAgo.isBefore(currLogDate) && !(today.isAfter(currLogDate)))) {
 
                         // if not a dupe, increment weekly days count
-                        if(prevLogDate == null || !(prevLogDate.equals(currLogDate))){
+                        if (prevLogDate == null || !(prevLogDate.equals(currLogDate))) {
                             weeklyDaysCount++;
                             prevLogDate = currLogDate;
                         }
@@ -91,8 +91,8 @@ public class Services {
 
 
             case "MONTHLY":
-               LocalDate thirtyDaysAgo = today.minusDays(-30);
-               int monthlyDaysCount = 0;
+                LocalDate thirtyDaysAgo = today.minusDays(-30);
+                int monthlyDaysCount = 0;
 
                 for (Logs saved : savedAmounts) {
                     // convert string to local date obj
@@ -101,7 +101,7 @@ public class Services {
                     if (!(thirtyDaysAgo.isBefore(currLogDate) && !(today.isAfter(currLogDate)))) {
 
                         // if not a dupe, increment monthly days count
-                        if(prevLogDate == null || !(prevLogDate.equals(currLogDate))){
+                        if (prevLogDate == null || !(prevLogDate.equals(currLogDate))) {
                             monthlyDaysCount++;
                             prevLogDate = currLogDate;
                         }
@@ -110,44 +110,24 @@ public class Services {
                 }
                 return new TotalsRecord(sum, date, day, monthlyDaysCount);
         }
-            return null;
-        }
-
-
-
-
-
-
-    public void editLatestValue(int value){
-
-        Logs last = addRepo.findTopByOrderByIdDesc();
-        Long id = last.getId();
-
-        EditLog edit = new EditLog();
-        edit.setAmount(value);
-        edit.setId(id);
-
-        editRepo.save(edit);
+        return null;
     }
 
 
 
-    public void setGoal(int amount, HttpServletRequest req){
 
-        String token = cookiesService.getTokenByCookie(req);
-        Long userId = tokenService.extractId(token);
-
+    public void setGoal(int amount, Long userId) {
 
         // if goal already exits edit the existing one
         Optional<Goal> result = addUserGoalRepo.findByUserId(userId);
 
-        if(result.isPresent()){
+        if (result.isPresent()) {
 
             EditGoal editGoal = new EditGoal();
             Goal goal = new Goal();
 
             goal = result.get();
-           Long id = goal.getId();
+            Long id = goal.getId();
 
             editGoal.setGoal(amount);
             editGoal.setId(id);
@@ -163,24 +143,24 @@ public class Services {
     }
 
 
-    public GoalRecord getSetGoal(HttpServletRequest req) {
-
-        String token = cookiesService.getTokenByCookie(req);
-        Long userId = tokenService.extractId(token);
-
+    public Float getSetGoal(Long userId) {
         Optional<Goal> result = addUserGoalRepo.findByUserId(userId);
 
         // check if sum is inside the wrapper optional
         if (result.isPresent()) {
             // return if found
-            Goal goal = result.get();
-            return new GoalRecord(goal.getGoal(), userId);
+            Goal res = result.get();
+            Float goal = res.getGoal();
+
+            return goal;
         }
-       return new GoalRecord(0,  userId);
+        return 0f;
     }
 
-
 }
+
+
+
 
 
 

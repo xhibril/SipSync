@@ -14,7 +14,6 @@ public class Logs {
     @Column(name = "user_id")
     private Long userId;
 
-
     private int amount;
     private String time;
 
