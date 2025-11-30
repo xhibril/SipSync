@@ -25,14 +25,14 @@ public class SingUpService {
     // add user and return it
     public User addUser(String email, String password){
 
-        User user = new User(email, password);
+                                             // not set is last streak update date
+        User user = new User(email, password, "Not set");
         signUpRepo.save(user);
         return user;
     }
 
 
     // send verification email
-
     public void sendVerificationEmail(String email, String token){
         String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
 

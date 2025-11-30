@@ -11,13 +11,11 @@ const inputField = document.querySelector(".input");
 const submitBtn = document.querySelector("#amountSubmitBtn");
 
 import {
-    dailyFrontPageContents,
-    weeklyFrontPageContents,
-    monthlyFrontPageContents
+refreshMainPageContent
 } from "./Display.js";
 
 
-dailyFrontPageContents();
+
 
 let choice = "ADD"
 // show correct content depending on input type
@@ -90,8 +88,10 @@ function handleSubmit(amount) {
             fetch(`/add?add=${amount}`, {method: "POST"})
                 .then(e  => {
                     console.log("Saved successfully!");
-                    refreshPageContents();
+                    refreshMainPageContent();
                 })
+
+
                 .catch(err => console.error("Error:", err));
             break;
 
@@ -99,26 +99,13 @@ function handleSubmit(amount) {
             fetch(`/add/goal?goal=${amount}`, {method: "POST"})
                 .then(e  => {
                     console.log("Saved successfully!");
-                    refreshPageContents();
+                    refreshMainPageContent();
                 })
                 .catch(err => console.error("Error:", err));
             break;
-
-/*
-        case "EDIT":
-            fetch(`add/edit?value=${amount}`, {method: "POST"})
-                .then(e  => {
-                    console.log("Edited successfully!");
-                    refreshPageContents(view);
-                })
-                .catch (err => console.error("Error:", err));
-            break;*/
     }
 }
 
-function refreshPageContents(){
-dailyFrontPageContents();
-}
 
 
 

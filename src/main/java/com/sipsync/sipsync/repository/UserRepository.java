@@ -13,11 +13,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
     @Query("SELECT u.streak FROM User u WHERE u.id = :userId")
-    int findStreakByUserId(Long userId);
+    Integer findStreakByUserId(Long userId);
+
+    @Query("SELECT u.lastStreakUpdateDate FROM User u WHERE u.id =:userId")
+    String findLastStreakUpdate(Long userId);
 
     @Transactional
     @Modifying
-    @Query("UPDATE User u SET u.streak = :streak WHERE u.id = :userId")
+    @Query("UPDATE User u SET u.streak = :streak, u.lastStreakUpdateDate = :lastStreakUpdateDate WHERE u.id = :userId")
     void updateStreak(@Param("streak") int streak,
+                      @Param("lastStreakUpdateDate") String date,
                       @Param("userId") Long userId);
 }

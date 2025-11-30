@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @Controller
 public class GeneralController {
 
@@ -97,19 +99,28 @@ public class GeneralController {
 
     // get user streak
 @ResponseBody
-@GetMapping("/get/streak")
-public int getStreak(HttpServletRequest req){
+@GetMapping("/check/streak")
+public int updateStreak(HttpServletRequest req){
     Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
     return streakService.calcStreak(userId);
     }
 
 
+    @ResponseBody
+    @GetMapping("/get/streak")
+    public int getStreak(HttpServletRequest req){
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        return streakService.getStreakStored(userId);
+    }
+
+
+
     // set streak
     @ResponseBody
-    @PostMapping("/set/streak")
-    public void setStreak(@RequestParam int streak, HttpServletRequest req){
+    @PostMapping("/increment/streak")
+    public int setStreak(@RequestParam int streak, HttpServletRequest req){
         Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
-        userRepo.updateStreak(streak, userId);
+        return streakService.incrementStreak(userId);
     }
 
 

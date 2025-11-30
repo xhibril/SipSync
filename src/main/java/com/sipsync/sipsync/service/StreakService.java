@@ -15,24 +15,19 @@ import java.util.List;
 @Service
 public class StreakService {
 
-    @Autowired
-    AddLogRepository logsRepo;
-
-    @Autowired
-    UserRepository userRepo;
+    @Autowired AddLogRepository logsRepo;
+    @Autowired UserRepository userRepo;
+    @Autowired Services services;
 
 
-
-
-
-    @Autowired
-    Services services;
-
-
-// check if more than a day has passed since user last entered and amount
+   // check if more than a day has passed since user last entered and amount
     public int calcStreak(Long userId){
-        String time = latestTimeRecord(userId);
 
+        // check last time user entered a log
+        String time = latestTimeRecord(userId);
+        if (time == null){
+            return 0;
+        }
 
         LocalDate start = LocalDate.parse(time);
         LocalDate end = LocalDate.now();
@@ -40,8 +35,9 @@ public class StreakService {
 
         Float goal = services.getSetGoal(userId);
 
-
+        // if it is more than a day reset the streak
         if(daysSinceLast > 1){
+            userRepo.updateStreak(0, "Not set" , userId);
             return 0;
         }
 
@@ -49,8 +45,8 @@ public class StreakService {
         // get all the amounts stored in that day to check if it is >= goal
         List<Logs> logs = logsRepo.findByUserIdAndTime(userId, time);
 
-        for(Logs saved : logs) {
-            amountDrank += saved.getAmount();
+         for(Logs saved : logs) {
+           amountDrank += saved.getAmount();
         }
 
         if(amountDrank >= goal){
@@ -64,13 +60,36 @@ public class StreakService {
     // get the latest date the user entered a value
     public String latestTimeRecord(Long userId){
         Logs log = logsRepo.findTopByUserIdOrderByIdDesc(userId);
+        if (log == null) {
+            return null; // or handle however you want for no logs
+        }
         return log.getTime();
     }
 
 
+
+
+
+
+    public int incrementStreak(Long userId){
+        // check if streak has been incremented today
+        String lastStreakUpdateDate = userRepo.findLastStreakUpdate(userId);
+        String today = LocalDate.now().toString();
+
+        int streak = userRepo.findStreakByUserId(userId);
+
+        if(!(today.equals(lastStreakUpdateDate))){
+            userRepo.updateStreak(streak, today , userId);
+        }
+
+
+        return getStreakStored(userId);
+    }
+
+
     public int getStreakStored(Long userId){
-        User user = new User();
-        return userRepo.findStreakByUserId(userId);
+        int streak = userRepo.findStreakByUserId(userId);
+        return streak;
     }
 
 

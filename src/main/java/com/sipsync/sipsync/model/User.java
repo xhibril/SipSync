@@ -19,12 +19,16 @@ public class User {
     private String verification_token;
     private int streak;
 
+    @Column(name = "last_streak_update_date")
+    private String lastStreakUpdateDate;
+
 
     public User() {}
 
-    public User(String email, String password) {
+    public User(String email, String password, String lastStreakUpdateDate) {
         this.email = email;
         this.password = password;
+        this.lastStreakUpdateDate = lastStreakUpdateDate;
     }
 
 
@@ -60,5 +64,8 @@ public class User {
 
     public void setStreak(int streak){ this.streak = streak; }
     public int getStreak(){ return streak; }
+
+    public void setLastStreakUpdateDate(String date){ this.lastStreakUpdateDate = date; }
+    public String getLastStreakUpdateDate(){ return lastStreakUpdateDate; }
 
 }
