@@ -29,10 +29,8 @@ export async function refreshMainPageContent(){
     let rem = remaining(amountDrank, goal);
     displayRemaining.innerHTML = rem;
 
-    if(rem == 0){
-        incrementStreak(streak);
-        const streak = await fetch("/get/streak").then(r=> r.json())
-        displayStreak.innerHTML = streak;
+    if(rem == 0 && goal != 0){
+        incrementStreak();
     }
 
 }
@@ -56,11 +54,13 @@ function remaining(amountDrank, goal){
 
 async function incrementStreak(streak) {
 
-    await fetch(`/increment/streak`, {method: "POST"})
-        .then(e => {
-            console.log("Streak Saved Successfully");
-        })
-        .catch(err => console.log(err));
+
+        const res = await fetch(`/increment/streak`, {method: "POST"}).then(r => r.json());
+        console.log("Streak Saved Successfully");
+        console.log(res);
+        displayStreak.innerHTML = res;
+
+
 }
 
 

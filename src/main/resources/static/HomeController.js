@@ -51,8 +51,8 @@ submitBtn.addEventListener("click", () => {
 });
 
 
-inputField.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
+inputField.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
         submitBtn.click();
         inputField.value = "";
     }

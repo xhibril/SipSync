@@ -118,7 +118,7 @@ public int updateStreak(HttpServletRequest req){
     // set streak
     @ResponseBody
     @PostMapping("/increment/streak")
-    public int setStreak(@RequestParam int streak, HttpServletRequest req){
+    public int setStreak(HttpServletRequest req){
         Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
         return streakService.incrementStreak(userId);
     }

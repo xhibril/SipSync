@@ -17,9 +17,9 @@ continueBtn.addEventListener("click", (e) => {
 )
 
 inputs.forEach(input =>{
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
+    input.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
             continueBtn.click();
         }
     });

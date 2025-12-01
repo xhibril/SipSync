@@ -31,6 +31,8 @@ public class StreakService {
 
         LocalDate start = LocalDate.parse(time);
         LocalDate end = LocalDate.now();
+
+
         Long daysSinceLast = ChronoUnit.DAYS.between(start, end);
 
         Float goal = services.getSetGoal(userId);
@@ -79,11 +81,10 @@ public class StreakService {
         int streak = userRepo.findStreakByUserId(userId);
 
         if(!(today.equals(lastStreakUpdateDate))){
+            streak++;
             userRepo.updateStreak(streak, today , userId);
         }
-
-
-        return getStreakStored(userId);
+        return streak;
     }
 
 

@@ -64,6 +64,11 @@ select option {
     flex: 1;
 }
 
+#waterIntake{
+    color:white;
+    visibility: hidden;
+}
+
 /* input */
 .calcInputContainer{
     margin-top:5rem;
