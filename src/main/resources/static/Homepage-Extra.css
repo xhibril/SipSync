@@ -94,6 +94,7 @@ select option {
 
 
 /* cards */
+/* cards */
 .cardsContainer{
     width: 24rem;
     height: 34rem;
@@ -104,7 +105,7 @@ select option {
     justify-content: flex-end;
     align-items: center;
     align-self: flex-end;
-    margin-top: 1rem;
+    margin-top: 3rem;
 }
 
 .leftCards, .rightCards{
@@ -119,8 +120,21 @@ select option {
 .card{
     width:12.5rem;
     height:12.5rem;
+    padding:.5rem;
     border-radius: 2rem;
-    background-color: white;
+    background-color: #34656D;
+    box-shadow: 0 0 .8rem .2rem #34656D;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+
+}
+
+.card p{
+    font-size:.9rem;
+    text-align: center;
+    width: 100%;
+    fill:white;
 }
 
 
@@ -128,6 +142,7 @@ select option {
     transition: 0.3s;
     transform: scale(1.1);
 }
+
 
 /* --- */
 

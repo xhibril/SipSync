@@ -52,30 +52,33 @@ calcConfirmBtn.addEventListener("click", ()=>{
 
 
 
-
+let validInput = true;
 function inputValues(unitTypeValue){
 
-    if (
-        !weightInput.value ||
-        !ageInput.value ||
-        !gender ||
-        !activityInput.value
-    ) {
-        alert("Please fill in all fields before submitting!");
-        return; // stop the function
-    }
+let weightFactor = null;
 
-let weightFactor = 0.0;
    if(unitTypeValue === "IMPERIAL"){
         weightFactor = Number(weightInput.value) / 2.20462;
    } else {
         weightFactor = Number(weightInput.value);
    }
 
+    validInput = isInputValid(weightFactor);
+    if(!validInput) return;
+
 
     let ageFactor = Number(ageInput.value);
+   validInput = isInputValid(ageFactor);
+    if(!validInput) return;
+
     let genderFactor = gender;
+    validInput = isInputValid(genderInput);
+    if(!validInput) return;
+
     let activityFactor = activityInput.value;
+    validInput = isInputValid(activityFactor);
+    if(!validInput) return;
+
 
     genderFactor = parseFloat(getGenderFactorValue(genderFactor));
     ageFactor = parseFloat(getAgeFactorValue(ageFactor));
@@ -135,7 +138,10 @@ function getActivityFactorValue(activityFactor){
 
 }
 
-
+function isInputValid(input){
+    if(!input || input <= 0) return false;
+    return true;
+}
 
 
 
