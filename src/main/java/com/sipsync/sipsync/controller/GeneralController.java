@@ -123,6 +123,12 @@ public int updateStreak(HttpServletRequest req){
         return streakService.incrementStreak(userId);
     }
 
+    @ResponseBody
+    @PostMapping("/reset/data")
+    public void resetData(HttpServletRequest req){
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        service.resetData(userId);
+    }
 
 
 

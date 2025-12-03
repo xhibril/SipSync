@@ -157,7 +157,14 @@ public class Services {
         return 0f;
     }
 
+
+    public void resetData(Long userId){
+        addRepo.deleteUserDataLogs(userId);
+        addUserGoalRepo.deleteUserDataGoal(userId);
+    }
+
 }
+
 
 
 

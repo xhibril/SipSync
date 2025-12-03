@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void updateStreak(@Param("streak") int streak,
                       @Param("lastStreakUpdateDate") String date,
                       @Param("userId") Long userId);
+
+
 }
