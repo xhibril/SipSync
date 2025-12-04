@@ -23,5 +23,10 @@ public class LogsService {
     }
 
 
+    public void updateAmount(int amount, Long userId){
+        logsRepo.updateAmount(amount, userId);
+    }
+
+
 
 }

@@ -6,8 +6,33 @@ console.log(logs);
 
 // add log to "Today's Logs"
 export function addLog(amount){
-    logs.innerHTML += `<p>${amount}</p>`;
+    const p = document.createElement("p");
+
+    p.textContent = amount;
+    p.contentEditable = true;
+
+    p.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            let newValue = p.textContent;
+
+            updateAmount(newValue);
+        }
+    })
+    logs.appendChild(p);
+
+
 }
+
+async function updateAmount(newValue){
+    console.log(newValue);
+    await fetch(`/update/amount?amount=${newValue}`, {method: "POST"})
+        .then(console.log("Updated success"))
+        .catch(err =>{
+            console.log(err);
+        })
+
+}
+
 
 
 export function logsFound(bool){
@@ -23,3 +48,5 @@ export function logsFound(bool){
 
     }
 }
+
+

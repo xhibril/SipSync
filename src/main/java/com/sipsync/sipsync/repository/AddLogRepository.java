@@ -17,7 +17,6 @@ import java.util.List;
 
     List<Logs> findByUserId(Long userid);
 
-
    List<Logs> findByUserIdAndTime(Long userId, String time);
 
 
@@ -25,7 +24,14 @@ import java.util.List;
     @Transactional
     @Modifying
     @Query("DELETE FROM Logs u WHERE u.userId = :userId")
-    void deleteUserDataLogs(@Param("userId") Long userId );}
+    void deleteUserDataLogs(@Param("userId") Long userId );
+
+@Transactional
+@Modifying
+@Query("UPDATE Logs u SET u.amount = :amount WHERE u.userId = :userId")
+void updateAmount(@Param("amount") int amount,
+                  @Param("userId") Long userId);
 
 
+}
 

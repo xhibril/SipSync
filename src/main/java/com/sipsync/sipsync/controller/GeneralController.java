@@ -49,6 +49,13 @@ public class GeneralController {
         return logsService.todayLogs(userId);
     }
 
+    @ResponseBody
+    @PostMapping("/update/amount")
+    public void updateAmount(@RequestParam int amount, HttpServletRequest req){
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        logsService.updateAmount(amount, userId);
+    }
+
 
     // get total amount drank today
     @ResponseBody
