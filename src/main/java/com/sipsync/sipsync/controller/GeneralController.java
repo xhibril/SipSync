@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class GeneralController {
@@ -18,6 +19,7 @@ public class GeneralController {
     @Autowired private Cookies cookiesService;
     @Autowired private TokenService tokenService;
     @Autowired private StreakService streakService;
+    @Autowired private LogsService logsService;
 
 
     @GetMapping("/")
@@ -40,12 +42,18 @@ public class GeneralController {
     public String FeedbackPage(){ return "FeedbackPage";}
 
 
+    @ResponseBody
+    @GetMapping("/logs/today")
+    public List getTodayLogs(HttpServletRequest req){
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        return logsService.todayLogs(userId);
+    }
 
 
     // get total amount drank today
     @ResponseBody
     @GetMapping("/today")
-    public TotalsRecord getTodayTotals(HttpServletRequest req){
+    public Integer getTodayTotals(HttpServletRequest req){
         Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
         return service.totals("DAILY", userId);
     }
@@ -53,7 +61,7 @@ public class GeneralController {
     // get total amount drank this week
     @ResponseBody
     @GetMapping("/weekly")
-    public TotalsRecord getWeeklyTotals(HttpServletRequest req){
+    public Integer getWeeklyTotals(HttpServletRequest req){
         Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
         return service.totals("WEEKLY", userId);
     }
@@ -62,7 +70,7 @@ public class GeneralController {
     // get total amount drank this month
     @ResponseBody
     @GetMapping("/monthly")
-    public TotalsRecord getMonthlyTotals(HttpServletRequest req){
+    public Integer getMonthlyTotals(HttpServletRequest req){
         Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
         return service.totals("MONTHLY", userId);
     }

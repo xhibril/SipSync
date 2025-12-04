@@ -46,7 +46,7 @@ public class Services {
     }
 
 
-    public TotalsRecord totals(final String type, Long userId) {
+    public Integer totals(final String type, Long userId) {
 
         List<Logs> savedAmounts = addRepo.findByUserId(userId);
         LocalDate today = LocalDate.now();
@@ -55,18 +55,19 @@ public class Services {
         String date = String.valueOf(today);
         String day = String.valueOf(dayOfWeek);
 
+        int total = 0;
+        int avg = 0;
 
-        int sum = 0;
 
         switch (type) {
             case "DAILY":
                 for (Logs saved : savedAmounts) {
 
                     if (String.valueOf(today).equals(saved.getTime())) {
-                        sum += saved.getAmount();
+                        total += saved.getAmount();
                     }
                 }
-                return new TotalsRecord(sum, date, day, 0);
+                return total;
 
             case "WEEKLY":
                 LocalDate sevenDaysAgo = today.minusDays(-7);
@@ -84,10 +85,10 @@ public class Services {
                             weeklyDaysCount++;
                             prevLogDate = currLogDate;
                         }
-                        sum += saved.getAmount();
+                        avg += saved.getAmount();
                     }
                 }
-                return new TotalsRecord(sum, date, day, weeklyDaysCount);
+                return avg / weeklyDaysCount;
 
 
             case "MONTHLY":
@@ -105,10 +106,10 @@ public class Services {
                             monthlyDaysCount++;
                             prevLogDate = currLogDate;
                         }
-                        sum += saved.getAmount();
+                        avg += saved.getAmount();
                     }
                 }
-                return new TotalsRecord(sum, date, day, monthlyDaysCount);
+                return avg / monthlyDaysCount;
         }
         return null;
     }
@@ -161,6 +162,7 @@ public class Services {
     public void resetData(Long userId){
         addRepo.deleteUserDataLogs(userId);
         addUserGoalRepo.deleteUserDataGoal(userId);
+        userRepo.deleteUserStreak(userId);
     }
 
 }

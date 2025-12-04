@@ -25,5 +25,7 @@ import java.util.List;
     @Transactional
     @Modifying
     @Query("DELETE FROM Logs u WHERE u.userId = :userId")
-    void deleteUserDataLogs(@Param("userId") Long userId );
-}
+    void deleteUserDataLogs(@Param("userId") Long userId );}
+
+
+

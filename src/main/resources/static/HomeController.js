@@ -1,4 +1,3 @@
-console.log("test25455555");
 const quickAddBtns  = document.querySelectorAll("[data-addvalue]");
 const quickGoalBtns = document.querySelectorAll("[data-goalvalue]");
 
@@ -14,8 +13,9 @@ import {
 refreshMainPageContent
 } from "./Display.js";
 
-
-
+import{
+    addLog
+} from "./Logs.js";
 
 let choice = "ADD"
 // show correct content depending on input type
@@ -88,7 +88,11 @@ function handleSubmit(amount) {
             fetch(`/add?add=${amount}`, {method: "POST"})
                 .then(e  => {
                     console.log("Saved successfully!");
-                    refreshMainPageContent();
+
+                    // if user enters an amount, send them back to daily view period
+                    refreshMainPageContent("DAILY");
+                    addLog(amount);
+
                 })
 
 
@@ -99,7 +103,9 @@ function handleSubmit(amount) {
             fetch(`/add/goal?goal=${amount}`, {method: "POST"})
                 .then(e  => {
                     console.log("Saved successfully!");
-                    refreshMainPageContent();
+
+                    // if updates goal, send them back to daily view period
+                    refreshMainPageContent("DAILY");
                 })
                 .catch(err => console.error("Error:", err));
             break;

@@ -209,6 +209,10 @@ body {
     z-index: 2;
 }
 
+.overlay.active{
+    display:flex;
+}
+
 /* --- */
 
 
@@ -461,6 +465,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
 }
 
@@ -483,6 +488,12 @@ body {
     max-width:70%;
     align-self: center;
     margin-bottom: 1rem;
+
 }
 /* --- */
+
+.hidden {
+    display: none !important;
+}
+
 

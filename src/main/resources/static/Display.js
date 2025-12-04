@@ -1,5 +1,5 @@
-console.log("test");
-const dateDisplay = document.querySelector("#dateDisplay");
+
+console.log("display");
 const amountDisplay = document.querySelector("#amount");
 const goalDisplay = document.querySelector("#goal");
 const displayRemaining = document.querySelector("#displayRemaining");
@@ -9,16 +9,20 @@ let amountDrank = 0;
 let goal = 0;
 
 
-refreshMainPageContent();
+export async function refreshMainPageContent(timeRange){
+    let res;
+    console.log(timeRange);
 
-export async function refreshMainPageContent(){
-    const todayRes = await fetch("/today").then(r => r.json())
+    switch(timeRange){
+        case "DAILY": res = await fetch("/today").then(r => r.json()); break;
+        case "WEEKLY": res = await fetch("/weekly").then(r => r.json()); break;
+        case "MONTHLY": res = await fetch("/monthly").then(r => r.json()); break;
+    }
     const goalRes = await fetch("/goal").then(r => r.json())
 
-    dateDisplay.innerHTML = todayRes.date;
-    amountDisplay.innerHTML = todayRes.amount + " mL";
+    amountDisplay.innerHTML = res + " mL";
 
-    amountDrank = todayRes.amount;
+    amountDrank = res;
     goalDisplay.innerHTML = goalRes + " mL";
 
     goal = goalRes;
@@ -26,17 +30,29 @@ export async function refreshMainPageContent(){
     progressBar(amountDrank, goal);
 
 
-    let rem = remaining(amountDrank, goal);
-    displayRemaining.innerHTML = rem;
 
-    if(rem == 0 && goal != 0){
-        incrementStreak();
-    }
+        let rem = remaining(amountDrank, goal);
+        displayRemaining.innerHTML = rem;
+
+        if(rem === 0 && goal !== 0){
+            incrementStreak();
+        }
+
+
+
 
 }
 
 
-function progressBar(amountDrank, goal){
+
+
+
+export function progressBar(amountDrank, goal){
+    if (goal <= 0) {
+        document.querySelector(".progressBar").style.backgroundSize = `0% 100%, 100% 100%`;
+        return;
+    }
+
     let percent = Math.ceil((amountDrank * 100) / goal);
     if (percent > 100) percent = 100;
     if (percent < 0) percent = 0;
@@ -52,7 +68,8 @@ function remaining(amountDrank, goal){
 }
 
 
-async function incrementStreak(streak) {
+async function incrementStreak() {
+
 
 
         const res = await fetch(`/increment/streak`, {method: "POST"}).then(r => r.json());
