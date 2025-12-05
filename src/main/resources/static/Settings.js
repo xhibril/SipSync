@@ -57,6 +57,7 @@ async function deleteUserData() {
     try {
         await fetch(`/reset/data`, {method: "POST"});
         console.log("Data reset completed");
+        refreshMainPageContent("DAILY");
 
     } catch (err) {
         console.log(err);

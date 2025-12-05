@@ -23,8 +23,12 @@ public class LogsService {
     }
 
 
-    public void updateAmount(int amount, Long userId){
-        logsRepo.updateAmount(amount, userId);
+    public void updateAmount(int amount, Long userId, Long id){
+        logsRepo.updateAmount(amount, userId, id);
+    }
+
+    public void deleteSingleLog(Long userId, Long logId){
+        logsRepo.deleteSingleLog(userId, logId);
     }
 
 

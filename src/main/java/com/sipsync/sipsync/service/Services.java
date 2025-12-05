@@ -34,7 +34,7 @@ public class Services {
 
 
     // add amount
-    public void addLog(int amount, Long userId) {
+    public Long addLog(int amount, Long userId) {
 
         Logs log = new Logs();
         LocalDate today = LocalDate.now();
@@ -42,7 +42,10 @@ public class Services {
 
         log.setAmount(amount);
         log.setTime(String.valueOf(today));
-        addRepo.save(log);
+        Logs saved = addRepo.save(log);
+
+        return saved.getId();
+
     }
 
 

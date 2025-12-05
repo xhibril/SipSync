@@ -1,3 +1,4 @@
+console.log("HELLO")
 const quickAddBtns  = document.querySelectorAll("[data-addvalue]");
 const quickGoalBtns = document.querySelectorAll("[data-goalvalue]");
 
@@ -17,7 +18,10 @@ import{
     addLog
 } from "./Logs.js";
 
+import {isInputValid} from "./InputValidation.js";
+
 let choice = "ADD"
+
 // show correct content depending on input type
 inputType.forEach(radio => {
     radio.addEventListener("change", () => {
@@ -45,9 +49,14 @@ inputType.forEach(radio => {
 // handler for inputs
 submitBtn.addEventListener("click", () => {
     const amount = parseInt(inputField.value);
-    if (isNaN(amount) || amount <= 0) return;
-    inputField.value = "";
-    handleSubmit(amount);
+    console.log(isInputValid(amount));
+    if(isInputValid(amount)) {
+        inputField.value = "";
+        handleSubmit(amount);
+    }
+
+
+
 });
 
 
@@ -82,34 +91,30 @@ quickGoalBtns.forEach(btn =>{
 
 
 // handles user inputs
-function handleSubmit(amount) {
+async function handleSubmit(amount) {
     switch (choice) {
         case "ADD":
-            fetch(`/add?add=${amount}`, {method: "POST"})
-                .then(e  => {
-                    console.log("Saved successfully!");
+            const res = await fetch(`/add?add=${amount}`, {method: "POST"}).then(r => r.json())
+            console.log("Saved successfully!");
 
-                    // if user enters an amount, send them back to daily view period
-                    refreshMainPageContent("DAILY");
-                    addLog(amount);
-
-                })
-
-
-                .catch(err => console.error("Error:", err));
+            // if user enters an amount, send them back to daily view period
+            refreshMainPageContent("DAILY");
+            addLog(amount, res);
+            console.log(res);
             break;
 
-        case "GOAL":
-            fetch(`/add/goal?goal=${amount}`, {method: "POST"})
-                .then(e  => {
-                    console.log("Saved successfully!");
 
-                    // if updates goal, send them back to daily view period
-                    refreshMainPageContent("DAILY");
-                })
-                .catch(err => console.error("Error:", err));
-            break;
-    }
+     case "GOAL" :
+    fetch(`/add/goal?goal=${amount}`, {method: "POST"})
+        .then(e => {
+            console.log("Saved successfully!");
+
+            // if updates goal, send them back to daily view period
+            refreshMainPageContent("DAILY");
+        })
+        .catch(err => console.error("Error:", err));
+    break;
+}
 }
 
 

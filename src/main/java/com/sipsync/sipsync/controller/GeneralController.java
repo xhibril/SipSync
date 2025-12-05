@@ -50,10 +50,17 @@ public class GeneralController {
     }
 
     @ResponseBody
-    @PostMapping("/update/amount")
-    public void updateAmount(@RequestParam int amount, HttpServletRequest req){
+    @PostMapping("/delete/log")
+    public void deleteLog(@RequestParam Long logId, HttpServletRequest req){
         Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
-        logsService.updateAmount(amount, userId);
+        logsService.deleteSingleLog(userId, logId);
+    }
+
+    @ResponseBody
+    @PostMapping("/update/amount")
+    public void updateAmount(@RequestParam int amount, Long id, HttpServletRequest req){
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        logsService.updateAmount(amount, userId, id);
     }
 
 
@@ -87,9 +94,9 @@ public class GeneralController {
     // add amount
     @ResponseBody
     @PostMapping("/add")
-    public void addLog(@RequestParam int add, HttpServletRequest req){
+    public Long addLog(@RequestParam int add, HttpServletRequest req){
         Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
-        service.addLog(add, userId);
+        return service.addLog(add, userId);
     }
 
 

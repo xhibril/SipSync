@@ -41,6 +41,27 @@ body {
     width: 100%;
 }
 
+#errorMessage{
+    position: fixed;
+    left: 43%;
+    background-color: white;
+    border:3px solid red;
+
+    border-radius: .5rem;
+    padding:1rem;
+
+    z-index:999;
+
+}
+
+#errorMessage img {
+    width:1.5rem;
+    padding-right:1rem;
+    margin-bottom:-.5rem;
+
+
+}
+
 
 /* title and desc */
 .brandingContainer {
@@ -460,14 +481,43 @@ body {
     height: 10rem;
     width: 12.5rem;
     overflow-y: auto;
+
     padding: .5rem;
     align-self: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 
 }
+
+.row{
+    background-color: rgb(192, 192, 239);
+    width:100%;
+    text-align: center;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:.2rem;
+    margin-bottom: .5rem;
+}
+
+.row p{
+    margin:0;
+    padding-top:.2rem;
+    padding-bottom:.2rem
+}
+
+.timeLogs{
+    font-size:.8rem;
+    padding-right:2.5rem;
+    padding-left:.5rem;
+
+}
+
+.row img{
+    width:1rem;
+    margin-left:.5rem;
+}
+
 
 .date {
     align-self: center;

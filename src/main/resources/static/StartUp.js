@@ -18,12 +18,12 @@ async function checkStreakOnStartUp(){
 
 
 
-async function checkTodayLogs() {
+export async function checkTodayLogs() {
     const logsRes = await fetch("/logs/today").then(r => r.json())
 
     if(logsRes.length > 0){
         logsRes.forEach(log => {
-            addLog(log.amount);
+            addLog(log.amount, log.id);
         });
 
         logsFound(true);

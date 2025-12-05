@@ -6,7 +6,9 @@ const activityInput = document.querySelector("#activityInput");
 const displayWaterIntake = document.querySelector("#waterIntake");
 const calcConfirmBtn = document.querySelector("#calcSubmitBtn");
 
-// Water (L/day)=(Weight (kg)×0.033×Age/Gender Factor)+(Exercise min×0.012)+Climate/Diet Adjustment
+import {
+    isInputValid
+} from "./InputValidation.js";
 
 // change placeholders for inputs based on unity type
 let unitTypeValue = "IMPERIAL";
@@ -52,10 +54,9 @@ calcConfirmBtn.addEventListener("click", ()=>{
 
 
 
-let validInput = true;
 function inputValues(unitTypeValue){
 
-let weightFactor = null;
+let weightFactor;
 
    if(unitTypeValue === "IMPERIAL"){
         weightFactor = Number(weightInput.value) / 2.20462;
@@ -63,33 +64,28 @@ let weightFactor = null;
         weightFactor = Number(weightInput.value);
    }
 
-    validInput = isInputValid(weightFactor);
-    if(!validInput) return;
-
-
     let ageFactor = Number(ageInput.value);
-   validInput = isInputValid(ageFactor);
-    if(!validInput) return;
-
     let genderFactor = gender;
-    validInput = isInputValid(genderInput);
-    if(!validInput) return;
-
     let activityFactor = activityInput.value;
-    validInput = isInputValid(activityFactor);
-    if(!validInput) return;
+
+    // check if input is valid
+    if(isInputValid(weightFactor, ageFactor, genderFactor, activityFactor)){
+
+        genderFactor = parseFloat(getGenderFactorValue(genderFactor));
+        ageFactor = parseFloat(getAgeFactorValue(ageFactor));
+        activityFactor = (getActivityFactorValue(activityFactor));
+
+        let waterIntake = calculate(weightFactor, ageFactor, genderFactor, activityFactor);
+        let roundedWaterIntake = Number(waterIntake.toFixed(2));
+        console.log(waterIntake);
+
+        displayWaterIntake.style.visibility = "visible";
+        displayWaterIntake.innerHTML = "Your recommended water intake: " + roundedWaterIntake + " L";
+
+    }
 
 
-    genderFactor = parseFloat(getGenderFactorValue(genderFactor));
-    ageFactor = parseFloat(getAgeFactorValue(ageFactor));
-    activityFactor = (getActivityFactorValue(activityFactor));
 
-    let waterIntake = calculate(weightFactor, ageFactor, genderFactor, activityFactor);
-    let roundedWaterIntake = Number(waterIntake.toFixed(2));
-    console.log(waterIntake);
-
-    displayWaterIntake.style.visibility = "visible";
-    displayWaterIntake.innerHTML = "Your recommended water intake: " + roundedWaterIntake + " L";
 }
 
 
@@ -138,10 +134,7 @@ function getActivityFactorValue(activityFactor){
 
 }
 
-function isInputValid(input){
-    if(!input || input <= 0) return false;
-    return true;
-}
+
 
 
 
@@ -154,6 +147,9 @@ function isInputValid(input){
 
 
 /*
+
+// Water (L/day)=(Weight (kg)×0.033×Age/Gender Factor)+(Exercise min×0.012)+Climate/Diet Adjustment
+
 
 // 2.20462
 

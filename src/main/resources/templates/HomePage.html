@@ -33,6 +33,7 @@
 
 <div class="mainSection">
     <div class="headerSection">
+        <p id = "errorMessage"> <img src = "/images/error.png">Something went wrong</p>
 
         <div class="brandingContainer maxwidth90">
             <h1 id="siteTitle">SIPSYNC</h1>
@@ -144,6 +145,18 @@
 
         <img id="noLogsGif" src="images/noLogsGif.gif">
         <div class="logs">
+
+            <!--
+            <div class = "row">
+                <img src = "clock.png">
+                <p class = "timeLogs" contenteditable="false"> 12:30</p>
+                <p contenteditable="true" class = "logAmount">1000</p>
+                <p>mL</p>
+            </div>
+            -->
+
+
+
 
         </div>
 
@@ -275,9 +288,9 @@
 </div>
 <script type="module" src ="/StartUp.js" defer></script>
 <script type="module" src="/HomeController.js" defer></script>
-<script src="/SecondHomeController.js" defer></script>
+<script type = "module" src="/SecondHomeController.js" defer></script>
 <script src="/randomFactDisplayer.js" defer></script>
 <script type ="module" src="/Settings.js" defer></script>
-<script src = "/Logs.js" defer></script>
+<script type = "module" src = "/Logs.js" defer></script>
 </body>
 </html>
