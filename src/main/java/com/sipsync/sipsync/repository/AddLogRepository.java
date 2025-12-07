@@ -17,7 +17,7 @@ import java.util.List;
 
     List<Logs> findByUserId(Long userid);
 
-   List<Logs> findByUserIdAndTime(Long userId, String time);
+   List<Logs> findByUserIdAndDate(Long userId, String date);
 
 
 

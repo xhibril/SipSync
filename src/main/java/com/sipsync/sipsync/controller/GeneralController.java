@@ -1,4 +1,5 @@
 package com.sipsync.sipsync.controller;
+import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.repository.AddLogRepository;
 import com.sipsync.sipsync.repository.UserRepository;
 import com.sipsync.sipsync.service.*;
@@ -94,7 +95,7 @@ public class GeneralController {
     // add amount
     @ResponseBody
     @PostMapping("/add")
-    public Long addLog(@RequestParam int add, HttpServletRequest req){
+    public Logs addLog(@RequestParam int add, HttpServletRequest req){
         Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
         return service.addLog(add, userId);
     }

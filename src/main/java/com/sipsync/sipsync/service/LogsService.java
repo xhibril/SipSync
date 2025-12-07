@@ -17,7 +17,7 @@ public class LogsService {
 
     public List todayLogs(Long userId){
         LocalDate today = LocalDate.now();
-        List<Logs> todayLogs= logsRepo.findByUserIdAndTime(userId, today.toString());
+        List<Logs> todayLogs= logsRepo.findByUserIdAndDate(userId, today.toString());
 
         return todayLogs;
     }

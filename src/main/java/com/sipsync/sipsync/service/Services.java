@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -34,18 +36,22 @@ public class Services {
 
 
     // add amount
-    public Long addLog(int amount, Long userId) {
+    public Logs addLog(int amount, Long userId) {
 
         Logs log = new Logs();
         LocalDate today = LocalDate.now();
-        log.setUserId(userId);
+        LocalTime time = LocalTime.now();
 
+        DateTimeFormatter formater = DateTimeFormatter.ofPattern("h:mm a");
+        String timeString = time.format(formater);
+
+        log.setUserId(userId);
         log.setAmount(amount);
-        log.setTime(String.valueOf(today));
+        log.setDate(String.valueOf(today));
+        log.setTime(timeString);
         Logs saved = addRepo.save(log);
 
-        return saved.getId();
-
+        return saved;
     }
 
 
@@ -66,7 +72,7 @@ public class Services {
             case "DAILY":
                 for (Logs saved : savedAmounts) {
 
-                    if (String.valueOf(today).equals(saved.getTime())) {
+                    if (String.valueOf(today).equals(saved.getDate())) {
                         total += saved.getAmount();
                     }
                 }
@@ -79,7 +85,7 @@ public class Services {
                 for (Logs saved : savedAmounts) {
 
                     // convert string to local date obj
-                    LocalDate currLogDate = LocalDate.parse(saved.getTime());
+                    LocalDate currLogDate = LocalDate.parse(saved.getDate());
 
                     if (!(sevenDaysAgo.isBefore(currLogDate) && !(today.isAfter(currLogDate)))) {
 
@@ -100,7 +106,7 @@ public class Services {
 
                 for (Logs saved : savedAmounts) {
                     // convert string to local date obj
-                    LocalDate currLogDate = LocalDate.parse(saved.getTime());
+                    LocalDate currLogDate = LocalDate.parse(saved.getDate());
 
                     if (!(thirtyDaysAgo.isBefore(currLogDate) && !(today.isAfter(currLogDate)))) {
 

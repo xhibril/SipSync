@@ -8,10 +8,8 @@ const monthlyBtn = document.querySelector("#monthlyViewBtn");
 const amountDisplay = document.querySelector("#amount");
 
 
-import {
-    refreshMainPageContent,
-    progressBar,
-} from "./Display.js";
+import {refreshMainPage,
+} from "./display.js";
 
 export let timeRange = "DAILY"
 
@@ -57,7 +55,7 @@ async function deleteUserData() {
     try {
         await fetch(`/reset/data`, {method: "POST"});
         console.log("Data reset completed");
-        refreshMainPageContent("DAILY");
+        refreshMainPage("DAILY");
 
     } catch (err) {
         console.log(err);
@@ -72,7 +70,7 @@ try {
     const goalRes = await fetch("/goal").then(r => r.json())
     amountDisplay.innerHTML = res + " mL";
 
-    refreshMainPageContent(timeRange);
+    refreshMainPage(timeRange);
 }catch (err){
     console.log(err);
 }
@@ -85,7 +83,7 @@ async function viewWeekly(){
         const goalRes = await fetch("/goal").then(r => r.json())
         amountDisplay.innerHTML = res + " mL";
 
-        refreshMainPageContent(timeRange);
+        refreshMainPage(timeRange);
     }catch (err){
         console.log(err);
     }
@@ -98,7 +96,7 @@ async function viewMonthly(){
         const goalRes = await fetch("/goal").then(r => r.json())
         amountDisplay.innerHTML = res + " mL";
 
-        refreshMainPageContent(timeRange);;
+        refreshMainPage(timeRange);
     }catch (err){
         console.log(err);
     }

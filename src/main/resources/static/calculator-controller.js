@@ -1,16 +1,13 @@
 const unitType = document.querySelectorAll('input[name="unitType"]');
 const ageInput = document.querySelector("#calcAgeInput");
-const genderInput = document.querySelectorAll('input[name="inputGender"]');
 const weightInput = document.querySelector("#weightInput");
 const activityInput = document.querySelector("#activityInput");
 const displayWaterIntake = document.querySelector("#waterIntake");
-const calcConfirmBtn = document.querySelector("#calcSubmitBtn");
+const calculateConfirmBtn = document.querySelector("#calcSubmitBtn");
 
-import {
-    isInputValid
-} from "./InputValidation.js";
+import {validateNumInputs} from "./validation.js";
 
-// change placeholders for inputs based on unity type
+// change placeholders for inputs based on unit type
 let unitTypeValue = "IMPERIAL";
 unitType.forEach(radio => {
     radio.addEventListener("change", ()=>{
@@ -20,84 +17,65 @@ unitType.forEach(radio => {
             case "IMPERIAL":
                 weightInput.placeholder = "Pounds";
                 weightInput.value ="";
+
                 break;
             case "METRIC":
                 weightInput.placeholder = "Kg";
                 weightInput.value ="";
+
                 break;
         }
     });
 });
 
-let gender = "NONE";
-genderInput.forEach(radio =>{
-    radio.addEventListener("change", ()=>{
-        gender = radio.value;
 
-        switch(gender){
-            case "MALE":
-                gender = "MALE"; break;
-            case "FEMALE":
-                gender = "FEMALE"; break;
-        }
-    });
+let weight;
+function weightValue(unitTypeValue){
+    if(unitTypeValue === "IMPERIAL"){
+        weight = Number(weightInput.value) / 2.20462;
+    } else {
+        weight = Number(weightInput.value);
+    }
+}
+
+calculateConfirmBtn.addEventListener("click", ()=>{
+    calculateWaterIntake(unitTypeValue);
 });
 
 
+function calculateWaterIntake(unitTypeValue){
+    // get the gender selected
+    const selectedGender = document.querySelector('input[name="inputGender"]:checked');
+    let gender = selectedGender.value;
 
+    // check weight based on unit type
+    weightValue(unitTypeValue);
 
-calcConfirmBtn.addEventListener("click", ()=>{
+    let age = Number(ageInput.value);
+    let activity = activityInput.value;
 
-    inputValues(unitTypeValue);
-})
-
-
-
-
-function inputValues(unitTypeValue){
-
-let weightFactor;
-
-   if(unitTypeValue === "IMPERIAL"){
-        weightFactor = Number(weightInput.value) / 2.20462;
-   } else {
-        weightFactor = Number(weightInput.value);
-   }
-
-    let ageFactor = Number(ageInput.value);
-    let genderFactor = gender;
-    let activityFactor = activityInput.value;
+    // get multipliers for each
+    gender = parseFloat(getGenderMultiplier(gender));
+    age = parseFloat(getAgeMultiplier(age));
+    activity = parseFloat(getActivityMultiplier(activity));
 
     // check if input is valid
-    if(isInputValid(weightFactor, ageFactor, genderFactor, activityFactor)){
+    if(validateNumInputs(weight, age, gender, activity)){
 
-        genderFactor = parseFloat(getGenderFactorValue(genderFactor));
-        ageFactor = parseFloat(getAgeFactorValue(ageFactor));
-        activityFactor = (getActivityFactorValue(activityFactor));
-
-        let waterIntake = calculate(weightFactor, ageFactor, genderFactor, activityFactor);
+        let waterIntake = calculate(weight, age, gender, activity);
         let roundedWaterIntake = Number(waterIntake.toFixed(2));
-        console.log(waterIntake);
 
         displayWaterIntake.style.visibility = "visible";
         displayWaterIntake.innerHTML = "Your recommended water intake: " + roundedWaterIntake + " L";
-
     }
-
-
-
 }
-
-
-
 
 
 function calculate(weightFactor, ageFactor, genderFactor, activityFactor){
     return (weightFactor * 0.033 * ageFactor * genderFactor * activityFactor);
 }
 
-
-function getGenderFactorValue(gender){
+function getGenderMultiplier(gender){
     switch(gender){
         case "MALE":
             return 1;
@@ -106,20 +84,18 @@ function getGenderFactorValue(gender){
     }
 }
 
-function getAgeFactorValue(age){
+function getAgeMultiplier(age){
 
     if(age >= 14 && age <= 30) return 1;
     if(age >= 31 && age <= 50) return 0.98;
     if(age >= 51 && age <= 65) return 0.95;
     if(age >= 66) return 0.90;
     return 1;
-
-
 }
 
-function getActivityFactorValue(activityFactor){
+function getActivityMultiplier(activity){
 
-    switch(activityFactor){
+    switch(activity){
         case "NONE":
             return 1;
         case "LIGHT":
@@ -131,20 +107,7 @@ function getActivityFactorValue(activityFactor){
         case "EXTREME":
             return 1.5;
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 

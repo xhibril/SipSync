@@ -45,7 +45,7 @@ public class StreakService {
 
         Float amountDrank = 0f;
         // get all the amounts stored in that day to check if it is >= goal
-        List<Logs> logs = logsRepo.findByUserIdAndTime(userId, time);
+        List<Logs> logs = logsRepo.findByUserIdAndDate(userId, time);
 
          for(Logs saved : logs) {
            amountDrank += saved.getAmount();
@@ -63,9 +63,9 @@ public class StreakService {
     public String latestTimeRecord(Long userId){
         Logs log = logsRepo.findTopByUserIdOrderByIdDesc(userId);
         if (log == null) {
-            return null; // or handle however you want for no logs
+            return null;
         }
-        return log.getTime();
+        return log.getDate();
     }
 
 

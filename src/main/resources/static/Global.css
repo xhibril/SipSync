@@ -43,16 +43,23 @@ body {
 
 #errorMessage{
     position: fixed;
-    left: 43%;
+    left: 50%;
     background-color: white;
     border:3px solid red;
-
     border-radius: .5rem;
     padding:1rem;
-
     z-index:999;
-
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
+#errorMessage.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
 
 #errorMessage img {
     width:1.5rem;
@@ -375,12 +382,6 @@ body {
 }
 
 
-/* hide it by default */
-.quickAddGoal {
-    display: none;
-}
-
-
 .quickAddBtns {
     border-radius: .4rem;
     border-color: transparent;
@@ -507,10 +508,9 @@ body {
 }
 
 .timeLogs{
-    font-size:.8rem;
-    padding-right:2.5rem;
+    font-size:.6rem;
+    padding-right:2rem;
     padding-left:.5rem;
-
 }
 
 .row img{

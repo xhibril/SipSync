@@ -28,11 +28,11 @@ const shuffled = [...waterFacts].sort(() => Math.random() - 0.5);
 
 cards.forEach(card =>{
     card.addEventListener("click", ()=>{
-        const para = card.querySelector("p");
-        para.textContent = shuffled[index];
+        const p = card.querySelector("p");
+        p.textContent = shuffled[index];
+        p.style.color = "black";
         card.style.boxShadow = "none";
         card.style.background = "white";
-        para.style.color = "black";
         index++;
     } , { once: true });
 })

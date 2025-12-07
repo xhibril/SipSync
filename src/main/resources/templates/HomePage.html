@@ -33,7 +33,11 @@
 
 <div class="mainSection">
     <div class="headerSection">
-        <p id = "errorMessage"> <img src = "/images/error.png">Something went wrong</p>
+        <p id="errorMessage">
+            <img src="/images/error.png" id="errorMessageIcon">
+            <span id="errorMessageText">Something went wrong</span>
+        </p>
+
 
         <div class="brandingContainer maxwidth90">
             <h1 id="siteTitle">SIPSYNC</h1>
@@ -97,7 +101,7 @@
                 mL</button>
         </div>
 
-        <div class="quickAddGoal">
+        <div class="quickAddGoal hidden" >
             <button type="submit" data-goalvalue="2000" class="quickAddBtns" id="quickGoalSet2000Btn"> <img src="images/waterDroplet.png "> <br>2000
                 mL</button>
             <button type="submit" data-goalvalue="2500" class="quickAddBtns" id="quickGoalSet2500Btn"> <img src="images/waterDroplet.png "> <br>2500
@@ -286,11 +290,11 @@
 </div>
 
 </div>
-<script type="module" src ="/StartUp.js" defer></script>
-<script type="module" src="/HomeController.js" defer></script>
-<script type = "module" src="/SecondHomeController.js" defer></script>
-<script src="/randomFactDisplayer.js" defer></script>
+<script type="module" src ="/startup.js" defer></script>
+<script type="module" src="/home-controller.js" defer></script>
+<script type = "module" src="/calculator-controller.js" defer></script>
+<script src="/fact-cards.js" defer></script>
 <script type ="module" src="/Settings.js" defer></script>
-<script type = "module" src = "/Logs.js" defer></script>
+<script type = "module" src = "/logs.js" defer></script>
 </body>
 </html>
