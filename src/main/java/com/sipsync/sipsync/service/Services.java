@@ -97,6 +97,12 @@ public class Services {
                         avg += saved.getAmount();
                     }
                 }
+
+
+                if(avg == 0 || weeklyDaysCount == 0){
+                    return 0;
+                }
+
                 return avg / weeklyDaysCount;
 
 
@@ -118,9 +124,12 @@ public class Services {
                         avg += saved.getAmount();
                     }
                 }
+                if (avg == 0 || monthlyDaysCount == 0){
+                    return 0;
+                }
                 return avg / monthlyDaysCount;
         }
-        return null;
+        return 0;
     }
 
 

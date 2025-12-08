@@ -3,29 +3,30 @@ const emailInput = document.querySelector("#emailSignUp");
 const passwordInput = document.querySelector("#passwordSignUp");
 const inputs = document.querySelectorAll(".input");
 
+import {showMessage, validateForm} from "./validation.js";
 
-let email = "", password = "";
+let email, password;
 continueBtn.addEventListener("click", (e) => {
         e.preventDefault();
         email = emailInput.value;
         password = passwordInput.value;
 
-        console.log(email)
-        console.log(password);
-        addUser(email, password);
+        if (validateForm(email, password)) {
+            addUser(email, password);
+        } else {
+            showMessage(true, "Invalid characters used. Only letters, numbers, and !@#$%^&* are allowed.");
+        }
     }
 )
 
-inputs.forEach(input =>{
-    input.addEventListener("keydown", function(event) {
+inputs.forEach(input => {
+    input.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
             continueBtn.click();
         }
     });
-
-
-})
+});
 
 
 async function addUser(email, password) {
@@ -38,9 +39,9 @@ async function addUser(email, password) {
         }
         // send user email to verify
         const data = await response.json();
-        fetch(`/SendVerificationEmail?email=${data.email}&token=${data.token}`, {method: "POST"});
+        fetch(`/sendVerificationEmail?email=${data.email}&token=${data.token}`, {method: "POST"});
 
     } catch (err) {
-        console.log(err);
+        showMessage(true, "Failed to sign you up, please try again later.");
     }
 }

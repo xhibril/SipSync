@@ -4,35 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Global.css">
-    <link rel="stylesheet" href="feedback.css">
-    <link rel="stylesheet" href="Vars.css">
-    <link rel="stylesheet" href="Responsive.css">
+    <link rel="stylesheet" href="/css/Global.css">
+    <link rel="stylesheet" href="/css/Feedback.css">
+    <link rel="stylesheet" href="/css/Vars.css">
+    <link rel="stylesheet" href="/css/Responsive.css">
     <title>SipSync Feedback</title>
 </head>
 <body>
 
-<div class="overlay"></div>
-<div class="settingsMenu maxwidth90">
-
-    <div class="timeRange maxwidth90">
-        <span class="settingsSpan">Time Range</span>
-        <button type="button" id="dailyViewBtn" class="timeRangeBtn">Daily</button>
-        <button type="button" id="weeklyViewBtn" class="timeRangeBtn">Weekly</button>
-        <button type="button" id="monthlyViewBtn" class="timeRangeBtn">Monthly</button>
-    </div>
-
-    <div class="dataAndAccount maxwidth90">
-        <span class="settingsSpan">Data & Account</span>
-        <button type="button" id="resetDataBtn" class="dataAndAccBtn">Reset Data</button>
-        <button type="button" id="logoutBtn" class="dataAndAccBtn">Logout</button>
-    </div>
-
-</div>
-
 <div class="mainSection">
     <div class="headerSection">
-        <p id = "errorMessage"> <img src = "/images/error.png">Something went wrong</p>
+        <p id="notification">
+            <img src="/images/error.png" id="errorMessageIcon" class = "hidden">
+            <img src="/images/success.png" id="successMessageIcon" class = "hidden">
+            <span id="notificationText">Something went wrong</span>
+        </p>
 
         <div class="brandingContainer maxwidth90">
             <h1 id="siteTitle">SIPSYNC</h1>
@@ -43,17 +29,13 @@
             <nav class="navbar">
 
                 <ul class="nav-links">
-                    <li><a href="#calcTitle">Calculator</a></li>
-                    <li><a href="#">Feedback</a></li>
+                    <li><a href="/Home">Home Page</a></li>
+                    <li><a href="Home#calcTitle">Calculator</a></li>
                     <li>
                         <a href="https://github.com/xhibril" target="_blank" rel="noopener noreferrer">Other Projects</a>
                     </li>
                 </ul>
             </nav>
-        </div>
-
-        <div class="settingsBtnContainer maxwidth90">
-            <button type="button" class="settingsBtn"> <img src="images/settingsIcon.png"></button>
         </div>
     </div>
 
@@ -68,16 +50,16 @@
             <form class="maxwidth90">
 
                 <label>Name</label>
-                <input type="text" class="input" placeholder="John Smith">
+                <input type="text" id  class="input" placeholder="John Smith" name = "feedback">
 
                 <label>Email</label>
-                <input type="email" class="input" placeholder="example@gmail.com">
+                <input type="email" class="input" placeholder="example@gmail.com" name = "feedback">
 
                 <label>Message</label>
-                <textarea id="comments" name="comments" rows="20" cols="50" placeholder=""></textarea>
+                <textarea rows="20" cols="50" placeholder="" maxlength="200" name = "feedback"></textarea>
 
             </form>
-            <button type="submit" class="confirmBtn">Confirm</button>
+            <button type="submit" id = "feedbackConfirmBtn" class="confirmBtn">Confirm</button>
         </div>
     </div>
 </div>

@@ -6,12 +6,9 @@ const inputType = document.querySelectorAll('input[name="actionType"]');
 const amountInput = document.querySelector(".input");
 const submitBtn = document.querySelector("#amountSubmitBtn");
 
-import {refreshMainPage, refreshGoal, refreshProgressBar} from "./display.js";
+import {refreshMainPage} from "./display.js";
 import {addLog} from "./logs.js";
-import {validateNumInputs, displayErrorMessage} from "./validation.js";
-
-
-let message;
+import {validateNumInputs, showMessage} from "./validation.js";
 
 let choice = "ADD"
 // show correct content depending on input type
@@ -81,15 +78,14 @@ async function handleSubmit(amount) {
             try {
                 const response = await fetch(`/add?add=${amount}`, {method: "POST"})
                 const res = await response.json();
-                addLog(amount, res, res.time);  // display log to user
+                addLog(amount, res.id, res.time);  // display log to user
 
                 // if user enters an amount, send them back to daily view period
                 refreshMainPage("DAILY");
+                showMessage("success", "Water intake added.");
 
             } catch (err) {
-                let message = "Something went wrong on our end, please try again later."
-                console.log(err);
-                displayErrorMessage(true, message);
+                showMessage("error", "Something went wrong on our end, please try again later.");
             }
             break;
 
@@ -97,10 +93,10 @@ async function handleSubmit(amount) {
             try {
                 await fetch(`/add/goal?goal=${amount}`, {method: "POST"});
                 refreshMainPage("DAILY");
+                showMessage("success", "Goal added.");
 
             } catch (err) {
-                message = "Couldn't update your goal, please try again later.";
-                displayErrorMessage(true, message);
+                showMessage("error", "Couldn't update your goal, please try again later.");
             }
             break;
     }

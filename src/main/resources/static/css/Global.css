@@ -41,11 +41,10 @@ body {
     width: 100%;
 }
 
-#errorMessage{
+#notification{
     position: fixed;
     left: 50%;
     background-color: white;
-    border:3px solid red;
     border-radius: .5rem;
     padding:1rem;
     z-index:999;
@@ -55,18 +54,23 @@ body {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-#errorMessage.show {
+#notification.error{
     transform: translateX(-50%) translateY(0);
     opacity: 1;
+    border:3px solid red;
+}
+
+#notification.success{
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    border:3px solid green;
 }
 
 
-#errorMessage img {
+#notification img {
     width:1.5rem;
     padding-right:1rem;
     margin-bottom:-.5rem;
-
-
 }
 
 
@@ -330,6 +334,11 @@ body {
     font-weight: 600;
 }
 
+
+#period-label{
+    align-self: center;
+    color:#555555;
+}
 
 .progressBar {
     width: 20rem;

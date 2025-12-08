@@ -2,17 +2,22 @@ const waterDrankDisplay = document.querySelector("#amount");
 const goalDisplay = document.querySelector("#goal");
 const remainingDisplay = document.querySelector("#displayRemaining");
 const streakDisplay = document.querySelector("#displayStreak");
+const periodLabelDisplay = document.querySelector("#period-label");
 
-import {displayErrorMessage} from "./validation.js";
+import {showMessage} from "./validation.js";
 
 let waterDrank = 0;
 let goal = 0;
 let url;
-let message;
 
 export async function refreshMainPage(timeRange) {
     switch (timeRange) {
-        case "DAILY": url = "/today"; break;
+        case "DAILY":{
+            url = "/today";
+            // hide viewing "weekly / monthly avg" label
+            periodLabelDisplay.classList.add("hidden");
+            break;
+        }
         case "WEEKLY": url = "/weekly"; break;
         case "MONTHLY": url = "/monthly"; break;
     }
@@ -32,8 +37,7 @@ export async function refreshGoal(){
         goal = goalRes;
         goalDisplay.innerHTML = goal + " mL";
     } catch(err) {
-        message = "Couldn't load your goal, please try again later."
-        displayErrorMessage(true, message);
+        showMessage("error", "Couldn't load your goal, please try again later.");
     }
 }
 
@@ -46,8 +50,7 @@ export async function refreshWaterIntake(){
         waterDrankDisplay.innerHTML = waterDrank + " mL";
 
     } catch(err) {
-        message = "Couldn't load your water intake, please try again later."
-        displayErrorMessage(true, message);
+        showMessage("error", "Couldn't load your water intake, please try again later.");
     }
 }
 
@@ -87,12 +90,6 @@ async function incrementStreak() {
         const streakRes = await incrementStreakResponse.json();
         streakDisplay.innerHTML = streakRes;
     } catch (err){
-        message = "Couldn't update streak, please try again later"
-        displayErrorMessage(true, message);
+        showMessage("error", "Couldn't update streak, please try again later.");
     }
 }
-
-
-
-
-

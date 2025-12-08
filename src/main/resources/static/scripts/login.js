@@ -3,9 +3,9 @@ const passwordInput = document.querySelector("#passwordLogin");
 const inputFields = document.querySelectorAll(".Input");
 const continueBtn = document.querySelector("#loginContinueBtn");
 
-import {displayErrorMessage, validateForm} from "./validation.js";
+import {showMessage, validateForm} from "./validation.js";
 
-let email, password, message;
+let email, password;
 continueBtn.addEventListener("click", (e) => {
         e.preventDefault();
         email = emailInput.value;
@@ -14,8 +14,7 @@ continueBtn.addEventListener("click", (e) => {
         if(validateForm(email, password)){
             handleLogin(email, password);
         } else {
-            message = "Invalid characters used. Only letters, numbers, and !@#$%^&* are allowed."
-            displayErrorMessage(true, message);
+            showMessage("error", "Invalid characters used. Only letters, numbers, and !@#$%^&* are allowed.");
         }
     }
 )
@@ -41,11 +40,9 @@ async function handleLogin(email, password){
             // got to homepage if details are correct
             window.location.href = "/Home";
         } else {
-            message = "Invalid credentials. Try again.";
-            displayErrorMessage(true, message);
+            showMessage("error", "Invalid credentials, try again.");
         }
     } catch (err){
-        message = "Login failed, please try again later."
-        displayErrorMessage(true, message);
+        showMessage("error", "Login failed, please try again later.");
     }
 }

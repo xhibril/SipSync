@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Global.css">
-    <link rel="stylesheet" href="Homepage-Extra.css">
-    <link rel="stylesheet" href="Responsive.css">
-    <link rel="stylesheet" href="Vars.css">
+    <link rel="stylesheet" href="/css/Global.css">
+    <link rel="stylesheet" href="/css/Homepage-Extra.css">
+    <link rel="stylesheet" href="/css/Responsive.css">
+    <link rel="stylesheet" href="/css/Vars.css">
     <title>SipSync</title>
 </head>
 
@@ -33,9 +33,10 @@
 
 <div class="mainSection">
     <div class="headerSection">
-        <p id="errorMessage">
-            <img src="/images/error.png" id="errorMessageIcon">
-            <span id="errorMessageText">Something went wrong</span>
+        <p id="notification">
+            <img src="/images/error.png" id="errorMessageIcon" class = "hidden">
+            <img src="/images/success.png" id="successMessageIcon" class = "hidden">
+            <span id="notificationText">Something went wrong</span>
         </p>
 
 
@@ -83,6 +84,8 @@
             </label>
 
         </div>
+
+        <p id = "period-label" class = "hidden"></p>
 
         <div class="progressBar maxwidth90">
             <p id="amount">... mL</p>
@@ -290,11 +293,11 @@
 </div>
 
 </div>
-<script type="module" src ="/startup.js" defer></script>
-<script type="module" src="/home-controller.js" defer></script>
-<script type = "module" src="/calculator-controller.js" defer></script>
-<script src="/fact-cards.js" defer></script>
-<script type ="module" src="/Settings.js" defer></script>
-<script type = "module" src = "/logs.js" defer></script>
+<script type="module" src ="/scripts/startup.js" defer></script>
+<script type="module" src="/scripts/home-controller.js" defer></script>
+<script type = "module" src="/scripts/calculator-controller.js" defer></script>
+<script src="/scripts/fact-cards.js" defer></script>
+<script type ="module" src="/scripts/settings.js" defer></script>
+<script type = "module" src = "/scripts/logs.js" defer></script>
 </body>
 </html>

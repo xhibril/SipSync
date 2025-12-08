@@ -14,8 +14,6 @@ import java.util.List;
 @Controller
 public class GeneralController {
 
-    @Autowired private AddLogRepository repo;
-    @Autowired private UserRepository userRepo;
     @Autowired private Services service;
     @Autowired private Cookies cookiesService;
     @Autowired private TokenService tokenService;
@@ -23,23 +21,18 @@ public class GeneralController {
     @Autowired private LogsService logsService;
 
 
-    @GetMapping("/")
-    public String LoginPage(){
-        return "LoginPage";
-    }
+    @GetMapping({"/", "/login"})
+    public String LoginPage(){return "LoginPage";}
 
-    @GetMapping("/Signup")
-    public String SignUpPage(){
-        return "SignUpPage";
-    }
+    @GetMapping({"/Signup", "/signup"})
+    public String SignUpPage(){return "SignUpPage";}
 
-    @GetMapping("/Home")
+    @GetMapping({"/Home", "/home"})
     public String MainPage(){
         return "HomePage";
     }
 
-
-    @GetMapping("/Feedback")
+    @GetMapping({"/Feedback", "/feedback"})
     public String FeedbackPage(){ return "FeedbackPage";}
 
 
@@ -152,7 +145,6 @@ public int updateStreak(HttpServletRequest req){
         Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
         service.resetData(userId);
     }
-
 
 
 }

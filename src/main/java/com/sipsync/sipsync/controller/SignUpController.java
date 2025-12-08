@@ -22,7 +22,7 @@ public class SignUpController {
     }
 
     @ResponseBody
-    @PostMapping("/SendVerificationEmail")
+    @PostMapping("/sendVerificationEmail")
     public void sendVerificationEmail(@RequestParam String email,  @RequestParam String token){
         service.sendVerificationEmail(email, token);
     }
