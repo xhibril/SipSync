@@ -1,26 +1,26 @@
 package com.sipsync.sipsync.controller;
-
+import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.service.LoginService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
 
-    @Autowired
-    LoginService loginService;
+    @Autowired LoginService loginService;
 
     @ResponseBody
-    @GetMapping("/Login")
-    public String isUserValid(@RequestParam String email,
-                              @RequestParam String password,
-                              HttpServletResponse res) {
-
-     return loginService.isUserValid(email, password, res);
+    @PostMapping("/api/login")
+    public ResponseEntity<String> isUserValid(@RequestBody User user, HttpServletResponse res) {
+        try {
+            String result = loginService.isUserValid(user.getEmail(), user.getPassword(), res);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+        return ResponseEntity.status(500).body("Server encountered an error.");
+        }
     }
 
 

@@ -7,12 +7,9 @@ export function validateNumInputs(...input){
     for (let value of input){
         value = Number(value)
         if(value <= 0) {
-            displayErrorMessage(true, "Oops! Value must be more than 0.");
             return false;
         }
-
        if(isNaN(value)){
-           displayErrorMessage(true, "Oops! Some fields are missing or have invalid values. Please check and try again.");
            return false;
        }
     }
@@ -20,7 +17,54 @@ export function validateNumInputs(...input){
 }
 
 
+const allowedMap = {
+    NAME: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ. ",
+    EMAIL: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-+@",
+    PASSWORD: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!.@#$%^&*",
+    MESSAGE: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,!?;:'\"()[]{}-_/@#$%^&*+=|~`"
+};
+
+export function validateInput(type, input){
+    const allowed = allowedMap[type];
+        input = input.trim();
+
+        if (input === ""){
+            return "empty";
+        }
+        for (let char of input) {
+            if (!allowed.includes(char)) {
+                return "invalid";
+            }
+    }
+    return "ok";
+}
+
+
+export function handleValidation(type, input, fieldName){
+    const status = validateInput(type, input);
+
+    if(status === "empty"){
+        showMessage("error", "All fields must be filled.");
+        return false;
+    }
+
+    if(status === "invalid"){
+        showMessage("error", `Please enter a valid ${fieldName}`);
+        return false;
+    }
+
+    if(status === "ok"){
+        return true;
+    }
+}
+
+
+let messageTimeout;
 export function showMessage(type, message) {
+
+    if(messageTimeout) {
+        clearTimeout(messageTimeout);
+    }
 
     notification.classList.remove(type);
     notification.style.transition = 'none';
@@ -44,23 +88,9 @@ export function showMessage(type, message) {
         duration = 3000;
     }
 
-    setTimeout(() => {
+    messageTimeout = setTimeout(() => {
         notification.classList.remove(type);
+        messageTimeout = null;
     }, duration);
 }
 
-
-
-
-export function validateForm(...input){
-    const allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!.@#$%^&* ";
-
-    for (let value of input) {
-        for (let char of value) {
-            if (!allowed.includes(char)) {
-                return false;
-            }
-        }
-    }
-    return true;
-}

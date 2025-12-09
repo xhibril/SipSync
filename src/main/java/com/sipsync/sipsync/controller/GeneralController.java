@@ -24,7 +24,7 @@ public class GeneralController {
     @Autowired private FeedbackService feedbackService;
 
 
-    @GetMapping({"/", "/login"})
+    @GetMapping({"/", "/login", "/Login"})
     public String LoginPage(){return "LoginPage";}
 
     @GetMapping({"/Signup", "/signup"})
@@ -150,12 +150,15 @@ public int updateStreak(HttpServletRequest req){
     }
 
 
-    @PostMapping("/post/feedback")
+    @PostMapping("/api/feedback")
     public ResponseEntity<String> postFeedback(@RequestBody Feedback feedback, HttpServletRequest req) {
-        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
-        feedbackService.saveFeedback(userId, feedback.getName(), feedback.getEmail(), feedback.getMessage());
-
-        return ResponseEntity.ok("Success.");
+        try {
+            Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+            feedbackService.saveFeedback(userId, feedback.getName(), feedback.getEmail(), feedback.getMessage());
+            return ResponseEntity.ok("Success.");
+        } catch (Exception e){
+            return ResponseEntity.status(500).body("Server encountered an error.");
+        }
     }
 
 

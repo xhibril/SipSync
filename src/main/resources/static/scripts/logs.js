@@ -1,5 +1,6 @@
 const logs = document.querySelector(".logs");
 const noLogsFoundImage = document.querySelector("#noLogsGif");
+
 import {refreshMainPage} from "./display.js";
 import {showMessage} from "./validation.js";
 
@@ -18,7 +19,6 @@ export function addLog(amount, id, time){
     const timeLogs = row.querySelector(".timeLogs");
     logAmount.textContent = amount;
     logAmount.contentEditable = true;
-
     timeLogs.textContent = time;
 
     logAmount.addEventListener("keydown", async (e) => {
@@ -33,6 +33,7 @@ export function addLog(amount, id, time){
                 if (!newValue) {
                     row.remove();                 // remove the log if value is 0 or empty
 
+                    // display " no logs found picture" if logs is empty
                     if(logs.children.length === 0){
                         logsFound(false);
                     }
@@ -43,31 +44,38 @@ export function addLog(amount, id, time){
     })
     logsFound(true);
     logs.appendChild(row);
-
-
 }
 
 async function updateLog(newValue, logId) {
     newValue = Number(newValue);
 
     if (!newValue) {
+        // edit log
         try {
-            await fetch(`/delete/log?logId=${logId}`, {method: "POST"});
-            showMessage("success", "Log deleted.");
-            return true;
+           const deleteResponse =  await fetch(`/delete/log?logId=${logId}`, {method: "POST"});
+
+           if(!deleteResponse.ok){
+               throw new Error("Server returned an error.");
+           }
+               showMessage("success", "Log deleted.");
+               return true;
+
         } catch (err){
-            showMessage("error", "Unable to delete the log. Please try again later.");
+            showMessage("error", "Could not delete log. Please try again later.");
             return false;
         }
-
     } else {
-
+        // update log
         try {
-            await fetch(`/update/amount?amount=${newValue}&id=${logId}`, {method: "POST"});
-            showMessage("success", "Log edited.");
-            return true;
+            const updateLog = await fetch(`/update/amount?amount=${newValue}&id=${logId}`, {method: "POST"});
+            if(!updateLog.ok){
+                throw new Error("Server returned an error.");
+            }
+                showMessage("success", "Log edited.");
+                return true;
+
         } catch (err){
-            showMessage("error", "Unable to update log. Please try again later.");
+            showMessage("error", "Could not edit log. Please try again later");
             return false;
         }
     }

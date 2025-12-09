@@ -32,22 +32,6 @@ public class User {
     }
 
 
-    @PostPersist
-    public void genTokenAfterSignUp() {
-
-        String secret = System.getenv("JWT_SECRET");
-        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
-
-         this.verification_token = Jwts.builder()
-                .setSubject(String.valueOf(this.id))
-                 .claim("id", this.id)
-                 .claim("email", this.email)
-                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*60))
-                .signWith(key)
-                .compact();
-    }
-
-
 
 
     public void setEmail(String email){ this.email = email; }

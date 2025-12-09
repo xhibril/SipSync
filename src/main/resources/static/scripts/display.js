@@ -32,25 +32,32 @@ export async function refreshMainPage(timeRange) {
 export async function refreshGoal(){
     try{
         const goalResponse = await fetch("/goal");
-        const goalRes = await goalResponse.json();
 
-        goal = goalRes;
-        goalDisplay.innerHTML = goal + " mL";
+        if(!goalResponse.ok){
+            throw new Error("Server returned an error.");
+        }
+            const goalRes = await goalResponse.json();
+            goal = goalRes;
+            goalDisplay.innerHTML = goal + " mL";
+
     } catch(err) {
-        showMessage("error", "Couldn't load your goal, please try again later.");
+        showMessage("error", "Could not load your goal, please try again later.");
     }
 }
 
 export async function refreshWaterIntake(){
     try{
         const amountResponse = await fetch(url);
-        const amountRes = await amountResponse.json();
 
-        waterDrank = amountRes;
-        waterDrankDisplay.innerHTML = waterDrank + " mL";
+        if (!amountResponse.ok){
+            throw new Error("Server returned an error.");
+        }
+            const amountRes = await amountResponse.json();
+            waterDrank = amountRes;
+            waterDrankDisplay.innerHTML = waterDrank + " mL";
 
     } catch(err) {
-        showMessage("error", "Couldn't load your water intake, please try again later.");
+        showMessage("error", "Could not load your water intake, please try again later.");
     }
 }
 
@@ -86,10 +93,14 @@ function calculateRemaining(amountDrank, goal) {
 
 async function incrementStreak() {
     try {
-        const incrementStreakResponse = await fetch(`/increment/streak`, {method: "POST"});
-        const streakRes = await incrementStreakResponse.json();
-        streakDisplay.innerHTML = streakRes;
+        const incrementStreakResponse = await fetch("/increment/streak", {method: "POST"});
+        if(!incrementStreakResponse.ok){
+            throw new Error("Server returned an error.");
+        }
+            const streakRes = await incrementStreakResponse.json();
+            streakDisplay.innerHTML = streakRes;
+
     } catch (err){
-        showMessage("error", "Couldn't update streak, please try again later.");
+        showMessage("error", "Could not update your streak, please try again later.");
     }
 }

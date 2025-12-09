@@ -1,47 +1,45 @@
-const continueBtn = document.querySelector("#signUpContinueBtn")
-const emailInput = document.querySelector("#emailSignUp");
-const passwordInput = document.querySelector("#passwordSignUp");
+const emailSignUp = document.querySelector("#emailSignUp");
+const passwordSignUp = document.querySelector("#passwordSignUp");
 const inputs = document.querySelectorAll(".input");
+const signUpContinueBtn = document.querySelector("#signUpContinueBtn");
 
-import {showMessage, validateForm} from "./validation.js";
+import {showMessage, handleValidation} from "./validation.js";
 
 let email, password;
-continueBtn.addEventListener("click", (e) => {
+signUpContinueBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        email = emailInput.value;
-        password = passwordInput.value;
-
-        if (validateForm(email, password)) {
-            addUser(email, password);
-        } else {
-            showMessage(true, "Invalid characters used. Only letters, numbers, and !@#$%^&* are allowed.");
-        }
-    }
-)
+        email = emailSignUp.value;
+        password = passwordSignUp.value;
+        if(!(handleValidation("EMAIL", email, "email"))) return;
+        if(!(handleValidation("PASSWORD", password, "password"))) return;
+        handleSignUp(email, password);
+});
 
 inputs.forEach(input => {
     input.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            continueBtn.click();
+            signUpContinueBtn.click();
         }
     });
 });
 
 
-async function addUser(email, password) {
+async function handleSignUp(email, password) {
     try {
-        const response = await fetch(`/Signup?email=${email}&password=${password}`, {method: "POST"});
+        const signUpResponse = await fetch("/api/signup", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({email, password})
+        });
 
-        // nav to homepage
-        if (response.ok) {
-            window.location.href = "/Home";
+        if(!signUpResponse.ok){
+            throw new Error("Server returned an error.");
         }
-        // send user email to verify
-        const data = await response.json();
-        fetch(`/sendVerificationEmail?email=${data.email}&token=${data.token}`, {method: "POST"});
+            // nav to homepage
+            window.location.href = "/Home";
 
     } catch (err) {
-        showMessage(true, "Failed to sign you up, please try again later.");
+        showMessage("error", "Could not sign you up. Please try again later.");
     }
 }

@@ -9,7 +9,6 @@ const amountDisplay = document.querySelector("#amount");
 const periodLabelDisplay = document.querySelector("#period-label");
 
 import {refreshMainPage,} from "./display.js";
-import {checkStreakOnLoad, checkTodayLogsOnLoad} from "./startup.js";
 import {showMessage} from "./validation.js";
 
 export let timeRange = "DAILY"
@@ -27,77 +26,86 @@ resetDataBtn.addEventListener("click", () => {
 })
 
 dailyBtn.addEventListener("click", () => {
-    timeRangeType("DAILY");
     viewDaily();
+    timeRangeType("DAILY");
 })
 
 weeklyBtn.addEventListener("click", () => {
-    timeRangeType("WEEKLY");
     viewWeekly();
+    timeRangeType("WEEKLY");
 })
 
 monthlyBtn.addEventListener("click", () => {
-    timeRangeType("MONTHLY");
     viewMonthly();
+    timeRangeType("MONTHLY");
 })
 
 
 async function deleteUserData() {
 
     try {
-        await fetch(`/reset/data`, {method: "POST"});
-        refreshMainPage("DAILY");
-
-        // reload the streak and today's logs from start up js file
-        checkStreakOnLoad();
-        checkTodayLogsOnLoad();
-        showMessage("success", "Data deleted.");
+        const resetDataResponse = await fetch("/reset/data", {method: "POST"});
+        if (!resetDataResponse.ok){
+            throw new Error("Server returned an error.");
+        }
+            showMessage("success", "Data deleted. Refreshing...");
+            // fresh reload
+            setTimeout(() => {
+                window.location.href = window.location.pathname + "?t=" + Date.now();
+            }, 2000);
 
     } catch (err) {
-        showMessage("error", "Failed to delete user data, please try again later.");
+        showMessage("error", "Could not delete user data. Please try again later.");
     }
 }
 
 
 async function viewDaily() {
-
     try {
         const todayResponse = await fetch("/today");
-        const todayRes = await todayResponse.json();
+        if (!todayResponse.ok){
+            throw new Error("Server returned an error.");
+        }
+            const todayRes = await todayResponse.json();
+            amountDisplay.innerHTML = todayRes + " mL";
+            await refreshMainPage(timeRange);
 
-        amountDisplay.innerHTML = todayRes + " mL";
-        refreshMainPage(timeRange);
     } catch (err) {
-        showMessage("error", "Failed to load daily data, please try again later.");
+        showMessage("error", "Could not load daily data. Please try again later.");
     }
 }
 
 async function viewWeekly() {
-
     try {
         const weeklyResponse = await fetch("/weekly");
-        const weeklyRes = await weeklyResponse.json();
+        if (!weeklyResponse.ok){
+            throw new Error("Server returned an error.");
+        }
+            const weeklyRes = await weeklyResponse.json();
 
-        amountDisplay.innerHTML = weeklyRes + " mL";
-        refreshMainPage(timeRange);
-        periodLabelDisplay.classList.remove("hidden");
-        periodLabelDisplay.textContent = "Viewing weekly average intake";
+            amountDisplay.innerHTML = weeklyRes + " mL";
+            await refreshMainPage(timeRange);
+            periodLabelDisplay.classList.remove("hidden");
+            periodLabelDisplay.textContent = "Viewing weekly average intake";
+
     } catch (err) {
-        showMessage("error", "Failed to load weekly data, please try again later.");
+        showMessage("error", "Could not load weekly data, please try again later.");
     }
 }
 
 async function viewMonthly() {
-
     try {
         const monthlyResponse = await fetch("/monthly");
-        const monthlyRes = await monthlyResponse.json();
+        if(!monthlyResponse.ok){
+            throw new Error("Server returned an error.");
+        }
+            const monthlyRes = await monthlyResponse.json();
+            amountDisplay.innerHTML = monthlyRes + " mL";
+            await refreshMainPage(timeRange);
+            periodLabelDisplay.classList.remove("hidden");
+            periodLabelDisplay.textContent = "Viewing monthly average intake";
 
-        amountDisplay.innerHTML = monthlyRes + " mL";
-        refreshMainPage(timeRange);
-        periodLabelDisplay.classList.remove("hidden");
-        periodLabelDisplay.textContent = "Viewing monthly average intake";
     } catch (err) {
-        showMessage("error", "Failed to load monthly, please try again later.");
+        showMessage("error", "Could not load monthly data, please try again later.");
     }
 }

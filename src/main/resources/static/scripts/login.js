@@ -1,21 +1,19 @@
-const emailInput = document.querySelector("#emailLogin");
-const passwordInput = document.querySelector("#passwordLogin");
+const emailLogin = document.querySelector("#emailLogin");
+const passwordLogin = document.querySelector("#passwordLogin");
 const inputFields = document.querySelectorAll(".Input");
-const continueBtn = document.querySelector("#loginContinueBtn");
+const loginContinueBtn = document.querySelector("#loginContinueBtn");
 
-import {showMessage, validateForm} from "./validation.js";
+import {showMessage, handleValidation} from "./validation.js";
 
 let email, password;
-continueBtn.addEventListener("click", (e) => {
+loginContinueBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        email = emailInput.value;
-        password = passwordInput.value;
+        email = emailLogin.value;
+        password = passwordLogin.value;
 
-        if(validateForm(email, password)){
-            handleLogin(email, password);
-        } else {
-            showMessage("error", "Invalid characters used. Only letters, numbers, and !@#$%^&* are allowed.");
-        }
+        if(!(handleValidation("EMAIL", email, "email"))) return;
+        if(!(handleValidation("PASSWORD", password, "password"))) return;
+        handleLogin(email, password);
     }
 )
 
@@ -23,26 +21,31 @@ inputFields.forEach(input =>{
     input.addEventListener("keydown", (e)=>{
         if (e.key === "Enter") {
             e.preventDefault();
-            continueBtn.click();
+            loginContinueBtn.click();
         }
     });
 })
 
 
-
 async function handleLogin(email, password){
-
     try {
-        const res = await fetch(`/Login?email=${email}&password=${password}`, {method: "GET"});
-        const result = await res.text();
+        const loginResponse = await fetch ("/api/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json" },
+            body: JSON.stringify({email, password})
+        });
 
-        if(result === "SUCCESS"){
-            // got to homepage if details are correct
-            window.location.href = "/Home";
-        } else {
-            showMessage("error", "Invalid credentials, try again.");
+        if(!loginResponse.ok){
+            throw new Error("Server returned an error.");
         }
+            const result = await loginResponse.text();
+            if(result === "SUCCESS"){
+                // got to homepage if details are correct
+                window.location.href = "/Home";
+            } else {
+                showMessage("error", "Invalid credentials, try again.");
+            }
     } catch (err){
-        showMessage("error", "Login failed, please try again later.");
+        showMessage("error", "Could not log in. Please try again later.");
     }
 }

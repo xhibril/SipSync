@@ -76,27 +76,34 @@ async function handleSubmit(amount) {
     switch (choice) {
         case "ADD":
             try {
-                const response = await fetch(`/add?add=${amount}`, {method: "POST"})
-                const res = await response.json();
-                addLog(amount, res.id, res.time);  // display log to user
+                const addResponse = await fetch(`/add?add=${amount}`, {method: "POST"});
 
-                // if user enters an amount, send them back to daily view period
-                refreshMainPage("DAILY");
-                showMessage("success", "Water intake added.");
+                if(!addResponse.ok){
+                    throw new Error("Server returned an error.");
+                }
+                    const addRes = await addResponse.json();
+                    addLog(amount, addRes.id, addRes.time);  // display log to user
+
+                    // if user enters an amount, send them back to daily view period
+                    await refreshMainPage("DAILY");
+                    showMessage("success", "Water intake added.");
 
             } catch (err) {
-                showMessage("error", "Something went wrong on our end, please try again later.");
+                showMessage("error", "Could not add your water intake. Please try again.");
             }
             break;
 
-        case "GOAL" :
+        case "GOAL":
             try {
-                await fetch(`/add/goal?goal=${amount}`, {method: "POST"});
-                refreshMainPage("DAILY");
-                showMessage("success", "Goal added.");
+                const goalResponse = await fetch(`/add/goal?goal=${amount}`, {method: "POST"});
+                if(!goalResponse.ok){
+                    throw new Error("Server returned an error.");
+                }
+                    await refreshMainPage("DAILY");
+                    showMessage("success", "Goal added.");
 
             } catch (err) {
-                showMessage("error", "Couldn't update your goal, please try again later.");
+                showMessage("error", "Could not add your goal. Please try again.");
             }
             break;
     }
