@@ -1,10 +1,12 @@
 package com.sipsync.sipsync.controller;
+import com.sipsync.sipsync.model.Feedback;
 import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.repository.AddLogRepository;
 import com.sipsync.sipsync.repository.UserRepository;
 import com.sipsync.sipsync.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,7 @@ public class GeneralController {
     @Autowired private TokenService tokenService;
     @Autowired private StreakService streakService;
     @Autowired private LogsService logsService;
+    @Autowired private FeedbackService feedbackService;
 
 
     @GetMapping({"/", "/login"})
@@ -145,6 +148,16 @@ public int updateStreak(HttpServletRequest req){
         Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
         service.resetData(userId);
     }
+
+
+    @PostMapping("/post/feedback")
+    public ResponseEntity<String> postFeedback(@RequestBody Feedback feedback, HttpServletRequest req) {
+        Long userId = tokenService.extractId(cookiesService.getTokenByCookie(req));
+        feedbackService.saveFeedback(userId, feedback.getName(), feedback.getEmail(), feedback.getMessage());
+
+        return ResponseEntity.ok("Success.");
+    }
+
 
 
 }

@@ -50,13 +50,13 @@
             <form class="maxwidth90">
 
                 <label>Name</label>
-                <input type="text" id  class="input" placeholder="John Smith" name = "feedback">
+                <input type="text" id = "nameFeedback" class="input" placeholder="John Smith" name = "feedback">
 
                 <label>Email</label>
-                <input type="email" class="input" placeholder="example@gmail.com" name = "feedback">
+                <input type="email" id = "emailFeedback" class="input" placeholder="example@gmail.com" name = "feedback">
 
                 <label>Message</label>
-                <textarea rows="20" cols="50" placeholder="" maxlength="200" name = "feedback"></textarea>
+                <textarea rows="20" cols="50" id = "messageFeedback" placeholder="" maxlength="200" name = "feedback"></textarea>
 
             </form>
             <button type="submit" id = "feedbackConfirmBtn" class="confirmBtn">Confirm</button>
@@ -64,6 +64,7 @@
     </div>
 </div>
 
+<script type = "module" src = "/scripts/feedback.js" defer></script>
 </body>
 
 </html>
