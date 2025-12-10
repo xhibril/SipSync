@@ -4,14 +4,17 @@ import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.repository.AddLogRepository;
 import com.sipsync.sipsync.repository.UserRepository;
 import com.sipsync.sipsync.service.*;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class GeneralController {
@@ -23,20 +26,12 @@ public class GeneralController {
     @Autowired private LogsService logsService;
     @Autowired private FeedbackService feedbackService;
 
+    @GetMapping("/home")
+    public String MainPage(){return "HomePage";}
 
-    @GetMapping({"/", "/login", "/Login"})
-    public String LoginPage(){return "LoginPage";}
-
-    @GetMapping({"/Signup", "/signup"})
-    public String SignUpPage(){return "SignUpPage";}
-
-    @GetMapping({"/Home", "/home"})
-    public String MainPage(){
-        return "HomePage";
-    }
-
-    @GetMapping({"/Feedback", "/feedback"})
+    @GetMapping("/feedback")
     public String FeedbackPage(){ return "FeedbackPage";}
+
 
 
     @ResponseBody
@@ -160,6 +155,19 @@ public int updateStreak(HttpServletRequest req){
             return ResponseEntity.status(500).body("Server encountered an error.");
         }
     }
+
+
+    @ResponseBody
+    @GetMapping("/users/id")
+    public ResponseEntity<Long> findUserIdByEmail(@RequestParam String email) {
+        try {
+            Long userId = service.getUserIdByEmail(email);
+            return ResponseEntity.ok(userId);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(500L);
+        }
+    }
+
 
 
 

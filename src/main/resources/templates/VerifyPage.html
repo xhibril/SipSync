@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <title>Verify Email</title>
+
+    <link rel = "stylesheet" href="/css/Global.css">
+    <link rel="stylesheet" href="/css/VerifyEmail.css">
+
+</head>
+<body>
+
+<div class = "main">
+
+    <div class="headerSection">
+        <p id="notification">
+            <img src="/images/error.png" id="errorMessageIcon" class = "hidden">
+            <img src="/images/success.png" id="successMessageIcon" class = "hidden">
+            <span id="notificationText">Something went wrong</span>
+        </p>
+        <div>
+
+    <div class = "container">
+
+        <h2>Verify your Email</h2>
+        <p>Activation link has been sent to the e-mail address you provided</p>
+
+
+        <img src = "/images/new-email-icon.png">
+        <input type="text" id = "nameFeedback" class="input hidden" placeholder="example@gmail.com">
+        <button type = "submit" id = "resendVerificationTokenBtn" class = "hidden" >Resend</button>
+        <a href = "" id = "resendTokenLink">Didn't get the email? Send it again</a>
+    </div>
+</div>
+<script type = "module" src = "/scripts/email-verify.js" defer> </script>
+<script src = "/scripts/validation.js" defer></script>
+</body>
+</html>

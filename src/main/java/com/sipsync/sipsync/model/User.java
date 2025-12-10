@@ -16,7 +16,6 @@ public class User {
     private Long id;
     private String email;
     private String password;
-    private String verification_token;
     private int streak;
 
     @Column(name = "last_streak_update_date")
@@ -42,9 +41,6 @@ public class User {
 
     public void setId(Long id){ this.id = id; }
     public Long getId(){ return id; }
-
-    public void setToken(String token){ this.verification_token = token; }
-    public String getToken(){ return verification_token; }
 
     public void setStreak(int streak){ this.streak = streak; }
     public int getStreak(){ return streak; }

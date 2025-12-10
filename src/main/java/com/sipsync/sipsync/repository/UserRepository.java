@@ -15,6 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u.streak FROM User u WHERE u.id = :userId")
     Integer findStreakByUserId(Long userId);
 
+    @Query("SELECT u.id FROM User u WHERE u.email = :email")
+    Long findIdByEmail(String email);
+
     @Query("SELECT u.lastStreakUpdateDate FROM User u WHERE u.id =:userId")
     String findLastStreakUpdate(Long userId);
 

@@ -12,6 +12,9 @@ public class LoginController {
 
     @Autowired LoginService loginService;
 
+    @GetMapping("/login")
+    public String LoginPage(){return "LoginPage";}
+
     @ResponseBody
     @PostMapping("/api/login")
     public ResponseEntity<String> isUserValid(@RequestBody User user, HttpServletResponse res) {
@@ -22,11 +25,6 @@ public class LoginController {
         return ResponseEntity.status(500).body("Server encountered an error.");
         }
     }
-
-
-
-
-
 }
 
 

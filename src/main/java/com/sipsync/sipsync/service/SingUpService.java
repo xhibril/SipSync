@@ -5,14 +5,13 @@ import com.sipsync.sipsync.repository.VerifyUserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import org.antlr.v4.runtime.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-
 
 @Service
 public class SingUpService {
@@ -20,15 +19,21 @@ public class SingUpService {
     @Autowired UserRepository signUpRepo;
     @Autowired JavaMailSender mailSender;
     @Autowired VerifyUserRepository verifyRepo;
+    @Autowired TokenService tokenService;
 
 
     // add user and return it
-    public User addUser(String email, String password){
+    public void addUser(String email, String password){
 
-                                             // not set is last streak update date
+      // "Not set" is last streak update date
         User user = new User(email, password, "Not set");
-        signUpRepo.save(user);
-        return user;
+
+        // save the saved user for id
+        User savedUser = signUpRepo.save(user);
+
+        // generate token and send email
+        String token = tokenService.genTokenAfterSignUp(savedUser.getId(), savedUser.getEmail());
+        sendVerificationEmail(savedUser.getEmail(), token);
     }
 
 
@@ -36,9 +41,7 @@ public class SingUpService {
     public void sendVerificationEmail(String email, String token){
         String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
 
-        System.out.println(encodedToken);
-
-        String link = "http://localhost:8080/verify?token=" + encodedToken;
+        String link = "http://localhost:8080/email/check-token?token=" + encodedToken;
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("Please clicking the following link to verify: ");
@@ -48,7 +51,8 @@ public class SingUpService {
     }
 
     // rebuild token to verify user
-    public void verifyUser(String token) {
+    public Boolean verifyUser(String token) {
+
         String secretKey = System.getenv("JWT_SECRET");
 
         try {
@@ -59,30 +63,19 @@ public class SingUpService {
                     .getBody();
 
 
-            Long id = claims.get("id", Long.class);
-            String email = claims.get("email", String.class);
+             Long id = claims.get("id", Long.class);
             verifyRepo.verifyById(id);
 
-            System.out.print("Worked" + id +email);
-
-
         } catch (ExpiredJwtException e) {
-            System.out.print("Expired");
+            return false;
+
         } catch (SignatureException e) {
             System.out.print("Invalid sig");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return true;
     }
-
-
-
-
-
-
-
-
-
 }
 
 

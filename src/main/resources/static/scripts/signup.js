@@ -36,8 +36,9 @@ async function handleSignUp(email, password) {
         if(!signUpResponse.ok){
             throw new Error("Server returned an error.");
         }
+          localStorage.setItem("userEmail", email);
             // nav to homepage
-            window.location.href = "/Home";
+            window.location.href = "/verify";
 
     } catch (err) {
         showMessage("error", "Could not sign you up. Please try again later.");

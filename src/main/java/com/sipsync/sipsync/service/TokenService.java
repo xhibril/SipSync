@@ -41,7 +41,7 @@ public class TokenService {
                 .setSubject(String.valueOf(userId))
                 .claim("id", userId)
                 .claim("email", email)
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60* 60))
                 .signWith(key)
                 .compact();
 

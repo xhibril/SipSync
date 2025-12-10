@@ -14,8 +14,7 @@ loginContinueBtn.addEventListener("click", (e) => {
         if(!(handleValidation("EMAIL", email, "email"))) return;
         if(!(handleValidation("PASSWORD", password, "password"))) return;
         handleLogin(email, password);
-    }
-)
+});
 
 inputFields.forEach(input =>{
     input.addEventListener("keydown", (e)=>{
@@ -40,6 +39,9 @@ async function handleLogin(email, password){
         }
             const result = await loginResponse.text();
             if(result === "SUCCESS"){
+
+                // save user email (if we need to resend verification token)
+                localStorage.setItem("userEmail", email);
                 // got to homepage if details are correct
                 window.location.href = "/Home";
             } else {

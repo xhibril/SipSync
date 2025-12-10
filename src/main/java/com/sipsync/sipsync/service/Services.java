@@ -183,6 +183,11 @@ public class Services {
         userRepo.deleteUserStreak(userId);
     }
 
+
+    public Long getUserIdByEmail(String email){
+        return  userRepo.findIdByEmail(email);
+    }
+
 }
 
 
