@@ -13,55 +13,25 @@ import java.util.Map;
 public class SignUpController {
 
     @Autowired private SingUpService singUpService;
-    @Autowired private TokenService tokenService;
 
+    // load sign up page
     @GetMapping("/signup")
     public String SignUpPage(){return "SignUpPage";}
 
     // sign up user
+    @ResponseBody
     @PostMapping("/api/signup")
-    public ResponseEntity<String> addUser(@RequestBody User user) {
-        try {
+    public Boolean addUser(@RequestBody User user) {
+        Boolean doesUserExist = singUpService.checkIfUserExists(user.getEmail());
+
+        if(doesUserExist){
+            // returning false meaning user already exist and user was not able to be signed up
+            return false;
+        } else {
+            // return true if user was able to be signed up
             singUpService.addUser(user.getEmail(), user.getPassword());
-            return ResponseEntity.ok("Success.");
-        } catch(Exception e) {
-            return ResponseEntity.status(500).body("Server encountered an error");
+            return true;
         }
     }
-
-    // return verify page
-    @GetMapping("/verify")
-    public String verifyPage(){
-        return "VerifyPage";
-    }
-
-
-    // verify user email
-    @ResponseBody
-    @GetMapping("/email/check-token")
-    public String verifyUser(@RequestParam("token")String token){
-        if(singUpService.verifyUser(token)){
-            return "HomePage";
-        } else{
-            return "VerifyPage";
-        }
-    }
-
-
-
-    @ResponseBody
-    @PostMapping("/email/send-token")
-    public ResponseEntity<String> sendVerificationEmail(@RequestBody User user){
-
-        try {
-            String token = tokenService.genTokenAfterSignUp(user.getId(), user.getEmail());
-            singUpService.sendVerificationEmail(user.getEmail(), token);
-            return ResponseEntity.ok("Success.");
-        } catch (Exception e){
-            return ResponseEntity.status(500).body("Server encountered an error.");
-        }
-    }
-
-
 
 }

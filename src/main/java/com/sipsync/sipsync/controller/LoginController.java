@@ -1,6 +1,7 @@
 package com.sipsync.sipsync.controller;
 import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.service.LoginService;
+import com.sipsync.sipsync.service.VerificationService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,20 +12,19 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     @Autowired LoginService loginService;
+    @Autowired VerificationService verificationService;
 
     @GetMapping("/login")
     public String LoginPage(){return "LoginPage";}
 
+    // check if user credentials are correct
     @ResponseBody
     @PostMapping("/api/login")
-    public ResponseEntity<String> isUserValid(@RequestBody User user, HttpServletResponse res) {
-        try {
-            String result = loginService.isUserValid(user.getEmail(), user.getPassword(), res);
-            return ResponseEntity.ok(result);
-        } catch (Exception e) {
-        return ResponseEntity.status(500).body("Server encountered an error.");
-        }
+    public Boolean areCredentialsValid(@RequestBody User user, HttpServletResponse res) {
+            return loginService.isUserValid(user.getEmail(), user.getPassword(), res);
     }
+
+
 }
 
 

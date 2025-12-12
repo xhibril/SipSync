@@ -3,17 +3,49 @@ const passwordSignUp = document.querySelector("#passwordSignUp");
 const inputs = document.querySelectorAll(".input");
 const signUpContinueBtn = document.querySelector("#signUpContinueBtn");
 
-import {showMessage, handleValidation} from "./validation.js";
+import {showMessage, handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
+import {disableBtn, enableBtn, showOverlay} from "./button-and-overlay.js";
 
 let email, password;
 signUpContinueBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        email = emailSignUp.value;
-        password = passwordSignUp.value;
-        if(!(handleValidation("EMAIL", email, "email"))) return;
-        if(!(handleValidation("PASSWORD", password, "password"))) return;
-        handleSignUp(email, password);
+     handleSignUpClick(e);
 });
+
+function handleSignUpClick(e){
+    e.preventDefault();
+    email = emailSignUp.value;
+    password = passwordSignUp.value;
+
+    // check input validation
+    if(!(handleValidation("EMAIL", email, "email"))) return;
+    if(!(handleValidation("PASSWORD", password, "password"))) return;
+
+    // check email domain validation
+    const emailDomainValidationStatus = validateEmailDomain(email);
+
+    // if password meets all requirements continue, if not give error msg
+    if (emailDomainValidationStatus !== "VALID") {
+        showMessage("error", `${emailDomainValidationStatus}`);
+        return;
+    }
+
+    // check if password meets all strength requirements
+    const passwordStrengthStatus = validatePasswordStrength(password);
+    if (passwordStrengthStatus !== "VALID") {
+        showMessage("error", `${passwordStrengthStatus}`);
+        return;
+    }
+
+    // temp disable btn so user cant spam and show overlay
+    disableBtn(signUpContinueBtn);
+    showOverlay(true);
+    handleSignUp(email, password);
+}
+
+
+
+
+
 
 inputs.forEach(input => {
     input.addEventListener("keydown", function (event) {
@@ -36,11 +68,33 @@ async function handleSignUp(email, password) {
         if(!signUpResponse.ok){
             throw new Error("Server returned an error.");
         }
-          localStorage.setItem("userEmail", email);
-            // nav to homepage
+
+        const signUpRes = await signUpResponse.json();
+
+
+        if(signUpRes){
+            localStorage.setItem("userEmail", email);
+            // nav to verify page after signing up
+
+
+            // re-enable btn and disable overlay
+            enableBtn(signUpContinueBtn);
+            showOverlay(false);
             window.location.href = "/verify";
 
+        } else {
+
+            // re-enable btn and disable overlay
+            enableBtn(signUpContinueBtn);
+            showOverlay(false);
+            showMessage("error", "This user already exists.");
+        }
     } catch (err) {
+        // re-enable btn and disable overlay
+        enableBtn(signUpContinueBtn);
+        showOverlay(false);
+
         showMessage("error", "Could not sign you up. Please try again later.");
     }
 }
+

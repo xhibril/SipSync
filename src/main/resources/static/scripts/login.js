@@ -3,18 +3,49 @@ const passwordLogin = document.querySelector("#passwordLogin");
 const inputFields = document.querySelectorAll(".Input");
 const loginContinueBtn = document.querySelector("#loginContinueBtn");
 
-import {showMessage, handleValidation} from "./validation.js";
+import {showMessage, handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
+import {resendVerificationToken} from "./verification.js";
+import {disableBtn, enableBtn, showOverlay} from "./button-and-overlay.js";
+
+
 
 let email, password;
-loginContinueBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        email = emailLogin.value;
-        password = passwordLogin.value;
 
-        if(!(handleValidation("EMAIL", email, "email"))) return;
-        if(!(handleValidation("PASSWORD", password, "password"))) return;
-        handleLogin(email, password);
+loginContinueBtn.addEventListener("click", (e) => {
+    handleLoginClick(e);
 });
+
+
+function handleLoginClick(e){
+    e.preventDefault();
+    email = emailLogin.value;
+    password = passwordLogin.value;
+
+    // check input validation
+    if (!(handleValidation("EMAIL", email, "email"))) return;
+    if (!(handleValidation("PASSWORD", password, "password"))) return;
+
+    // check email domain validation
+    const emailDomainValidationStatus = validateEmailDomain(email);
+
+    // if password meets all requirements continue, if not give error msg
+    if (emailDomainValidationStatus !== "VALID") {
+        showMessage("error", `${emailDomainValidationStatus}`);
+        return;
+    }
+
+    // temp disable btn so user cant spam and show overlay
+    disableBtn(loginContinueBtn);
+    showOverlay(true);
+    handleLogin(email, password);
+}
+
+
+
+
+
+
+
 
 inputFields.forEach(input =>{
     input.addEventListener("keydown", (e)=>{
@@ -37,17 +68,46 @@ async function handleLogin(email, password){
         if(!loginResponse.ok){
             throw new Error("Server returned an error.");
         }
-            const result = await loginResponse.text();
-            if(result === "SUCCESS"){
+            const areCredentialsValid = await loginResponse.json();
 
-                // save user email (if we need to resend verification token)
-                localStorage.setItem("userEmail", email);
-                // got to homepage if details are correct
-                window.location.href = "/Home";
+            if(areCredentialsValid){
+
+                const isUserVerifiedResponse = await fetch(`/api/verification-status?email=${encodeURIComponent(email)}`);
+                const isUserVerifiedRes = await isUserVerifiedResponse.json();
+
+               if(isUserVerifiedRes){
+
+                   // if user is verified go to homepage
+
+                    // re-enable btn and disable overlay
+                    enableBtn(loginContinueBtn);
+                    showOverlay(false);
+
+                    window.location.href = "/home";
+
+                    // delete user email if verified from storage
+                    localStorage.removeItem("userEmail");
+                } else {
+
+                   // if user is not verified ask them to verify
+                    localStorage.setItem("userEmail", email);
+
+                    // re-enable btn
+                   loginContinueBtn.disabled = false;
+                    window.location.href = "/verify"
+                    await resendVerificationToken();
+                }
             } else {
+                // re-enable btn and disable overlay
+                enableBtn(loginContinueBtn);
+                showOverlay(false);
                 showMessage("error", "Invalid credentials, try again.");
             }
+
     } catch (err){
+        // re-enable btn and disable overlay
+        enableBtn(loginContinueBtn);
+        showOverlay(false);
         showMessage("error", "Could not log in. Please try again later.");
     }
 }

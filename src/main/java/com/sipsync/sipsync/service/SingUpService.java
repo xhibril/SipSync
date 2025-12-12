@@ -12,14 +12,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @Service
 public class SingUpService {
 
     @Autowired UserRepository signUpRepo;
-    @Autowired JavaMailSender mailSender;
     @Autowired VerifyUserRepository verifyRepo;
     @Autowired TokenService tokenService;
+    @Autowired VerificationService verificationService;
+    @Autowired UserRepository userRepo;
 
 
     // add user and return it
@@ -33,48 +35,19 @@ public class SingUpService {
 
         // generate token and send email
         String token = tokenService.genTokenAfterSignUp(savedUser.getId(), savedUser.getEmail());
-        sendVerificationEmail(savedUser.getEmail(), token);
+        verificationService.sendVerificationEmail(savedUser.getEmail(), token);
     }
 
 
-    // send verification email
-    public void sendVerificationEmail(String email, String token){
-        String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
-
-        String link = "http://localhost:8080/email/check-token?token=" + encodedToken;
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("Please clicking the following link to verify: ");
-        message.setText(link);
-        mailSender.send(message);
-
-    }
-
-    // rebuild token to verify user
-    public Boolean verifyUser(String token) {
-
-        String secretKey = System.getenv("JWT_SECRET");
-
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+    public Boolean checkIfUserExists(String email){
+       Optional<String> doesUserExist = userRepo.findEmailByEmail(email);
 
 
-             Long id = claims.get("id", Long.class);
-            verifyRepo.verifyById(id);
-
-        } catch (ExpiredJwtException e) {
-            return false;
-
-        } catch (SignatureException e) {
-            System.out.print("Invalid sig");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
+       if(doesUserExist.isPresent()){
+           return  true;
+       } else {
+           return false;
+       }
     }
 }
 

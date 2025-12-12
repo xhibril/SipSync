@@ -21,7 +21,7 @@ public class LoginService {
 
 
 
-    public String isUserValid(String email, String password, HttpServletResponse res) {
+    public Boolean isUserValid(String email, String password, HttpServletResponse res) {
 
         Optional<User> userOpt = userRepo.findByEmail(email);
 
@@ -33,10 +33,10 @@ public class LoginService {
                 String token = genTokenAfterLogin(user.getId(), res);
                 storeAuthToken(token, res);
 
-                return "SUCCESS";
+                return true;
             }
         }
-        return "FAIL";
+        return false;
     }
 
 

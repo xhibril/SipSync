@@ -18,6 +18,9 @@ public class User {
     private String password;
     private int streak;
 
+    @Column (name = "is_verified")
+    private Boolean isVerified;
+
     @Column(name = "last_streak_update_date")
     private String lastStreakUpdateDate;
 
@@ -28,6 +31,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.lastStreakUpdateDate = lastStreakUpdateDate;
+        this.isVerified = false;
     }
 
 
@@ -48,4 +52,11 @@ public class User {
     public void setLastStreakUpdateDate(String date){ this.lastStreakUpdateDate = date; }
     public String getLastStreakUpdateDate(){ return lastStreakUpdateDate; }
 
+    public Boolean getVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(Boolean verified) {
+        isVerified = verified;
+    }
 }
