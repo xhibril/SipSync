@@ -27,8 +27,6 @@ public class Services {
     @Autowired
     private EditUserGoalRepository editUserGoalRepo;
     @Autowired
-    private Cookies cookiesService;
-    @Autowired
     private TokenService tokenService;
 
     @Autowired

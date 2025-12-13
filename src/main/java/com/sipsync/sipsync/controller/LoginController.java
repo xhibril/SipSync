@@ -1,10 +1,9 @@
 package com.sipsync.sipsync.controller;
 import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.service.LoginService;
-import com.sipsync.sipsync.service.VerificationService;
+import com.sipsync.sipsync.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     @Autowired LoginService loginService;
-    @Autowired VerificationService verificationService;
+    @Autowired
+    AuthService verificationService;
 
     @GetMapping("/login")
     public String LoginPage(){return "LoginPage";}

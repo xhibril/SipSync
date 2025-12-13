@@ -12,22 +12,7 @@ import java.util.Date;
 public class TokenService {
 
 
-    public Long extractId(String token) {
 
-        String secretKey = System.getenv("JWT_SECRET");
-
-        // rebuild token and extract id from payload
-        Claims claims = Jwts.parser()
-                .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
-        Long userId = claims.get("id", Long.class);
-
-        return userId;
-
-    }
 
 
     public String genTokenAfterSignUp(Long userId, String email) {

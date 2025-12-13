@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<String> findEmailByEmail(@Param("email") String email);
 
 
+    Optional<Long> findByUserId(Long userId);
 
     @Query("SELECT u.streak FROM User u WHERE u.id = :userId")
     Integer findStreakByUserId(Long userId);

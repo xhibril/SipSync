@@ -79,6 +79,10 @@ async function handleSubmit(amount) {
                 const addResponse = await fetch(`/add?add=${amount}`, {method: "POST"});
 
                 if(!addResponse.ok){
+                    if(addResponse.status === 401){
+                        window.location.href = "/login";
+                        return;
+                    }
                     throw new Error("Server returned an error.");
                 }
                     const addRes = await addResponse.json();

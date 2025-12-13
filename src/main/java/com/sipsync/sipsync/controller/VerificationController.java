@@ -3,7 +3,7 @@ package com.sipsync.sipsync.controller;
 import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.service.SingUpService;
 import com.sipsync.sipsync.service.TokenService;
-import com.sipsync.sipsync.service.VerificationService;
+import com.sipsync.sipsync.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ public class VerificationController {
 
     @Autowired private SingUpService singUpService;
     @Autowired private TokenService tokenService;
-    @Autowired private VerificationService verificationService;
+    @Autowired private AuthService verificationService;
 
     // load verification page
     @GetMapping("/verify")

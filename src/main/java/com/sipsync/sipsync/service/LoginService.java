@@ -69,6 +69,7 @@ public class LoginService {
         cookie.setPath("/");
         cookie.setMaxAge(7 * 24 * 60 * 60); // expires in 7 days
         res.addCookie(cookie);
+
     }
 
 

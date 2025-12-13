@@ -2,16 +2,9 @@ package com.sipsync.sipsync.service;
 import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.repository.UserRepository;
 import com.sipsync.sipsync.repository.VerifyUserRepository;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
-import org.antlr.v4.runtime.Token;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+
 import java.util.Optional;
 
 @Service
@@ -20,7 +13,8 @@ public class SingUpService {
     @Autowired UserRepository signUpRepo;
     @Autowired VerifyUserRepository verifyRepo;
     @Autowired TokenService tokenService;
-    @Autowired VerificationService verificationService;
+    @Autowired
+    AuthService verificationService;
     @Autowired UserRepository userRepo;
 
 
