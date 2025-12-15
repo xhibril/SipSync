@@ -110,10 +110,10 @@ export function validatePasswordStrength(password){
     if(password.length < minLength) return "Password must be longer than 8 characters.";
     if(password.length > maxLength) return "Password must be shorter than 32 characters.";
 
-    const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).+$/;
+    const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*.]).+$/;
 
     if (!regex.test(password)) return "Password must be 8–32 characters and include at least one uppercase letter, " +
-                                      "one number, and one special character (!@#$%^&*).";
+                                      "one number, and one special character (.!@#$%^&*).";
     return "VALID";
 }
 

@@ -1,3 +1,5 @@
+import {redirectToLoginPage} from "./redirect.js";
+
 const settingsMenu = document.querySelector(".settingsMenu");
 const overlay = document.querySelector(".overlay");
 const settingsBtn = document.querySelector(".settingsBtn");
@@ -46,6 +48,8 @@ async function deleteUserData() {
     try {
         const resetDataResponse = await fetch("/reset/data", {method: "POST"});
         if (!resetDataResponse.ok){
+            redirectToLoginPage(resetDataResponse);
+            return;
             throw new Error("Server returned an error.");
         }
             showMessage("success", "Data deleted. Refreshing...");
@@ -64,6 +68,8 @@ async function viewDaily() {
     try {
         const todayResponse = await fetch("/today");
         if (!todayResponse.ok){
+            redirectToLoginPage(todayResponse);
+            return;
             throw new Error("Server returned an error.");
         }
             const todayRes = await todayResponse.json();
@@ -79,6 +85,8 @@ async function viewWeekly() {
     try {
         const weeklyResponse = await fetch("/weekly");
         if (!weeklyResponse.ok){
+            redirectToLoginPage(weeklyResponse);
+            return;
             throw new Error("Server returned an error.");
         }
             const weeklyRes = await weeklyResponse.json();
@@ -97,6 +105,8 @@ async function viewMonthly() {
     try {
         const monthlyResponse = await fetch("/monthly");
         if(!monthlyResponse.ok){
+            redirectToLoginPage(monthlyResponse);
+            return;
             throw new Error("Server returned an error.");
         }
             const monthlyRes = await monthlyResponse.json();

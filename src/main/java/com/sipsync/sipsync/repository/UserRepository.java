@@ -16,8 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u.email FROM User u WHERE u.email = :email")
     Optional<String> findEmailByEmail(@Param("email") String email);
 
-
-    Optional<Long> findByUserId(Long userId);
+    boolean existsById(Long userId);
 
     @Query("SELECT u.streak FROM User u WHERE u.id = :userId")
     Integer findStreakByUserId(Long userId);
@@ -46,5 +45,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u SET u.streak = 0, u.lastStreakUpdateDate = null WHERE u.id = :id")
      void deleteUserStreak(@Param("id") Long id);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE User u SET u.email = :email WHERE u.id = :id")
+    void changePassword(@Param("password") String newPassword,
+                        @Param("email") String email);
 
 }

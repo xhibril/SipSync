@@ -78,9 +78,9 @@ public class AuthService {
         if(userId == null) return null;
 
         // check if that user id is valid
-        Optional<Long> isUserIdValid = userRepo.findByUserId(userId);
+        Boolean isUserIdValid = userRepo.existsById(userId);
 
-        if(isUserIdValid.isPresent()){
+        if(isUserIdValid){
             return userId;
         } else {
             return null;

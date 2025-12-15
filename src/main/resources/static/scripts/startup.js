@@ -3,6 +3,7 @@ const displayStreak = document.querySelector("#displayStreak");
 import {refreshMainPage} from "./display.js";
 import {addLog, logsFound} from "./logs.js";
 import {showMessage} from "./validation.js";
+import {redirectToLoginPage} from "./redirect.js";
 
 refreshMainPage("DAILY");
 checkTodayLogsOnLoad();
@@ -14,6 +15,8 @@ export async function checkStreakOnLoad() {
     try {
         const streakResponse = await fetch("/check/streak");
         if(!streakResponse.ok) {
+            redirectToLoginPage(streakResponse);
+            return;
            throw new Error("Server returned an error.");
         }
             const streakRes = await streakResponse.json();
@@ -29,6 +32,8 @@ export async function checkTodayLogsOnLoad() {
     try {
         const logsResponse = await fetch("/logs/today");
         if (!logsResponse.ok){
+            redirectToLoginPage(logsResponse);
+            return;
             throw new Error("Server returned an error.");
         }
             const logsRes = await logsResponse.json();

@@ -1,3 +1,5 @@
+import {redirectToLoginPage} from "./redirect.js";
+
 const logs = document.querySelector(".logs");
 const noLogsFoundImage = document.querySelector("#noLogsGif");
 
@@ -52,9 +54,11 @@ async function updateLog(newValue, logId) {
     if (!newValue) {
         // edit log
         try {
-           const deleteResponse =  await fetch(`/delete/log?logId=${logId}`, {method: "POST"});
+           const deleteLogResponse =  await fetch(`/delete/log?logId=${logId}`, {method: "POST"});
 
-           if(!deleteResponse.ok){
+           if(!deleteLogResponse.ok){
+               redirectToLoginPage(deleteLogResponse);
+               return;
                throw new Error("Server returned an error.");
            }
                showMessage("success", "Log deleted.");
@@ -69,6 +73,8 @@ async function updateLog(newValue, logId) {
         try {
             const updateLog = await fetch(`/update/amount?amount=${newValue}&id=${logId}`, {method: "POST"});
             if(!updateLog.ok){
+                redirectToLoginPage(updateLog);
+                return;
                 throw new Error("Server returned an error.");
             }
                 showMessage("success", "Log edited.");

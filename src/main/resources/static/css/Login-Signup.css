@@ -40,7 +40,7 @@ body {
     margin-top:0;
 }
 
-#pageTitle{
+.pageTitle{
     color:var(--text-dark);
     margin-bottom:4rem;
     font-size:1.5rem;

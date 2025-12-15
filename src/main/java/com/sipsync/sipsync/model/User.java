@@ -18,6 +18,10 @@ public class User {
     private String password;
     private int streak;
 
+
+    @Column(name = "verification_code")
+    private int passwordResetCode;
+
     @Column (name = "is_verified")
     private Boolean isVerified;
 

@@ -1,3 +1,9 @@
+
+import {refreshMainPage} from "./display.js";
+import {addLog} from "./logs.js";
+import {validateNumInputs, showMessage} from "./validation.js";
+import {redirectToLoginPage} from "./redirect.js";
+
 const quickAddBtns = document.querySelectorAll("[data-addvalue]");
 const quickGoalBtns = document.querySelectorAll("[data-goalvalue]");
 const quickAddBtnsContainer = document.querySelector(".quickAddAmount");
@@ -5,10 +11,6 @@ const quickAddGoalContainer = document.querySelector(".quickAddGoal");
 const inputType = document.querySelectorAll('input[name="actionType"]');
 const amountInput = document.querySelector(".input");
 const submitBtn = document.querySelector("#amountSubmitBtn");
-
-import {refreshMainPage} from "./display.js";
-import {addLog} from "./logs.js";
-import {validateNumInputs, showMessage} from "./validation.js";
 
 let choice = "ADD"
 // show correct content depending on input type
@@ -76,14 +78,13 @@ async function handleSubmit(amount) {
     switch (choice) {
         case "ADD":
             try {
-                const addResponse = await fetch(`/add?add=${amount}`, {method: "POST"});
+                const addResponse = await fetch(`/add?amount=${amount}`, {method: "POST"});
 
                 if(!addResponse.ok){
-                    if(addResponse.status === 401){
-                        window.location.href = "/login";
-                        return;
-                    }
+
+                    redirectToLoginPage(addResponse);
                     throw new Error("Server returned an error.");
+                    return;
                 }
                     const addRes = await addResponse.json();
                     addLog(amount, addRes.id, addRes.time);  // display log to user
@@ -101,7 +102,10 @@ async function handleSubmit(amount) {
             try {
                 const goalResponse = await fetch(`/add/goal?goal=${amount}`, {method: "POST"});
                 if(!goalResponse.ok){
+
+                    redirectToLoginPage(goalResponse);
                     throw new Error("Server returned an error.");
+                    return;
                 }
                     await refreshMainPage("DAILY");
                     showMessage("success", "Goal added.");

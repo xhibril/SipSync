@@ -1,3 +1,5 @@
+import {redirectToLoginPage} from "./redirect.js";
+
 const waterDrankDisplay = document.querySelector("#amount");
 const goalDisplay = document.querySelector("#goal");
 const remainingDisplay = document.querySelector("#displayRemaining");
@@ -34,6 +36,8 @@ export async function refreshGoal(){
         const goalResponse = await fetch("/goal");
 
         if(!goalResponse.ok){
+            redirectToLoginPage(goalResponse);
+            return;
             throw new Error("Server returned an error.");
         }
             const goalRes = await goalResponse.json();
@@ -50,6 +54,8 @@ export async function refreshWaterIntake(){
         const amountResponse = await fetch(url);
 
         if (!amountResponse.ok){
+            redirectToLoginPage(amountResponse);
+            return;
             throw new Error("Server returned an error.");
         }
             const amountRes = await amountResponse.json();
@@ -95,6 +101,8 @@ async function incrementStreak() {
     try {
         const incrementStreakResponse = await fetch("/increment/streak", {method: "POST"});
         if(!incrementStreakResponse.ok){
+            redirectToLoginPage(incrementStreakResponse);
+            return;
             throw new Error("Server returned an error.");
         }
             const streakRes = await incrementStreakResponse.json();

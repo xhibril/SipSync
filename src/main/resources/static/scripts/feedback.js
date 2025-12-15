@@ -1,3 +1,5 @@
+import {redirectToLoginPage} from "./redirect.js";
+
 const confirmBtnFeedback = document.querySelector("#feedbackConfirmBtn");
 const nameFeedback = document.querySelector("#nameFeedback");
 const emailFeedback = document.querySelector("#emailFeedback");
@@ -28,6 +30,8 @@ async function handleSubmitFeedback(){
         });
 
         if (!feedbackResponse.ok){
+            redirectToLoginPage(feedbackResponse);
+            return;
             throw new Error("Server returned an error.");
         }
             showMessage("success", "Feedback sent! Thank you.");

@@ -37,10 +37,10 @@
         </div>
 
 
-        <div class="inputContainer">
+        <div class="inputContainer" id = "login-input-container">
             <form class="form maxwidth90">
 
-                <span id="pageTitle">Login</span>
+                <span class="pageTitle">Login</span>
                 <input type="email" class="input" id = "emailLogin" placeholder="Email">
                 <input type="password" class="input" id = "passwordLogin" placeholder="Password">
 
@@ -49,12 +49,31 @@
                     <span>Remember me</span>
                 </label>
 
-                <a href="">Forgot Password?</a>
+                <a href="" id = "forgotPassword">Forgot Password?</a>
                 <button class="confirmBtn" id = "loginContinueBtn">Continue</button>
             </form>
 
             <div class="footerContainer maxwidth90">
-                <label>Don't have an account? <a href="">Sign Up</a> </label>
+                <label>Don't have an account? <a href="" class = "goToSignUpPage">Sign Up</a> </label>
+            </div>
+        </div>
+
+        <!-- forgot password container -->
+
+        <div class="inputContainer hidden" id = "forgot-password-container">
+            <form class="form maxwidth90">
+
+                <span class="pageTitle">Reset Password</span>
+                <input type="email" class= "input"  id = "email-reset" placeholder="Enter">
+                <input type="number" class= "input hidden" id = "verification-code" placeholder="Enter 6-digit code">
+                <input type="password" class= "input hidden" id = "new-password" placeholder="Enter new password">
+                <input type="password" class= "input hidden" id = "re-enter-password" placeholder="Re-enter new password">
+
+                <button class="confirmBtn hidden" id = "resetPasswordContinueBtn">Continue</button>
+            </form>
+
+            <div class="footerContainer maxwidth90">
+                <label>Don't have an account? <a href="" class = "goToSignUpPage">Sign Up</a> </label>
             </div>
         </div>
     </div>
@@ -62,6 +81,6 @@
 
 <script type="module" src="/scripts/button-and-overlay.js"></script>
 <script type = "module" src ="/scripts/login.js" defer ></script>
-
+<script type = "module" src ="/scripts/password-reset.js" defer ></script>
 </body>
 </html>

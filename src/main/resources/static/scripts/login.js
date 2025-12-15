@@ -2,15 +2,27 @@ const emailLogin = document.querySelector("#emailLogin");
 const passwordLogin = document.querySelector("#passwordLogin");
 const inputFields = document.querySelectorAll(".Input");
 const loginContinueBtn = document.querySelector("#loginContinueBtn");
+const loginContainer = document.querySelector("#login-input-container");
+
+const forgotPassword = document.querySelector("#forgotPassword");
+const forgotPasswordContainer = document.querySelector("#forgot-password-container");
+
+const resetPasswordContinueBtn = document.querySelector("#resetPasswordContinueBtn");
 
 import {showMessage, handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
 import {resendVerificationToken} from "./verification.js";
 import {disableBtn, enableBtn, showOverlay} from "./button-and-overlay.js";
 
+forgotPassword.addEventListener("click", (e)=>{
+    e.preventDefault();
+    forgotPasswordContainer.classList.remove('hidden');
+    loginContainer.classList.add('hidden');
+    resetPasswordContinueBtn.classList.remove('hidden');
+
+})
 
 
 let email, password;
-
 loginContinueBtn.addEventListener("click", (e) => {
     handleLoginClick(e);
 });
@@ -39,10 +51,6 @@ function handleLoginClick(e){
     showOverlay(true);
     handleLogin(email, password);
 }
-
-
-
-
 
 
 
@@ -111,3 +119,10 @@ async function handleLogin(email, password){
         showMessage("error", "Could not log in. Please try again later.");
     }
 }
+
+
+
+
+
+
+
