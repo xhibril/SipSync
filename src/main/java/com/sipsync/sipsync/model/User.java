@@ -16,11 +16,7 @@ public class User {
     private Long id;
     private String email;
     private String password;
-    private int streak;
-
-
-    @Column(name = "verification_code")
-    private int passwordResetCode;
+    private Integer streak;
 
     @Column (name = "is_verified")
     private Boolean isVerified;
@@ -29,7 +25,7 @@ public class User {
     private String lastStreakUpdateDate;
 
 
-    public User() {}
+    public User(){}
 
     public User(String email, String password, String lastStreakUpdateDate) {
         this.email = email;

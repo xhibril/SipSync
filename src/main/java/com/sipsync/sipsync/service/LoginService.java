@@ -17,22 +17,21 @@ import java.util.Optional;
 public class LoginService {
 
     @Autowired UserRepository userRepo;
-    @Autowired VerifyUserRepository verifyRepo;
 
 
-
-    public Boolean isUserValid(String email, String password, HttpServletResponse res) {
-
+    public Boolean isUserValid(String email, String password, Boolean rememberMe, HttpServletResponse res) {
         Optional<User> userOpt = userRepo.findByEmail(email);
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();
 
             if (user.getPassword().equals(password)) {
-                // if details r successful gen token auth token and store it
-                String token = genTokenAfterLogin(user.getId(), res);
-                storeAuthToken(token, res);
 
+                Long length = expiration(rememberMe);
+
+                // if details r successful gen token auth token and store it
+                String token = generateAuthToken(user.getId(), length);
+                storeAuthToken(token, Math.toIntExact(length/1000), res);
                 return true;
             }
         }
@@ -40,21 +39,19 @@ public class LoginService {
     }
 
 
-
-
-
-
-
-
-    public String genTokenAfterLogin(Long id, HttpServletResponse res) {
+    // generate auth token
+    public String generateAuthToken(Long id, Long length) {
 
         String secret = System.getenv("JWT_SECRET");
-        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
+        if (secret == null || secret.length() < 32) {
+            throw new IllegalStateException("JWT_SECRET is missing or too short");
+        }
 
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
         String token = Jwts.builder()
                 .setSubject("User")
                 .claim("id", id)
-                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 7))
+                .setExpiration(new Date(System.currentTimeMillis() + length))
                 .signWith(key)
                 .compact();
 
@@ -63,16 +60,21 @@ public class LoginService {
 
 
     // store auth token as http cookie
-    public void storeAuthToken(String token, HttpServletResponse res){
+    public void storeAuthToken(String token, int length, HttpServletResponse res){
         Cookie cookie = new Cookie("authToken", token);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(7 * 24 * 60 * 60); // expires in 7 days
+        cookie.setMaxAge(length); // expires in 7 days
         res.addCookie(cookie);
 
     }
 
 
+    private Long expiration(Boolean rememberMe){
+        final long TWO_WEEKS = 1000L * 60 * 60 * 24 * 14;
+        final long TWO_HOURS = 1000L * 60 * 60 * 2;
+       return rememberMe ? TWO_WEEKS : TWO_HOURS;
+    }
 
 
 

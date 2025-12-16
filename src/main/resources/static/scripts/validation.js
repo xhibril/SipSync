@@ -22,16 +22,16 @@ export function showMessage(type, message) {
         notificationText.innerHTML = message;
     }
 
-    // make duration 1.5s for successful, and 3s for error
+    // make duration 3s for successful, and 3.5s for error
     let duration;
     if(type === "success"){
         successMessageIcon.classList.remove('hidden');
         errorMessageIcon.classList.add('hidden');
-        duration = 1500;
+        duration = 3000;
     } else {
         successMessageIcon.classList.add('hidden');
         errorMessageIcon.classList.remove('hidden');
-        duration = 3000;
+        duration = 3500;
     }
 
     messageTimeout = setTimeout(() => {

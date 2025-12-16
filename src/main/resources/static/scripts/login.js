@@ -1,37 +1,55 @@
-const emailLogin = document.querySelector("#emailLogin");
-const passwordLogin = document.querySelector("#passwordLogin");
-const inputFields = document.querySelectorAll(".Input");
-const loginContinueBtn = document.querySelector("#loginContinueBtn");
-const loginContainer = document.querySelector("#login-input-container");
-
-const forgotPassword = document.querySelector("#forgotPassword");
-const forgotPasswordContainer = document.querySelector("#forgot-password-container");
-
-const resetPasswordContinueBtn = document.querySelector("#resetPasswordContinueBtn");
-
 import {showMessage, handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
 import {resendVerificationToken} from "./verification.js";
 import {disableBtn, enableBtn, showOverlay} from "./button-and-overlay.js";
 
+const loginContainer = document.querySelector("#login-input-container");
+const emailLogin = document.querySelector("#emailLogin");
+const passwordLogin = document.querySelector("#passwordLogin");
+const inputFields = document.querySelectorAll(".Input");
+const loginContinueBtn = document.querySelector("#loginContinueBtn");
+
+// forgot password
+const forgotPassword = document.querySelector("#forgotPassword");
+const forgotPasswordContainer = document.querySelector("#forgot-password-container");
+
+// sing up link
+const signUpLink = document.querySelector("#signup-link");
+
+
+// show any flash messages (eg after user changes password and is redirected to login)
+document.addEventListener("DOMContentLoaded", () => {
+    const flash = localStorage.getItem("flashMessage");
+    if (flash) {
+        showMessage("success", flash);
+        localStorage.removeItem("flashMessage");
+    }
+});
+
+console.log(signUpLink);
+
+// go to sign up page
+signUpLink.addEventListener("click", (e)=>{
+    e.preventDefault();
+    window.location.href = "/signup";
+})
+
+
+// switch to forgot password ui
 forgotPassword.addEventListener("click", (e)=>{
     e.preventDefault();
     forgotPasswordContainer.classList.remove('hidden');
     loginContainer.classList.add('hidden');
-    resetPasswordContinueBtn.classList.remove('hidden');
-
-})
-
-
-let email, password;
-loginContinueBtn.addEventListener("click", (e) => {
-    handleLoginClick(e);
 });
 
 
-function handleLoginClick(e){
+loginContinueBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    email = emailLogin.value;
-    password = passwordLogin.value;
+    handleLoginClick();
+});
+
+function handleLoginClick(){
+    const email = emailLogin.value;
+    const password = passwordLogin.value;
 
     // check input validation
     if (!(handleValidation("EMAIL", email, "email"))) return;
@@ -45,6 +63,7 @@ function handleLoginClick(e){
         showMessage("error", `${emailDomainValidationStatus}`);
         return;
     }
+
 
     // temp disable btn so user cant spam and show overlay
     disableBtn(loginContinueBtn);
@@ -66,11 +85,13 @@ inputFields.forEach(input =>{
 
 
 async function handleLogin(email, password){
+    const rememberMe = document.querySelector("#remember-me").checked;
+
     try {
         const loginResponse = await fetch ("/api/login", {
             method: "POST",
             headers: {"Content-Type": "application/json" },
-            body: JSON.stringify({email, password})
+            body: JSON.stringify({email, password, rememberMe})
         });
 
         if(!loginResponse.ok){

@@ -1,20 +1,27 @@
+import {showMessage, handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
+import {disableBtn, enableBtn, showOverlay} from "./button-and-overlay.js";
+
 const emailSignUp = document.querySelector("#emailSignUp");
 const passwordSignUp = document.querySelector("#passwordSignUp");
 const inputs = document.querySelectorAll(".input");
 const signUpContinueBtn = document.querySelector("#signUpContinueBtn");
 
-import {showMessage, handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
-import {disableBtn, enableBtn, showOverlay} from "./button-and-overlay.js";
+const loginLink = document.querySelector('#login-link');
 
-let email, password;
+loginLink.addEventListener("click", (e)=>{
+    e.preventDefault();
+    window.location.href = "/login";
+})
+
+
 signUpContinueBtn.addEventListener("click", (e) => {
      handleSignUpClick(e);
 });
 
 function handleSignUpClick(e){
     e.preventDefault();
-    email = emailSignUp.value;
-    password = passwordSignUp.value;
+   const email = emailSignUp.value;
+   const password = passwordSignUp.value;
 
     // check input validation
     if(!(handleValidation("EMAIL", email, "email"))) return;

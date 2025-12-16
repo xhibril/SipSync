@@ -48,8 +48,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE User u SET u.email = :email WHERE u.id = :id")
-    void changePassword(@Param("password") String newPassword,
+    @Query("UPDATE User u SET u.password = :password WHERE u.email = :email")
+    void changePassword(@Param("password") String password,
                         @Param("email") String email);
 
 }

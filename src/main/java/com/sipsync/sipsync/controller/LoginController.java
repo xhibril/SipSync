@@ -1,4 +1,5 @@
 package com.sipsync.sipsync.controller;
+import com.sipsync.sipsync.model.LoginRequest;
 import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.service.LoginService;
 import com.sipsync.sipsync.service.AuthService;
@@ -20,8 +21,8 @@ public class LoginController {
     // check if user credentials are correct
     @ResponseBody
     @PostMapping("/api/login")
-    public Boolean areCredentialsValid(@RequestBody User user, HttpServletResponse res) {
-            return loginService.isUserValid(user.getEmail(), user.getPassword(), res);
+    public Boolean areCredentialsValid(@RequestBody LoginRequest request, HttpServletResponse res) {
+            return loginService.isUserValid(request.getEmail(), request.getPassword(), request.getRememberMe(), res);
     }
 
 
