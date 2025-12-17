@@ -1,57 +1,20 @@
 package com.sipsync.sipsync.service;
-import com.sipsync.sipsync.model.EditGoal;
-import com.sipsync.sipsync.model.Goal;
+
 import com.sipsync.sipsync.model.Logs;
-import com.sipsync.sipsync.model.EditLog;
-import com.sipsync.sipsync.repository.*;
-import jakarta.servlet.http.HttpServletRequest;
+import com.sipsync.sipsync.repository.AddLogRepository;
+import com.sipsync.sipsync.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 
 @Service
-public class Services {
+public class StatsService {
 
-    @Autowired
-    private AddLogRepository addRepo;
-    @Autowired
-    private AddUserGoalRepository addUserGoalRepo;
-    @Autowired
-    private EditLogRepository editRepo;
-    @Autowired
-    private EditUserGoalRepository editUserGoalRepo;
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    UserRepository userRepo;
-
-
-    // add amount
-    public Logs addLog(int amount, Long userId) {
-
-        Logs log = new Logs();
-        LocalDate today = LocalDate.now();
-        LocalTime time = LocalTime.now();
-
-        DateTimeFormatter formater = DateTimeFormatter.ofPattern("h:mm a");
-        String timeString = time.format(formater);
-
-        log.setUserId(userId);
-        log.setAmount(amount);
-        log.setDate(String.valueOf(today));
-        log.setTime(timeString);
-        Logs saved = addRepo.save(log);
-
-        return saved;
-    }
-
+@Autowired
+AddLogRepository addRepo;
 
     public Integer totals(final String type, Long userId) {
 
@@ -129,68 +92,4 @@ public class Services {
         }
         return 0;
     }
-
-
-
-
-    public void setGoal(int amount, Long userId) {
-
-        // if goal already exits edit the existing one
-        Optional<Goal> result = addUserGoalRepo.findByUserId(userId);
-
-        if (result.isPresent()) {
-
-            EditGoal editGoal = new EditGoal();
-            Goal goal = new Goal();
-
-            goal = result.get();
-            Long id = goal.getId();
-
-            editGoal.setGoal(amount);
-            editGoal.setId(id);
-            editUserGoalRepo.save(editGoal);
-        } else {
-
-            Goal goal = new Goal();
-            goal.setGoal(amount);
-            goal.setUserId(userId);
-            addUserGoalRepo.save(goal);
-
-        }
-    }
-
-
-    public Float getSetGoal(Long userId) {
-        Optional<Goal> result = addUserGoalRepo.findByUserId(userId);
-
-        // check if sum is inside the wrapper optional
-        if (result.isPresent()) {
-            // return if found
-            Goal res = result.get();
-            Float goal = res.getGoal();
-
-            return goal;
-        }
-        return 0f;
-    }
-
-
-    public void resetData(Long userId){
-        addRepo.deleteUserDataLogs(userId);
-        addUserGoalRepo.deleteUserDataGoal(userId);
-        userRepo.deleteUserStreak(userId);
-    }
-
-
-    public Long getUserIdByEmail(String email){
-        return  userRepo.findIdByEmail(email);
-    }
-
 }
-
-
-
-
-
-
-

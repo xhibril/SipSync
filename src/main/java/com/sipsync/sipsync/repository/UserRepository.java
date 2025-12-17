@@ -52,4 +52,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void changePassword(@Param("password") String password,
                         @Param("email") String email);
 
+
+    boolean existsByEmail(String email);
 }

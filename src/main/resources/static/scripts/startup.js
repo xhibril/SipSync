@@ -30,7 +30,7 @@ export async function checkStreakOnLoad() {
 // load all of today's logs on start up
 export async function checkTodayLogsOnLoad() {
     try {
-        const logsResponse = await fetch("/logs/today");
+        const logsResponse = await fetch("/logs");
         if (!logsResponse.ok){
             redirectToLoginPage(logsResponse);
             return;

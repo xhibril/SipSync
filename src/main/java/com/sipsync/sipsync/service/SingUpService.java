@@ -10,39 +10,29 @@ import java.util.Optional;
 @Service
 public class SingUpService {
 
-    @Autowired UserRepository signUpRepo;
-    @Autowired VerifyUserRepository verifyRepo;
     @Autowired TokenService tokenService;
-    @Autowired
-    AuthService verificationService;
+    @Autowired AuthService verificationService;
     @Autowired UserRepository userRepo;
 
-
     // add user and return it
-    public void addUser(String email, String password){
+    public Boolean addUser(String email, String password){
+        // check if user it not already registered
+        if(!(userRepo.existsByEmail(email))){
+            User user = new User(email, password, "Not set");   // "Not set" is last streak update date
 
-      // "Not set" is last streak update date
-        User user = new User(email, password, "Not set");
+            // save the saved user for id
+            User savedUser = userRepo.save(user);
 
-        // save the saved user for id
-        User savedUser = signUpRepo.save(user);
-
-        // generate token and send email
-        String token = tokenService.genTokenAfterSignUp(savedUser.getId(), savedUser.getEmail());
-        verificationService.sendVerificationEmail(savedUser.getEmail(), token);
+            // generate token and send email
+            String token = tokenService.genTokenAfterSignUp(savedUser.getId(), savedUser.getEmail());
+            verificationService.sendVerificationEmail(savedUser.getEmail(), token);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
-    public Boolean checkIfUserExists(String email){
-       Optional<String> doesUserExist = userRepo.findEmailByEmail(email);
-
-
-       if(doesUserExist.isPresent()){
-           return  true;
-       } else {
-           return false;
-       }
-    }
 }
 
 

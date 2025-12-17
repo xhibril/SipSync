@@ -19,6 +19,7 @@ public class LoginService {
     @Autowired UserRepository userRepo;
 
 
+    // check if user credentials are correct
     public Boolean isUserValid(String email, String password, Boolean rememberMe, HttpServletResponse res) {
         Optional<User> userOpt = userRepo.findByEmail(email);
 

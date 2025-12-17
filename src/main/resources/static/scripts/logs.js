@@ -71,7 +71,7 @@ async function updateLog(newValue, logId) {
     } else {
         // update log
         try {
-            const updateLog = await fetch(`/update/amount?amount=${newValue}&id=${logId}`, {method: "POST"});
+            const updateLog = await fetch(`/update/log?amount=${newValue}&id=${logId}`, {method: "POST"});
             if(!updateLog.ok){
                 redirectToLoginPage(updateLog);
                 return;

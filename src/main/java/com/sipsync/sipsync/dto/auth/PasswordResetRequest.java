@@ -1,10 +1,6 @@
-package com.sipsync.sipsync.model;
+package com.sipsync.sipsync.dto.auth;
 
-import jakarta.persistence.*;
-
-import java.time.Instant;
-
-public class PasswordResetDTO {
+public class PasswordResetRequest {
 
         private String email;
         private String code;

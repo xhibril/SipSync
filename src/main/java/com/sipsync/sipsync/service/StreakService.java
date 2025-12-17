@@ -1,8 +1,6 @@
 package com.sipsync.sipsync.service;
 
-import com.sipsync.sipsync.model.Goal;
 import com.sipsync.sipsync.model.Logs;
-import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.repository.AddLogRepository;
 import com.sipsync.sipsync.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,8 @@ public class StreakService {
 
     @Autowired AddLogRepository logsRepo;
     @Autowired UserRepository userRepo;
-    @Autowired Services services;
+
+    @Autowired  GoalService goalService;
 
 
    // check if more than a day has passed since user last entered and amount
@@ -35,7 +34,7 @@ public class StreakService {
 
         Long daysSinceLast = ChronoUnit.DAYS.between(start, end);
 
-        Float goal = services.getSetGoal(userId);
+        Float goal = goalService.getSetGoal(userId);
 
         // if it is more than a day reset the streak
         if(daysSinceLast > 1){

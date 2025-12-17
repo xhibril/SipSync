@@ -5,7 +5,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "password_reset_requests")
-public class PasswordResetRequest {
+public class PasswordReset {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

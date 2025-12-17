@@ -1,4 +1,4 @@
-package com.sipsync.sipsync.model;
+package com.sipsync.sipsync.dto.auth;
 
 public class LoginRequest {
     private String email;

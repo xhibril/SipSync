@@ -36,7 +36,7 @@ import java.util.List;
 @Transactional
 @Modifying
 @Query("UPDATE Logs u SET u.amount = :amount WHERE u.userId = :userId and u.id = :id")
-void updateAmount(@Param("amount") int amount,
+void updateLog(@Param("amount") int amount,
                   @Param("userId") Long userId,
                   @Param("id") Long id);
 

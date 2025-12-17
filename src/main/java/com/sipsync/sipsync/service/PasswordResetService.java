@@ -1,6 +1,6 @@
 package com.sipsync.sipsync.service;
-import com.sipsync.sipsync.model.PasswordResetErrorResponse;
-import com.sipsync.sipsync.model.PasswordResetRequest;
+import com.sipsync.sipsync.dto.auth.PasswordResetErrorResponse;
+import com.sipsync.sipsync.model.PasswordReset;
 import com.sipsync.sipsync.repository.PasswordResetRepository;
 import com.sipsync.sipsync.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class PasswordResetService {
            int code = generateCode.nextInt(1_000_000);
            String formattedCode = String.format("%06d", code);
 
-           PasswordResetRequest reset = new PasswordResetRequest();
+           PasswordReset reset = new PasswordReset();
            reset.setCode(formattedCode);
            reset.setEmail(email);
            reset.setAttemptsRemaining(5);
@@ -79,11 +79,11 @@ public class PasswordResetService {
     // compare verification codes
     public ResponseEntity<PasswordResetErrorResponse> compareVerificationCode(String code, String email){
 
-        Optional<PasswordResetRequest> getRow = passwordResetRepo.findByEmail(email);
+        Optional<PasswordReset> getRow = passwordResetRepo.findByEmail(email);
         if(getRow.isPresent()){
             PasswordResetErrorResponse error; // for error handling
 
-            PasswordResetRequest reset = getRow.get();
+            PasswordReset reset = getRow.get();
             String savedCode = reset.getCode();
             Integer remainingAttempts = reset.getAttemptsRemaining();
             Instant expiration = reset.getCodeExpiration();
@@ -122,11 +122,11 @@ public class PasswordResetService {
     @Transactional
     public ResponseEntity<PasswordResetErrorResponse> changePassword(String email, String code, String newPassword){
 
-        Optional<PasswordResetRequest> getRow = passwordResetRepo.findByEmail(email);
+        Optional<PasswordReset> getRow = passwordResetRepo.findByEmail(email);
         if(getRow.isPresent()){
             PasswordResetErrorResponse error; // for error handling
 
-            PasswordResetRequest reset = getRow.get();
+            PasswordReset reset = getRow.get();
 
             String resetToken = reset.getResetToken();
             Instant expiration = reset.resetTokenExpiration;

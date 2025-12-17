@@ -1,0 +1,55 @@
+package com.sipsync.sipsync.controller;
+
+import com.sipsync.sipsync.service.AuthService;
+import com.sipsync.sipsync.service.StreakService;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class StreakController {
+
+    @Autowired AuthService authService;
+    @Autowired StreakService streakService;
+
+    // get user streak
+    @GetMapping("/check/streak")
+    public ResponseEntity<Integer> updateStreak(HttpServletRequest req) {
+        Long userId = authService.getAuthenticatedUserId(req);
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(streakService.calcStreak(userId));
+    }
+
+
+    // get already stored streak
+    @GetMapping("/get/streak")
+    public ResponseEntity<Integer> getStreak(HttpServletRequest req) {
+        Long userId = authService.getAuthenticatedUserId(req);
+
+        if(userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(streakService.getStreakStored(userId));
+    }
+
+
+    // increase streak
+    @PostMapping("/increment/streak")
+    public ResponseEntity<Integer> setStreak(HttpServletRequest req) {
+        Long userId = authService.getAuthenticatedUserId(req);
+
+        if(userId == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(streakService.incrementStreak(userId));
+    }
+
+
+}
