@@ -1,7 +1,7 @@
 package com.sipsync.sipsync.service;
 
 import com.sipsync.sipsync.model.Logs;
-import com.sipsync.sipsync.repository.AddLogRepository;
+import com.sipsync.sipsync.repository.LogsRepository;
 import com.sipsync.sipsync.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,8 @@ import java.util.List;
 @Service
 public class StreakService {
 
-    @Autowired AddLogRepository logsRepo;
+    @Autowired
+    LogsRepository logsRepo;
     @Autowired UserRepository userRepo;
 
     @Autowired  GoalService goalService;
@@ -91,7 +92,4 @@ public class StreakService {
         int streak = userRepo.findStreakByUserId(userId);
         return streak;
     }
-
-
-
 }

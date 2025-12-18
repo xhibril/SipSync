@@ -1,8 +1,7 @@
 package com.sipsync.sipsync.service;
 
 import com.sipsync.sipsync.model.Logs;
-import com.sipsync.sipsync.repository.AddLogRepository;
-import com.sipsync.sipsync.repository.UserRepository;
+import com.sipsync.sipsync.repository.LogsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ import java.util.List;
 public class StatsService {
 
 @Autowired
-AddLogRepository addRepo;
+LogsRepository addRepo;
 
     public Integer totals(final String type, Long userId) {
 

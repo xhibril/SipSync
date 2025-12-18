@@ -1,5 +1,5 @@
 package com.sipsync.sipsync.repository;
-import com.sipsync.sipsync.model.Verify;
+import com.sipsync.sipsync.model.EmailVerification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,12 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
-public interface VerifyUserRepository extends JpaRepository<Verify, Long> {
+public interface EmailVerificationRepository extends JpaRepository<EmailVerification, Long> {
 
     // verify user email when they click the link after signing up
     @Modifying
     @Transactional
-    @Query("UPDATE Verify v SET v.isVerified = true WHERE v.id = :id")
+    @Query("UPDATE EmailVerification v SET v.isVerified = true WHERE v.id = :id")
     void verifyById(@Param("id") Long id);
 
 }

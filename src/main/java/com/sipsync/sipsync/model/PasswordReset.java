@@ -6,7 +6,6 @@ import java.time.Instant;
 @Entity
 @Table(name = "password_reset_requests")
 public class PasswordReset {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,17 +21,11 @@ public class PasswordReset {
     @Column(name = "attempts_remaining")
     private Integer attemptsRemaining;
 
-
     @Column(name = "reset_token")
     public String resetToken;
 
-
     @Column(name = "reset_token_expires_at")
     public Instant resetTokenExpiration;
-
-
-
-
 
     public void setEmail(String email){ this.email = email; }
     public String getEmail(){ return email; }

@@ -1,7 +1,7 @@
 package com.sipsync.sipsync.service;
 
 import com.sipsync.sipsync.repository.UserRepository;
-import com.sipsync.sipsync.repository.VerifyUserRepository;
+import com.sipsync.sipsync.repository.EmailVerificationRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -22,7 +21,7 @@ public class AuthService {
     @Autowired
     UserRepository userRepo;
     @Autowired
-    VerifyUserRepository verifyRepo;
+    EmailVerificationRepository verifyRepo;
 
     @Autowired
     JavaMailSender mailSender;

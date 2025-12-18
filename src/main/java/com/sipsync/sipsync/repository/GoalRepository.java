@@ -10,11 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface AddUserGoalRepository extends JpaRepository<Goal, Long>{
+public interface GoalRepository extends JpaRepository<Goal, Long>{
     Optional<Goal> findByUserId(Long userid);
 
     @Transactional
     @Modifying
     @Query("DELETE FROM Goal u WHERE u.userId = :userId")
     void deleteUserDataGoal(@Param("userId") Long userId );
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Goal u SET u.goal = :goal WHERE u.userId = :userId")
+    void updateGoal(@Param("goal") Float goal,
+                    @Param("userId") Long userId);
 }

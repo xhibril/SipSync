@@ -1,7 +1,6 @@
 package com.sipsync.sipsync.service;
 import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.repository.UserRepository;
-import com.sipsync.sipsync.repository.VerifyUserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletResponse;

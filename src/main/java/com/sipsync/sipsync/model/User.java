@@ -1,19 +1,13 @@
 package com.sipsync.sipsync.model;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import jakarta.persistence.*;
-
-import javax.crypto.SecretKey;
-import java.util.Date;
 
 @Entity
 @Table(name  = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
+
     private String email;
     private String password;
     private Integer streak;
@@ -24,7 +18,6 @@ public class User {
     @Column(name = "last_streak_update_date")
     private String lastStreakUpdateDate;
 
-
     public User(){}
 
     public User(String email, String password, String lastStreakUpdateDate) {
@@ -33,9 +26,6 @@ public class User {
         this.lastStreakUpdateDate = lastStreakUpdateDate;
         this.isVerified = false;
     }
-
-
-
 
     public void setEmail(String email){ this.email = email; }
     public String getEmail(){ return email; }
@@ -55,7 +45,6 @@ public class User {
     public Boolean getVerified() {
         return isVerified;
     }
-
     public void setVerified(Boolean verified) {
         isVerified = verified;
     }
