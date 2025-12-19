@@ -1,6 +1,6 @@
 import {showMessage, handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
 import {resendVerificationToken} from "./verification.js";
-import {disableBtn, enableBtn, showOverlay} from "./button-and-overlay.js";
+import {disableBtn, enableBtn, showOverlay} from "./button-state.js";
 
 const loginContainer = document.querySelector("#login-input-container");
 const emailLogin = document.querySelector("#emailLogin");

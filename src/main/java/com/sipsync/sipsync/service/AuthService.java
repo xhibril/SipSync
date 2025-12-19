@@ -1,5 +1,4 @@
 package com.sipsync.sipsync.service;
-
 import com.sipsync.sipsync.repository.UserRepository;
 import com.sipsync.sipsync.repository.EmailVerificationRepository;
 import io.jsonwebtoken.Claims;
@@ -18,13 +17,9 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class AuthService {
 
-    @Autowired
-    UserRepository userRepo;
-    @Autowired
-    EmailVerificationRepository verifyRepo;
-
-    @Autowired
-    JavaMailSender mailSender;
+    @Autowired UserRepository userRepo;
+    @Autowired EmailVerificationRepository verifyRepo;
+    @Autowired JavaMailSender mailSender;
 
 
     public Boolean isUserVerified(String email) {
@@ -67,6 +62,7 @@ public class AuthService {
     }
 
 
+    // check if user is logged in and get their id
     public Long getAuthenticatedUserId(HttpServletRequest req){
         // get token from cookie
         String token = checkIfAuthTokenExists(req);
@@ -124,17 +120,5 @@ public class AuthService {
         }
         return userId;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

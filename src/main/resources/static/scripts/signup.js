@@ -1,5 +1,5 @@
 import {showMessage, handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
-import {disableBtn, enableBtn, showOverlay} from "./button-and-overlay.js";
+import {disableBtn, enableBtn, showOverlay} from "./button-state.js";
 
 const emailSignUp = document.querySelector("#emailSignUp");
 const passwordSignUp = document.querySelector("#passwordSignUp");

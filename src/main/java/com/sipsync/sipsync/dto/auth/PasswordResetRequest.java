@@ -4,6 +4,10 @@ public class PasswordResetRequest {
     private String email;
     private String code;
     private String password;
+    private String resetToken;
+
+    public String getResetToken(){ return resetToken; }
+    public void setResetToken(String resetToken) { this.resetToken = resetToken; }
 
     public void setEmail(String email) { this.email = email; }
     public String getEmail() { return email; }

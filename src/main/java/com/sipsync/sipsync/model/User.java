@@ -1,6 +1,8 @@
 package com.sipsync.sipsync.model;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name  = "users")
 public class User {
@@ -16,11 +18,11 @@ public class User {
     private Boolean isVerified;
 
     @Column(name = "last_streak_update_date")
-    private String lastStreakUpdateDate;
+    private LocalDate lastStreakUpdateDate;
 
     public User(){}
 
-    public User(String email, String password, String lastStreakUpdateDate) {
+    public User(String email, String password, LocalDate lastStreakUpdateDate) {
         this.email = email;
         this.password = password;
         this.lastStreakUpdateDate = lastStreakUpdateDate;
@@ -39,8 +41,8 @@ public class User {
     public void setStreak(int streak){ this.streak = streak; }
     public int getStreak(){ return streak; }
 
-    public void setLastStreakUpdateDate(String date){ this.lastStreakUpdateDate = date; }
-    public String getLastStreakUpdateDate(){ return lastStreakUpdateDate; }
+    public void setLastStreakUpdateDate(LocalDate date){ this.lastStreakUpdateDate = date; }
+    public LocalDate getLastStreakUpdateDate(){ return lastStreakUpdateDate; }
 
     public Boolean getVerified() {
         return isVerified;

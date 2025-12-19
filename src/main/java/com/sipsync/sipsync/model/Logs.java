@@ -1,6 +1,9 @@
 package com.sipsync.sipsync.model;
 import jakarta.persistence.*;
 
+import java.time.Instant;
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "waterlogs")
 public class Logs {
@@ -13,14 +16,14 @@ public class Logs {
     private Long userId;
 
     private int amount;
-    private String date;
+    private LocalDate date;
     private String time;
 
     public void setAmount(int amount){this.amount = amount;}
     public int getAmount(){return amount;}
 
-    public void setDate(String date){this.date = date;}
-    public String getDate(){return date;}
+    public void setDate(LocalDate date){this.date = date;}
+    public LocalDate getDate(){return date;}
 
     public String getTime(){ return time; }
     public void setTime(String time){  this.time = time; }

@@ -16,36 +16,36 @@ public class StatsController {
 
     // get total amount drank today
     @GetMapping("/today")
-    public ResponseEntity<Integer> getTodayTotals(HttpServletRequest req) {
+    public ResponseEntity<Float> getTodayTotals(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok(statsService.totals("DAILY", userId));
+        return ResponseEntity.ok(statsService.stats("DAILY", userId));
     }
 
 
     // get total amount drank this week
     @GetMapping("/weekly")
-    public ResponseEntity<Integer> getWeeklyTotals(HttpServletRequest req) {
+    public ResponseEntity<Float> getWeeklyTotals(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok(statsService.totals("WEEKLY", userId));
+        return ResponseEntity.ok(statsService.stats("WEEKLY", userId));
     }
 
 
     // get total amount drank this month
     @GetMapping("/monthly")
-    public ResponseEntity<Integer> getMonthlyTotals(HttpServletRequest req) {
+    public ResponseEntity<Float> getMonthlyTotals(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok(statsService.totals("MOONTLY", userId));
+        return ResponseEntity.ok(statsService.stats("MOONTLY", userId));
     }
 }

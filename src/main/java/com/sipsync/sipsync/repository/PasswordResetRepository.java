@@ -27,7 +27,12 @@ public interface PasswordResetRepository extends JpaRepository<PasswordReset, Lo
                        @Param("resetTokenExpiration") Instant resetTokenExpiration,
                        @Param("email") String email);
 
-    boolean existsByEmail(String email);
 
+    @Modifying
+    @Query("UPDATE PasswordReset u SET u.code = null WHERE u.email =:email")
+    void clearVerificationCode(@Param("email") String email);
+
+
+    boolean existsByEmail(String email);
     void deleteByEmail(String email);
 }

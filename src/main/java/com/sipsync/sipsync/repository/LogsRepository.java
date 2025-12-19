@@ -1,6 +1,7 @@
 package com.sipsync.sipsync.repository;
 
 import com.sipsync.sipsync.model.Logs;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -17,7 +20,10 @@ public interface LogsRepository extends JpaRepository<Logs, Long> {
 
     List<Logs> findByUserId(Long userid);
 
-    List<Logs> findByUserIdAndDate(Long userId, String date);
+
+    List<Logs> findByDateAndUserId(LocalDate date, Long userId);
+
+    List<Logs> findAllByUserIdAndDateBetween(Long userId, LocalDate start, LocalDate End);
 
 
     @Transactional
@@ -28,7 +34,7 @@ public interface LogsRepository extends JpaRepository<Logs, Long> {
     @Transactional
     @Modifying
     @Query("DELETE FROM Logs u WHERE u.userId = :userId and u.id = :id")
-    void deleteSingleLog(@Param("userId") Long userId,
+    void deleteLog(@Param("userId") Long userId,
                          @Param("id") Long logId);
 
 

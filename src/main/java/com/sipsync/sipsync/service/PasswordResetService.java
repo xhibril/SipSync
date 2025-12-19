@@ -18,45 +18,54 @@ import java.util.UUID;
 public class PasswordResetService {
     @Autowired UserRepository userRepo;
     @Autowired PasswordResetRepository passwordResetRepo;
-    @Autowired
-    JavaMailSender mailSender;
+    @Autowired JavaMailSender mailSender;
 
-    private static final SecureRandom generateCode = new SecureRandom();
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     // generate code and save it along with other info
     @Transactional
-    public ResponseEntity<PasswordResetErrorResponse> generateVerificationCode(String email){
+    public ResponseEntity<PasswordResetErrorResponse> requestPasswordReset(String email) {
         //check if user email exists
-       Optional<String> isEmailPresent = userRepo.findEmailByEmail(email);
+        Optional<String> isEmailPresent = userRepo.findEmailByEmail(email);
 
-       if(isEmailPresent.isPresent()){
+        if (isEmailPresent.isPresent()) {
+            if(passwordResetRepo.existsByEmail(email)){
+                // delete prev requests if they are found
+                 deletePasswordResetRequest(email);
+            }
 
-           // delete prev requests if they are found
-           hasExistingPasswordResetRequest(email);
+            // generate new code and send it to email
+            String formattedCode = generateVerificationCode(email);
+            sendVerificationCode(email, formattedCode);
 
-           // 6 digits
-           int code = generateCode.nextInt(1_000_000);
-           String formattedCode = String.format("%06d", code);
-
-           PasswordReset reset = new PasswordReset();
-           reset.setCode(formattedCode);
-           reset.setEmail(email);
-           reset.setAttemptsRemaining(5);
-
-           // expires in 10 minutes
-           reset.setCodeExpiration(Instant.now().plusSeconds(10 * 60));
-           passwordResetRepo.save(reset);
-
-           // send the verification code
-           sendVerificationCode(email, formattedCode);
-           return ResponseEntity.ok().build();
-       }
-        PasswordResetErrorResponse error; // for error handling
-        error = new PasswordResetErrorResponse("This email address is not registered", null);
-         return ResponseEntity.badRequest().body(error);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().body( errorHandling(
+                "This email address is not registered", null));
     }
 
-    private void sendVerificationCode(String email, String code){
+
+
+    // generate verification code
+    public String generateVerificationCode(String email) {
+        // 6 digits
+        int code = secureRandom.nextInt(1_000_000);
+        String formattedCode = String.format("%06d", code);
+
+        PasswordReset reset = new PasswordReset();
+        reset.setCode(formattedCode);
+        reset.setEmail(email);
+        reset.setAttemptsRemaining(5);
+
+        // expires in 10 minutes
+        reset.setCodeExpiration(Instant.now().plusSeconds(10 * 60));
+        passwordResetRepo.save(reset);
+
+        return formattedCode;
+    }
+
+    // send verification to their email
+    private void sendVerificationCode(String email, String code) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
@@ -66,22 +75,13 @@ public class PasswordResetService {
     }
 
 
-    // check if user has existing password reset requests, if so delete before adding new one
-    private void hasExistingPasswordResetRequest(String email){
-        if(passwordResetRepo.existsByEmail(email)){
-            passwordResetRepo.deleteByEmail(email);
-        }
-    }
-
-
-
-
+    @Transactional
     // compare verification codes
-    public ResponseEntity<PasswordResetErrorResponse> compareVerificationCode(String code, String email){
-
+    public ResponseEntity<PasswordResetErrorResponse> compareVerificationCode(String userEnteredCode, String email) {
+        // check if user has request a password reset request
         Optional<PasswordReset> getRow = passwordResetRepo.findByEmail(email);
-        if(getRow.isPresent()){
-            PasswordResetErrorResponse error; // for error handling
+
+        if (getRow.isPresent()) {
 
             PasswordReset reset = getRow.get();
             String savedCode = reset.getCode();
@@ -90,59 +90,99 @@ public class PasswordResetService {
             Instant current = Instant.now();
 
             // check if user has any remaining attempts
-            if(remainingAttempts <= 0){
-                error = new PasswordResetErrorResponse("Verification attempts exceeded. Please request a new code.", 0);
-                return ResponseEntity.badRequest().body(error);
+            if (remainingAttempts <= 0) {
+                return ResponseEntity.badRequest().body(errorHandling(
+                        "Verification attempts exceeded. Please request a new code.", 0));
             }
 
             // check if code is expired
-            if(current.isAfter(expiration)){
-                error = new PasswordResetErrorResponse("Code has expired. Please try again.", null);
-                return ResponseEntity.badRequest().body(error);
+            if (current.isAfter(expiration)) {
+                return ResponseEntity.badRequest().body(errorHandling(
+                        "Code has expired. Please try again.", null));
             }
 
-            // check if code user entered matches with the one stored in db
-            if(!(code.equals(savedCode))){
-                remainingAttempts--;
-                passwordResetRepo.updateAttemptsRemaining(remainingAttempts, email);
-
-                error = new PasswordResetErrorResponse("Invalid verification code",  remainingAttempts);
-                return ResponseEntity.badRequest().body(error);
+            if (!(compareCode(remainingAttempts, savedCode, userEnteredCode, email))) {
+                return ResponseEntity.badRequest().body(errorHandling(
+                        "Code is incorrect. Please try again.", null));
             }
 
-            // save reset token that allows user to reset their pass for the next 10 mins
-            String resetToken = UUID.randomUUID().toString();
-            Instant resetTokenExpiration = Instant.now().plusSeconds(10*60);
-            passwordResetRepo.addResetToken(resetToken, resetTokenExpiration, email);
+            // delete request as verification code job is done
+            clearVerificationCode(email);
 
+            // allows password to be changed for next 10 mins
+            saveResetToken(email);
+
+            return ResponseEntity.ok().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.badRequest().body(errorHandling(
+                "You have not requested a password reset request", null));
     }
 
-    @Transactional
-    public ResponseEntity<PasswordResetErrorResponse> changePassword(String email, String code, String newPassword){
+    // compare codes
+    public boolean compareCode(Integer remainingAttempts, String savedCode, String userEnteredCode, String email) {
+        if (!(userEnteredCode.equals(savedCode))) {
+            remainingAttempts--;
+            passwordResetRepo.updateAttemptsRemaining(remainingAttempts, email);
+            return false;
+        }
+        return true;
+    }
 
+    // change password
+    @Transactional
+    public ResponseEntity<PasswordResetErrorResponse> changePassword(String email, String newPassword, String clientResetToken) {
         Optional<PasswordReset> getRow = passwordResetRepo.findByEmail(email);
-        if(getRow.isPresent()){
-            PasswordResetErrorResponse error; // for error handling
+        if (getRow.isPresent()) {
 
             PasswordReset reset = getRow.get();
-
-            String resetToken = reset.getResetToken();
+            String storedResetToken = reset.getResetToken();
             Instant expiration = reset.resetTokenExpiration;
             Instant current = Instant.now();
 
-            if (current.isAfter(expiration) || resetToken == null){
-                error = new PasswordResetErrorResponse("Password reset expired. Please try again", null);
-                return ResponseEntity.badRequest().body(error);
+            // check if reset token has expired
+            if (current.isAfter(expiration) || storedResetToken == null) {
+                return ResponseEntity.badRequest().body(errorHandling(
+                        "Password reset expired. Please try again", null));
             }
-            // change password
-            userRepo.changePassword(newPassword, email);
 
-            // delete password reset request row
-            passwordResetRepo.deleteByEmail(email);
+            if(!compareResetTokens(clientResetToken, storedResetToken)){
+                return ResponseEntity.badRequest().body(errorHandling(
+                        "Could not reset your password. Please try again", null));
+            }
+
+
+            userRepo.changePassword(newPassword, email);   // change password
+            deletePasswordResetRequest(email);      // delete password reset request row
+            return ResponseEntity.ok().build();
         }
+        return ResponseEntity.badRequest().body(errorHandling(
+                "Invalid or expired password reset request", null));
+    }
 
-        return ResponseEntity.ok().build();
+
+    private void saveResetToken(String email) {
+        String resetToken = UUID.randomUUID().toString();
+        Instant resetTokenExpiration = Instant.now().plusSeconds(10 * 60);
+        passwordResetRepo.addResetToken(resetToken, resetTokenExpiration, email);
+    }
+
+    private boolean compareResetTokens(String clientResetToken, String storedResetToken){
+        return clientResetToken.equals(storedResetToken);
+    }
+
+    // delete old password request
+    private void deletePasswordResetRequest(String email){
+        passwordResetRepo.deleteByEmail(email);
+    }
+
+
+    private void clearVerificationCode(String email){
+        passwordResetRepo.clearVerificationCode(email);
+    }
+
+    private PasswordResetErrorResponse errorHandling(String error, Integer remainingAttempts) {
+        PasswordResetErrorResponse res; // for error handling
+        res = new PasswordResetErrorResponse(error, remainingAttempts);
+        return res;
     }
 }

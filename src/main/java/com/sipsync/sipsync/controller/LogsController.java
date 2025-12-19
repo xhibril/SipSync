@@ -46,7 +46,7 @@ public class LogsController {
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        logsService.deleteSingleLog(userId, logId);
+        logsService.deleteLog(userId, logId);
         return ResponseEntity.ok().build();
     }
 

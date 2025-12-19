@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Service
 public class GoalService {
-
     @Autowired GoalRepository goalRepo;
 
     // set user goal

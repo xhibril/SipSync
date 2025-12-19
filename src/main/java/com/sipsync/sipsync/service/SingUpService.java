@@ -8,28 +8,26 @@ import org.springframework.stereotype.Service;
 public class SingUpService {
 
     @Autowired TokenService tokenService;
-    @Autowired AuthService verificationService;
+    @Autowired AuthService authService;
     @Autowired UserRepository userRepo;
 
     // add user and return it
     public Boolean addUser(String email, String password){
         // check if user it not already registered
         if(!(userRepo.existsByEmail(email))){
-            User user = new User(email, password, "Not set");   // "Not set" is last streak update date
+            User user = new User(email, password, null);   // null is last streak update date
 
             // save the saved user for id
             User savedUser = userRepo.save(user);
 
             // generate token and send email
             String token = tokenService.genTokenAfterSignUp(savedUser.getId(), savedUser.getEmail());
-            verificationService.sendVerificationEmail(savedUser.getEmail(), token);
+            authService.sendVerificationEmail(savedUser.getEmail(), token);
             return true;
         } else {
             return false;
         }
     }
-
-
 }
 
 

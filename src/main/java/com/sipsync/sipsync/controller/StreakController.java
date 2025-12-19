@@ -17,39 +17,25 @@ public class StreakController {
     @Autowired StreakService streakService;
 
     // get user streak
-    @GetMapping("/check/streak")
+    @GetMapping("/streak/evaluate")
     public ResponseEntity<Integer> updateStreak(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok(streakService.calcStreak(userId));
-    }
-
-
-    // get already stored streak
-    @GetMapping("/get/streak")
-    public ResponseEntity<Integer> getStreak(HttpServletRequest req) {
-        Long userId = authService.getAuthenticatedUserId(req);
-
-        if(userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        return ResponseEntity.ok(streakService.getStreakStored(userId));
+        return ResponseEntity.ok(streakService.evaluateStreak(userId));
     }
 
 
     // increase streak
-    @PostMapping("/increment/streak")
+    @PostMapping("/streak/increment")
     public ResponseEntity<Integer> setStreak(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
         if(userId == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok(streakService.incrementStreak(userId));
+        return ResponseEntity.ok(streakService.incrementStreakIfNotUpdatedToday(userId));
     }
-
-
 }

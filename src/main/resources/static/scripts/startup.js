@@ -13,7 +13,7 @@ checkStreakOnLoad();
 // check and calculate the streak on start up
 export async function checkStreakOnLoad() {
     try {
-        const streakResponse = await fetch("/check/streak");
+        const streakResponse = await fetch("/streak/evaluate");
         if(!streakResponse.ok) {
             redirectToLoginPage(streakResponse);
             return;

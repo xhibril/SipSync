@@ -1,4 +1,4 @@
-import {disableBtn, enableBtn} from "./button-and-overlay.js";
+import {disableBtn, enableBtn} from "./button-state.js";
 import {
     handleValidation, validatePasswordStrength, validateEmailDomain, showMessage, validateNumInputs
 } from "./validation.js";

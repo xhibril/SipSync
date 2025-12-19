@@ -99,7 +99,7 @@ function calculateRemaining(amountDrank, goal) {
 
 async function incrementStreak() {
     try {
-        const incrementStreakResponse = await fetch("/increment/streak", {method: "POST"});
+        const incrementStreakResponse = await fetch("/streak/increment", {method: "POST"});
         if(!incrementStreakResponse.ok){
             redirectToLoginPage(incrementStreakResponse);
             return;

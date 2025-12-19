@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @Service
 public class LoginService {
-
     @Autowired UserRepository userRepo;
 
 
@@ -26,7 +25,7 @@ public class LoginService {
             User user = userOpt.get();
 
             if (user.getPassword().equals(password)) {
-
+                // set expiration
                 Long length = expiration(rememberMe);
 
                 // if details r successful gen token auth token and store it
@@ -69,17 +68,9 @@ public class LoginService {
 
     }
 
-
     private Long expiration(Boolean rememberMe){
         final long TWO_WEEKS = 1000L * 60 * 60 * 24 * 14;
         final long TWO_HOURS = 1000L * 60 * 60 * 2;
        return rememberMe ? TWO_WEEKS : TWO_HOURS;
     }
-
-
-
-
-
-
-
 }
