@@ -1,5 +1,5 @@
 package com.sipsync.sipsync.service;
-import com.sipsync.sipsync.dto.auth.PasswordResetErrorResponse;
+import com.sipsync.sipsync.dto.auth.PasswordResetResponse;
 import com.sipsync.sipsync.model.PasswordReset;
 import com.sipsync.sipsync.repository.PasswordResetRepository;
 import com.sipsync.sipsync.repository.UserRepository;
@@ -24,7 +24,7 @@ public class PasswordResetService {
 
     // generate code and save it along with other info
     @Transactional
-    public ResponseEntity<PasswordResetErrorResponse> requestPasswordReset(String email) {
+    public ResponseEntity<PasswordResetResponse> requestPasswordReset(String email) {
         //check if user email exists
         Optional<String> isEmailPresent = userRepo.findEmailByEmail(email);
 
@@ -40,8 +40,7 @@ public class PasswordResetService {
 
             return ResponseEntity.ok().build();
         }
-        return ResponseEntity.badRequest().body( errorHandling(
-                "This email address is not registered", null));
+        return ResponseEntity.badRequest().body(errorHandling("This email address is not registered"));
     }
 
 
@@ -77,7 +76,7 @@ public class PasswordResetService {
 
     @Transactional
     // compare verification codes
-    public ResponseEntity<PasswordResetErrorResponse> compareVerificationCode(String userEnteredCode, String email) {
+    public ResponseEntity<PasswordResetResponse> compareVerificationCode(String userEnteredCode, String email) {
         // check if user has request a password reset request
         Optional<PasswordReset> getRow = passwordResetRepo.findByEmail(email);
 
@@ -92,30 +91,33 @@ public class PasswordResetService {
             // check if user has any remaining attempts
             if (remainingAttempts <= 0) {
                 return ResponseEntity.badRequest().body(errorHandling(
-                        "Verification attempts exceeded. Please request a new code.", 0));
+                        "Verification attempts exceeded. Please request a new code."));
             }
 
             // check if code is expired
             if (current.isAfter(expiration)) {
                 return ResponseEntity.badRequest().body(errorHandling(
-                        "Code has expired. Please try again.", null));
+                        "Code has expired. Please try again."));
             }
 
             if (!(compareCode(remainingAttempts, savedCode, userEnteredCode, email))) {
                 return ResponseEntity.badRequest().body(errorHandling(
-                        "Code is incorrect. Please try again.", null));
+                        "Code is incorrect. Please try again."));
             }
 
             // delete request as verification code job is done
             clearVerificationCode(email);
 
             // allows password to be changed for next 10 mins
-            saveResetToken(email);
+            String resetToken = saveResetToken(email);
 
-            return ResponseEntity.ok().build();
+            PasswordResetResponse token = new PasswordResetResponse();
+            token.setResetToken(resetToken);
+
+            return ResponseEntity.ok().body(token);
         }
         return ResponseEntity.badRequest().body(errorHandling(
-                "You have not requested a password reset request", null));
+                "You have not requested a password reset request"));
     }
 
     // compare codes
@@ -130,7 +132,7 @@ public class PasswordResetService {
 
     // change password
     @Transactional
-    public ResponseEntity<PasswordResetErrorResponse> changePassword(String email, String newPassword, String clientResetToken) {
+    public ResponseEntity<PasswordResetResponse> changePassword(String email, String newPassword, String clientResetToken) {
         Optional<PasswordReset> getRow = passwordResetRepo.findByEmail(email);
         if (getRow.isPresent()) {
 
@@ -142,12 +144,12 @@ public class PasswordResetService {
             // check if reset token has expired
             if (current.isAfter(expiration) || storedResetToken == null) {
                 return ResponseEntity.badRequest().body(errorHandling(
-                        "Password reset expired. Please try again", null));
+                        "Password reset expired. Please try again"));
             }
 
             if(!compareResetTokens(clientResetToken, storedResetToken)){
                 return ResponseEntity.badRequest().body(errorHandling(
-                        "Could not reset your password. Please try again", null));
+                        "Could not reset your password. Please try again"));
             }
 
 
@@ -156,14 +158,15 @@ public class PasswordResetService {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().body(errorHandling(
-                "Invalid or expired password reset request", null));
+                "Invalid or expired password reset request"));
     }
 
 
-    private void saveResetToken(String email) {
+    private String saveResetToken(String email) {
         String resetToken = UUID.randomUUID().toString();
         Instant resetTokenExpiration = Instant.now().plusSeconds(10 * 60);
         passwordResetRepo.addResetToken(resetToken, resetTokenExpiration, email);
+        return resetToken;
     }
 
     private boolean compareResetTokens(String clientResetToken, String storedResetToken){
@@ -180,9 +183,10 @@ public class PasswordResetService {
         passwordResetRepo.clearVerificationCode(email);
     }
 
-    private PasswordResetErrorResponse errorHandling(String error, Integer remainingAttempts) {
-        PasswordResetErrorResponse res; // for error handling
-        res = new PasswordResetErrorResponse(error, remainingAttempts);
+    // error handling for responses
+    private PasswordResetResponse errorHandling(String error) {
+        PasswordResetResponse res = new PasswordResetResponse();
+        res.setMessage(error);
         return res;
     }
 }

@@ -12,21 +12,21 @@
 </head>
 
 <body>
-<div class="overlay"></div>
+<div class="overlay" id = "app-overlay"></div>
 
-<div class="settingsMenu maxwidth90">
+<div class="settingsMenu maxwidth90" id = "settings-menu">
 
     <div class="timeRange maxwidth90">
         <span class="settingsSpan">Time Range</span>
-        <button type="button" id="dailyViewBtn" class="timeRangeBtn">Daily</button>
-        <button type="button" id="weeklyViewBtn" class="timeRangeBtn">Weekly</button>
-        <button type="button" id="monthlyViewBtn" class="timeRangeBtn">Monthly</button>
+        <button type="button" id="view-daily" class="timeRangeBtn">Daily</button>
+        <button type="button" id="view-weekly" class="timeRangeBtn">Weekly</button>
+        <button type="button" id="view-monthly" class="timeRangeBtn">Monthly</button>
     </div>
 
     <div class="dataAndAccount maxwidth90">
         <span class="settingsSpan">Data & Account</span>
-        <button type="button" id="resetDataBtn" class="dataAndAccBtn">Reset Data</button>
-        <button type="button" id="logoutBtn" class="dataAndAccBtn">Logout</button>
+        <button type="button" id="data-reset" class="dataAndAccBtn">Reset Data</button>
+        <button type="button" id="logout-btn" class="dataAndAccBtn">Logout</button>
     </div>
 
 </div>
@@ -34,9 +34,9 @@
 <div class="mainSection">
     <div class="headerSection">
         <p id="notification">
-            <img src="/images/error.png" id="errorMessageIcon" class = "hidden">
-            <img src="/images/success.png" id="successMessageIcon" class = "hidden">
-            <span id="notificationText">Something went wrong</span>
+            <img src="/images/error.png" id="error-icon" class = "hidden">
+            <img src="/images/success.png" id="success-icon" class = "hidden">
+            <span id="notification-text"></span>
         </p>
 
 
@@ -61,7 +61,7 @@
         </div>
 
         <div class="settingsBtnContainer maxwidth90">
-            <button type="button" class="settingsBtn"> <img src="images/settingsIcon.png"></button>
+            <button type="button" class="settingsBtn" id = "settings-btn"> <img src="images/settingsIcon.png"></button>
         </div>
     </div>
 </div>
@@ -88,14 +88,14 @@
         <p id = "period-label" class = "hidden"></p>
 
         <div class="progressBar maxwidth90">
-            <p id="amount">... mL</p>
-            <p id="avgAmount">Loading average...</p>
+            <p id="water-drank">... mL</p>
+            <p id="avg-water-drank">Loading average...</p>
             <p>of</p>
             <p id="goal">... mL</p>
         </div>
 
 
-        <div class="quickAddAmount">
+        <div class="quickAddAmount" id = "quick-add-amount-container">
             <button type="submit" data-addvalue="250" class="quickAddBtns" id="quickAdd250Btn"> <img src="images/waterDroplet.png "> <br>+ 250
                 mL</button>
             <button type="submit" data-addvalue="500" class="quickAddBtns" id="quickAdd500Btn"> <img src="images/waterDroplet.png "> <br>+ 500
@@ -104,7 +104,7 @@
                 mL</button>
         </div>
 
-        <div class="quickAddGoal hidden" >
+        <div class="quickAddGoal hidden" id = "quick-add-goal-container">
             <button type="submit" data-goalvalue="2000" class="quickAddBtns" id="quickGoalSet2000Btn"> <img src="images/waterDroplet.png "> <br>2000
                 mL</button>
             <button type="submit" data-goalvalue="2500" class="quickAddBtns" id="quickGoalSet2500Btn"> <img src="images/waterDroplet.png "> <br>2500
@@ -114,8 +114,8 @@
 
 
         </div>
-        <input type="number" class="input" placeholder="Enter amount"> <br>
-        <button type="submit" id="amountSubmitBtn" class="confirmBtn">Confirm</button>
+        <input type="number" class="input" id = "amount-input" placeholder="Enter amount"> <br>
+        <button type="submit" id="submit-btn" class="confirmBtn">Confirm</button>
     </div>
 
 
@@ -129,7 +129,7 @@
 
                 <div class="streakInfo maxwidth90">
                     <p>Streak</p>
-                    <h3><span id="displayStreak">...</span> days</h3>
+                    <h3><span id="streak">...</span> days</h3>
                 </div>
             </div>
 
@@ -139,7 +139,7 @@
 
                 <div class="remainingInfo">
                     <p>Remaining</p>
-                    <h3><span id="displayRemaining">...</span> mL</h3>
+                    <h3><span id="water-remaining">...</span> mL</h3>
 
                 </div>
             </div>
@@ -150,8 +150,8 @@
 
         </div>
 
-        <img id="noLogsGif" src="images/noLogsGif.gif">
-        <div class="logs"></div>
+        <img id="no-logs-found-image" src="images/noLogsGif.gif">
+        <div class="logs" id = "logs-container"></div>
 
     </div>
 </div>
@@ -280,8 +280,8 @@
 
 </div>
 <script type="module" src ="/scripts/startup.js" defer></script>
-<script type="module" src="/scripts/home-controller.js" defer></script>
-<script type = "module" src="/scripts/calculator-controller.js" defer></script>
+<script type="module" src="/scripts/dashboard-actions.js" defer></script>
+<script type = "module" src="/scripts/water-intake-calculator.js" defer></script>
 <script src="/scripts/fact-cards.js" defer></script>
 <script type ="module" src="/scripts/settings.js" defer></script>
 <script type = "module" src = "/scripts/logs.js" defer></script>

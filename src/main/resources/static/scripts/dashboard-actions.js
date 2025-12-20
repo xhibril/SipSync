@@ -1,24 +1,25 @@
-
-import {refreshMainPage} from "./display.js";
+import {refreshMainPage} from "./dashboard-refresh.js";
 import {addLog} from "./logs.js";
 import {validateNumInputs, showMessage} from "./validation.js";
 import {redirectToLoginPage} from "./redirect.js";
 
+const actionTypeRadios = document.querySelectorAll('input[name="actionType"]');
 const quickAddBtns = document.querySelectorAll("[data-addvalue]");
 const quickGoalBtns = document.querySelectorAll("[data-goalvalue]");
-const quickAddBtnsContainer = document.querySelector(".quickAddAmount");
-const quickAddGoalContainer = document.querySelector(".quickAddGoal");
-const inputType = document.querySelectorAll('input[name="actionType"]');
-const amountInput = document.querySelector(".input");
-const submitBtn = document.querySelector("#amountSubmitBtn");
+const quickAddBtnsContainer = document.querySelector("#quick-add-amount-container");
+const quickAddGoalContainer = document.querySelector("#quick-add-goal-container");
+const amountInput = document.querySelector("#amount-input");
+const submitBtn = document.querySelector("#submit-btn");
 
-let choice = "ADD"
+const state = {
+    choice: "ADD"
+}
 // show correct content depending on input type
-inputType.forEach(radio => {
+actionTypeRadios.forEach(radio => {
     radio.addEventListener("change", () => {
-        choice = radio.value;
+        state.choice = radio.value;
 
-        switch (choice) {
+        switch (state.choice) {
             case "ADD":
                 amountInput.placeholder = "Enter amount";
 
@@ -58,7 +59,6 @@ amountInput.addEventListener("keydown", function (event) {
 quickAddBtns.forEach(btn => {
     btn.addEventListener("click", () => {
         const value = Number(btn.dataset.addvalue);
-        console.log(value);
         handleSubmit(value)
     });
 });
@@ -67,7 +67,6 @@ quickAddBtns.forEach(btn => {
 quickGoalBtns.forEach(btn => {
     btn.addEventListener("click", () => {
         const value = Number(btn.dataset.goalvalue);
-        console.log(value);
         handleSubmit(value);
     });
 });
@@ -75,7 +74,7 @@ quickGoalBtns.forEach(btn => {
 
 // handles user inputs
 async function handleSubmit(amount) {
-    switch (choice) {
+    switch (state.choice) {
         case "ADD":
             try {
                 const addResponse = await fetch(`/add?amount=${amount}`, {method: "POST"});
@@ -84,7 +83,6 @@ async function handleSubmit(amount) {
 
                     redirectToLoginPage(addResponse);
                     throw new Error("Server returned an error.");
-                    return;
                 }
                     const addRes = await addResponse.json();
                     addLog(amount, addRes.id, addRes.time);  // display log to user
@@ -105,7 +103,6 @@ async function handleSubmit(amount) {
 
                     redirectToLoginPage(goalResponse);
                     throw new Error("Server returned an error.");
-                    return;
                 }
                     await refreshMainPage("DAILY");
                     showMessage("success", "Goal added.");

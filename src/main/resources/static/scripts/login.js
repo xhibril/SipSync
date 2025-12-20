@@ -1,19 +1,18 @@
-import {showMessage, handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
+import {showMessage, handleValidation, validateEmailDomain} from "./validation.js";
 import {resendVerificationToken} from "./verification.js";
-import {disableBtn, enableBtn, showOverlay} from "./button-state.js";
+import {disableBtn, enableBtn, btnContent} from "./button-state.js";
 
-const loginContainer = document.querySelector("#login-input-container");
-const emailLogin = document.querySelector("#emailLogin");
-const passwordLogin = document.querySelector("#passwordLogin");
 const inputFields = document.querySelectorAll(".Input");
-const loginContinueBtn = document.querySelector("#loginContinueBtn");
+const loginContainer = document.querySelector("#login-container");
+const emailLogin = document.querySelector("#login-email");
+const passwordLogin = document.querySelector("#login-password");
+const loginBtn = document.querySelector("#login-confirm");
+const signUpLink = document.querySelector("#signup-link");
 
 // forgot password
-const forgotPassword = document.querySelector("#forgotPassword");
+const forgotPassword = document.querySelector("#forgot-password");
 const forgotPasswordContainer = document.querySelector("#forgot-password-container");
 
-// sing up link
-const signUpLink = document.querySelector("#signup-link");
 
 
 // show any flash messages (eg after user changes password and is redirected to login)
@@ -25,14 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-console.log(signUpLink);
 
 // go to sign up page
 signUpLink.addEventListener("click", (e)=>{
     e.preventDefault();
     window.location.href = "/signup";
 })
-
 
 // switch to forgot password ui
 forgotPassword.addEventListener("click", (e)=>{
@@ -42,7 +39,7 @@ forgotPassword.addEventListener("click", (e)=>{
 });
 
 
-loginContinueBtn.addEventListener("click", (e) => {
+loginBtn.addEventListener("click", (e) => {
     e.preventDefault();
     handleLoginClick();
 });
@@ -64,10 +61,9 @@ function handleLoginClick(){
         return;
     }
 
-
-    // temp disable btn so user cant spam and show overlay
-    disableBtn(loginContinueBtn);
-    showOverlay(true);
+    // temp disable btn
+    disableBtn(loginBtn);
+    btnContent(loginBtn, "Logging in...");
     handleLogin(email, password);
 }
 
@@ -78,7 +74,7 @@ inputFields.forEach(input =>{
     input.addEventListener("keydown", (e)=>{
         if (e.key === "Enter") {
             e.preventDefault();
-            loginContinueBtn.click();
+            loginBtn.click();
         }
     });
 })
@@ -95,23 +91,23 @@ async function handleLogin(email, password){
         });
 
         if(!loginResponse.ok){
+            enableBtn(loginBtn);
+            btnContent(loginBtn, "Continue");
             throw new Error("Server returned an error.");
         }
             const areCredentialsValid = await loginResponse.json();
 
             if(areCredentialsValid){
 
-                const isUserVerifiedResponse = await fetch(`/api/verification-status?email=${encodeURIComponent(email)}`);
+                const isUserVerifiedResponse = await fetch("/api/verification-status", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(email)
+                });
                 const isUserVerifiedRes = await isUserVerifiedResponse.json();
 
                if(isUserVerifiedRes){
-
                    // if user is verified go to homepage
-
-                    // re-enable btn and disable overlay
-                    enableBtn(loginContinueBtn);
-                    showOverlay(false);
-
                     window.location.href = "/home";
 
                     // delete user email if verified from storage
@@ -120,23 +116,16 @@ async function handleLogin(email, password){
 
                    // if user is not verified ask them to verify
                     localStorage.setItem("userEmail", email);
-
-                    // re-enable btn
-                   loginContinueBtn.disabled = false;
-                    window.location.href = "/verify"
                     await resendVerificationToken();
+                    window.location.href = "/verify"
                 }
             } else {
-                // re-enable btn and disable overlay
-                enableBtn(loginContinueBtn);
-                showOverlay(false);
+                btnContent(loginBtn, "Continue");
                 showMessage("error", "Invalid credentials, try again.");
             }
 
     } catch (err){
-        // re-enable btn and disable overlay
-        enableBtn(loginContinueBtn);
-        showOverlay(false);
+        btnContent(loginBtn, "Continue");
         showMessage("error", "Could not log in. Please try again later.");
     }
 }

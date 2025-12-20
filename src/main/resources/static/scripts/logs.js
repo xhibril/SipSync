@@ -1,13 +1,13 @@
 import {redirectToLoginPage} from "./redirect.js";
-
-const logs = document.querySelector(".logs");
-const noLogsFoundImage = document.querySelector("#noLogsGif");
-
-import {refreshMainPage} from "./display.js";
+import {refreshMainPage} from "./dashboard-refresh.js";
 import {showMessage} from "./validation.js";
 
+const logs = document.querySelector("#logs-container");
+const noLogsFoundImage = document.querySelector("#no-logs-found-image");
+
+
 // add log to "Today's Logs"
-export function addLog(amount, id, time){
+export function addLog(amount, id, time) {
     const row = document.createElement("div");
     row.className = "row";
 
@@ -25,22 +25,21 @@ export function addLog(amount, id, time){
 
     logAmount.addEventListener("keydown", async (e) => {
         if (e.key === "Enter") {
-            let newValue = Number(logAmount.textContent);
-            e.preventDefault(); // prevent new line
+            let newValue = parseInt(logAmount.textContent.trim(), 10); // base 10
+            e.preventDefault();
             let logId = id;
 
             // check if update / deletion is successful
-            if (await updateLog(newValue, logId)) {
+            if (await handleLog(newValue, logId)) {
                 logAmount.blur();                         // exit editing
-                if (!newValue) {
+                if (Number.isNaN(newValue) || newValue <= 0){
                     row.remove();                 // remove the log if value is 0 or empty
 
-                    // display " no logs found picture" if logs is empty
-                    if(logs.children.length === 0){
+                    // display pic if no logs found
+                    if (logs.children.length === 0) {
                         logsFound(false);
                     }
                 }
-                refreshMainPage("DAILY");         // refresh content
             }
         }
     })
@@ -48,48 +47,51 @@ export function addLog(amount, id, time){
     logs.appendChild(row);
 }
 
-async function updateLog(newValue, logId) {
+async function handleLog(newValue, logId) {
     newValue = Number(newValue);
 
-    if (!newValue) {
-        // edit log
-        try {
-           const deleteLogResponse =  await fetch(`/delete/log?logId=${logId}`, {method: "POST"});
+    // delete log if its zero or empty
+    if(Number.isNaN(newValue) || newValue <= 0) return deleteLog(logId);
 
-           if(!deleteLogResponse.ok){
-               redirectToLoginPage(deleteLogResponse);
-               return;
-               throw new Error("Server returned an error.");
-           }
-               showMessage("success", "Log deleted.");
-               return true;
+    // update otherwise
+    return updateLog(newValue, logId);
+}
 
-        } catch (err){
-            showMessage("error", "Could not delete log. Please try again later.");
-            return false;
+async function deleteLog(logId) {
+    try {
+        const deleteLogResponse = await fetch(`/delete/log?logId=${logId}`, {method: "POST"});
+        if (!deleteLogResponse.ok) {
+            redirectToLoginPage(deleteLogResponse);
+            throw new Error("Server returned an error.");
         }
-    } else {
-        // update log
-        try {
-            const updateLog = await fetch(`/update/log?amount=${newValue}&id=${logId}`, {method: "POST"});
-            if(!updateLog.ok){
-                redirectToLoginPage(updateLog);
-                return;
-                throw new Error("Server returned an error.");
-            }
-                showMessage("success", "Log edited.");
-                return true;
+        showMessage("success", "Log deleted.");
+        return true;
 
-        } catch (err){
-            showMessage("error", "Could not edit log. Please try again later");
-            return false;
+    } catch (err) {
+        showMessage("error", "Could not delete log. Please try again later.");
+        return false;
+    }
+}
+
+async function updateLog(newValue, logId) {
+    try {
+        const updateLog = await fetch(`/update/log?amount=${newValue}&id=${logId}`, {method: "POST"});
+        if (!updateLog.ok) {
+            redirectToLoginPage(updateLog);
+            throw new Error("Server returned an error.");
         }
+        showMessage("success", "Log edited.");
+        return true;
+
+    } catch (err) {
+        showMessage("error", "Could not edit log. Please try again later");
+        return false;
     }
 }
 
 
-export function logsFound(bool){
-    if(bool === true) {
+export function logsFound(bool) {
+    if (bool === true) {
         noLogsFoundImage.classList.add('hidden');
         logs.classList.remove('hidden');
     } else {
@@ -97,6 +99,3 @@ export function logsFound(bool){
         logs.classList.add('hidden');
     }
 }
-
-
-

@@ -1,12 +1,11 @@
 const notification = document.querySelector("#notification");
-const notificationText = document.querySelector("#notificationText");
-const errorMessageIcon = document.querySelector("#errorMessageIcon");
-const successMessageIcon = document.querySelector("#successMessageIcon");
-
+const notificationText = document.querySelector("#notification-text");
+const errorMessageIcon = document.querySelector("#error-icon");
+const successMessageIcon = document.querySelector("#success-icon");
 
 // handle notification pop up
-let messageTimeout;
 export function showMessage(type, message) {
+    let messageTimeout;
 
     if(messageTimeout) {
         clearTimeout(messageTimeout);
@@ -41,7 +40,6 @@ export function showMessage(type, message) {
 }
 
 
-
 // validate input is valid nums > 0
 export function validateNumInputs(...input){
     for (let value of input){
@@ -65,11 +63,9 @@ const allowedMap = {
 };
 
 // check if field has only allowed chars
-
 export function validateInput(type, input){
     const allowed = allowedMap[type];
         input = input.trim();
-
         if (input === ""){
             return "empty";
         }
@@ -85,7 +81,6 @@ export function validateInput(type, input){
 // handles response
 export function handleValidation(type, input, fieldName){
     const status = validateInput(type, input);
-
     if(status === "empty"){
         showMessage("error", "All fields must be filled.");
         return false;
@@ -96,9 +91,7 @@ export function handleValidation(type, input, fieldName){
         return false;
     }
 
-    if(status === "ok"){
-        return true;
-    }
+    if(status === "ok") return true;
 }
 
 
@@ -120,8 +113,6 @@ export function validatePasswordStrength(password){
 
 export function validateEmailDomain(email){
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     if(!emailRegex.test(email)) return "Please enter a valid email";
-
     return "VALID";
 }

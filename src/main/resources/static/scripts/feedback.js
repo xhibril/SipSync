@@ -1,14 +1,14 @@
 import {redirectToLoginPage} from "./redirect.js";
-
-const confirmBtnFeedback = document.querySelector("#feedbackConfirmBtn");
-const nameFeedback = document.querySelector("#nameFeedback");
-const emailFeedback = document.querySelector("#emailFeedback");
-const messageFeedback = document.querySelector("#messageFeedback");
-
 import {handleValidation, showMessage} from "./validation.js";
 
-confirmBtnFeedback.addEventListener("click", async () => {
-   handleSubmitFeedback();
+const feedBackBtn = document.querySelector("#feedback-send");
+const nameFeedback = document.querySelector("#feedback-name");
+const emailFeedback = document.querySelector("#feedback-email");
+const messageFeedback = document.querySelector("#feedback-message");
+
+
+feedBackBtn.addEventListener("click", async () => {
+   await handleSubmitFeedback();
 });
 
 
@@ -17,7 +17,7 @@ async function handleSubmitFeedback(){
     let email = emailFeedback.value;
     let message = messageFeedback.value;
 
-
+    // check if inputs r correct
     if(!(handleValidation("NAME", name, "name"))) return;
     if(!(handleValidation("EMAIL", email, "email"))) return;
     if(!(handleValidation("MESSAGE", message, "message"))) return;
@@ -43,4 +43,3 @@ async function handleSubmitFeedback(){
         showMessage("error", "Could not send your feedback. Please try again.");
     }
 }
-

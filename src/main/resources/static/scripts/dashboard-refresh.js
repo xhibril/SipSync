@@ -1,36 +1,40 @@
 import {redirectToLoginPage} from "./redirect.js";
-
-const waterDrankDisplay = document.querySelector("#amount");
-const goalDisplay = document.querySelector("#goal");
-const remainingDisplay = document.querySelector("#displayRemaining");
-const streakDisplay = document.querySelector("#displayStreak");
-const periodLabelDisplay = document.querySelector("#period-label");
-
 import {showMessage} from "./validation.js";
 
-let waterDrank = 0;
-let goal = 0;
-let url;
+const waterDrankDisplay = document.querySelector("#water-drank");
+const goalDisplay = document.querySelector("#goal");
+const remainingDisplay = document.querySelector("#water-remaining");
+const streakDisplay = document.querySelector("#streak");
+const periodLabelDisplay = document.querySelector("#period-label");
 
+
+const state = {
+    waterDrank: 0,
+    goal: 0,
+    url: null
+};
+
+// refresh all
 export async function refreshMainPage(timeRange) {
     switch (timeRange) {
         case "DAILY":{
-            url = "/today";
+            state.url = "/today";
             // hide viewing "weekly / monthly avg" label
             periodLabelDisplay.classList.add("hidden");
             break;
         }
-        case "WEEKLY": url = "/weekly"; break;
-        case "MONTHLY": url = "/monthly"; break;
+        case "WEEKLY": state.url = "/weekly"; break;
+        case "MONTHLY": state.url = "/monthly"; break;
     }
 
     await refreshWaterIntake();
     await refreshGoal();
 
-    refreshProgressBar(waterDrank, goal);
+    refreshProgressBar(state.waterDrank, state.goal);
     refreshRemaining();
 }
 
+// refresh goal
 export async function refreshGoal(){
     try{
         const goalResponse = await fetch("/goal");
@@ -41,17 +45,18 @@ export async function refreshGoal(){
             throw new Error("Server returned an error.");
         }
             const goalRes = await goalResponse.json();
-            goal = goalRes;
-            goalDisplay.innerHTML = goal + " mL";
+            state.goal = goalRes;
+            goalDisplay.innerHTML = state.goal + " mL";
 
     } catch(err) {
         showMessage("error", "Could not load your goal, please try again later.");
     }
 }
 
+// refresh water intake
 export async function refreshWaterIntake(){
     try{
-        const amountResponse = await fetch(url);
+        const amountResponse = await fetch(state.url);
 
         if (!amountResponse.ok){
             redirectToLoginPage(amountResponse);
@@ -59,8 +64,8 @@ export async function refreshWaterIntake(){
             throw new Error("Server returned an error.");
         }
             const amountRes = await amountResponse.json();
-            waterDrank = amountRes;
-            waterDrankDisplay.innerHTML = waterDrank + " mL";
+            state.waterDrank = amountRes;
+            waterDrankDisplay.innerHTML = state.waterDrank + " mL";
 
     } catch(err) {
         showMessage("error", "Could not load your water intake, please try again later.");
@@ -68,6 +73,7 @@ export async function refreshWaterIntake(){
 }
 
 
+// refresh progress bar
 export function refreshProgressBar(waterDrank, goal) {
     if (goal <= 0) {
         document.querySelector(".progressBar").style.backgroundSize = `0% 100%, 100% 100%`;
@@ -83,10 +89,10 @@ export function refreshProgressBar(waterDrank, goal) {
 
 export function refreshRemaining(){
     // check remaining and increment streak if reached
-    let rem = calculateRemaining(waterDrank, goal);
+    let rem = calculateRemaining(state.waterDrank, state.goal);
     remainingDisplay.innerHTML = rem;
 
-    if (rem === 0 && goal !== 0) {
+    if (rem === 0 && state.goal !== 0) {
         incrementStreak();
     }
 }
@@ -96,7 +102,7 @@ function calculateRemaining(amountDrank, goal) {
     return (goal - amountDrank);
 }
 
-
+// increase streak if goal is reached
 async function incrementStreak() {
     try {
         const incrementStreakResponse = await fetch("/streak/increment", {method: "POST"});

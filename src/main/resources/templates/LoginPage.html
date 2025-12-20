@@ -16,9 +16,9 @@
 <div class="mainSection">
     <div class="headerSection">
         <p id="notification">
-            <img src="/images/error.png" id="errorMessageIcon" class = "hidden">
-            <img src="/images/success.png" id="successMessageIcon" class = "hidden">
-            <span id="notificationText">Something went wrong</span>
+            <img src="/images/error.png" id="error-icon" class = "hidden">
+            <img src="/images/success.png" id="success-icon" class = "hidden">
+            <span id="notification-text"></span>
         </p>
 
         <div class="brandingContainer maxwidth90">
@@ -37,20 +37,20 @@
         </div>
 
 
-        <div class="inputContainer" id = "login-input-container">
+        <div class="inputContainer" id = "login-container">
             <form class="form maxwidth90">
 
                 <span class="pageTitle">Login</span>
-                <input type="email" class="input" id = "emailLogin" placeholder="Email">
-                <input type="password" class="input" id = "passwordLogin" placeholder="Password">
+                <input type="email" class="input" id = "login-email" placeholder="Email">
+                <input type="password" class="input" id = "login-password" placeholder="Password">
 
                 <label class="rememberRow">
                     <input type="checkbox" class="rememberMe" id = "remember-me">
                     <span>Remember me</span>
                 </label>
 
-                <a href="" id = "forgotPassword">Forgot Password?</a>
-                <button class="confirmBtn" id = "loginContinueBtn">Continue</button>
+                <a href="" id = "forgot-password">Forgot Password?</a>
+                <button class="confirmBtn" id = "login-confirm">Continue</button>
             </form>
 
             <div class="footerContainer maxwidth90">
@@ -64,12 +64,12 @@
             <form class="form maxwidth90">
 
                 <span class="pageTitle">Reset Password</span>
-                <input type="email" class= "input"  id = "email-reset" placeholder="Enter">
+                <input type="email" class= "input"  id = "reset-email" placeholder="Enter">
                 <input type="number" class= "input hidden" id = "verification-code" placeholder="Enter 6-digit code">
-                <input type="password" class= "input hidden" id = "new-password" placeholder="Enter new password">
-                <input type="password" class= "input hidden" id = "re-enter-password" placeholder="Re-enter new password">
+                <input type="password" class= "input hidden" id = "reset-password" placeholder="Enter new password">
+                <input type="password" class= "input hidden" id = "reset-confirm-password" placeholder="Re-enter new password">
 
-                <button class="confirmBtn hidden" id = "resetPasswordContinueBtn">Continue</button>
+                <button class="confirmBtn hidden" id = "reset-btn">Continue</button>
             </form>
 
             <div class="footerContainer maxwidth90">

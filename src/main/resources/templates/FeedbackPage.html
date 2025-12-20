@@ -15,9 +15,9 @@
 <div class="mainSection">
     <div class="headerSection">
         <p id="notification">
-            <img src="/images/error.png" id="errorMessageIcon" class = "hidden">
-            <img src="/images/success.png" id="successMessageIcon" class = "hidden">
-            <span id="notificationText">Something went wrong</span>
+            <img src="/images/error.png" id="error-icon" class = "hidden">
+            <img src="/images/success.png" id="success-icon" class = "hidden">
+            <span id="notification-text"></span>
         </p>
 
         <div class="brandingContainer maxwidth90">
@@ -50,16 +50,16 @@
             <form class="maxwidth90">
 
                 <label>Name</label>
-                <input type="text" id = "nameFeedback" class="input" placeholder="John Smith" name = "feedback">
+                <input type="text" id = "feedback-name" class="input" placeholder="John Smith" name = "feedback">
 
                 <label>Email</label>
-                <input type="email" id = "emailFeedback" class="input" placeholder="example@gmail.com" name = "feedback">
+                <input type="email" id = "feedback-email" class="input" placeholder="example@gmail.com" name = "feedback">
 
                 <label>Message</label>
-                <textarea rows="20" cols="50" id = "messageFeedback" placeholder="" maxlength="200" name = "feedback"></textarea>
+                <textarea rows="20" cols="50" id = "feedback-message" placeholder="" maxlength="200" name = "feedback"></textarea>
 
             </form>
-            <button type="submit" id = "feedbackConfirmBtn" class="confirmBtn">Confirm</button>
+            <button type="submit" id = "feedback-send" class="confirmBtn">Confirm</button>
         </div>
     </div>
 </div>

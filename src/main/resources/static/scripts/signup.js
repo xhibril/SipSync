@@ -1,11 +1,10 @@
 import {showMessage, handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
-import {disableBtn, enableBtn, showOverlay} from "./button-state.js";
+import {lockBtn, unlockBtn} from "./button-state.js";
 
-const emailSignUp = document.querySelector("#emailSignUp");
-const passwordSignUp = document.querySelector("#passwordSignUp");
 const inputs = document.querySelectorAll(".input");
-const signUpContinueBtn = document.querySelector("#signUpContinueBtn");
-
+const emailSignUp = document.querySelector("#signup-email");
+const passwordSignUp = document.querySelector("#signup-password");
+const signUpBtn = document.querySelector("#signup-btn");
 const loginLink = document.querySelector('#login-link');
 
 loginLink.addEventListener("click", (e)=>{
@@ -13,9 +12,17 @@ loginLink.addEventListener("click", (e)=>{
     window.location.href = "/login";
 })
 
-
-signUpContinueBtn.addEventListener("click", (e) => {
+signUpBtn.addEventListener("click", (e) => {
      handleSignUpClick(e);
+});
+
+inputs.forEach(input => {
+    input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            signUpBtn.click();
+        }
+    });
 });
 
 function handleSignUpClick(e){
@@ -29,8 +36,6 @@ function handleSignUpClick(e){
 
     // check email domain validation
     const emailDomainValidationStatus = validateEmailDomain(email);
-
-    // if password meets all requirements continue, if not give error msg
     if (emailDomainValidationStatus !== "VALID") {
         showMessage("error", `${emailDomainValidationStatus}`);
         return;
@@ -43,25 +48,10 @@ function handleSignUpClick(e){
         return;
     }
 
-    // temp disable btn so user cant spam and show overlay
-    disableBtn(signUpContinueBtn);
-    showOverlay(true);
+    lockBtn(signUpBtn, "Signing up...");
     handleSignUp(email, password);
 }
 
-
-
-
-
-
-inputs.forEach(input => {
-    input.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            signUpContinueBtn.click();
-        }
-    });
-});
 
 
 async function handleSignUp(email, password) {
@@ -78,30 +68,17 @@ async function handleSignUp(email, password) {
 
         const signUpRes = await signUpResponse.json();
 
-
         if(signUpRes){
             localStorage.setItem("userEmail", email);
             // nav to verify page after signing up
-
-
-            // re-enable btn and disable overlay
-            enableBtn(signUpContinueBtn);
-            showOverlay(false);
             window.location.href = "/verify";
-
         } else {
-
-            // re-enable btn and disable overlay
-            enableBtn(signUpContinueBtn);
-            showOverlay(false);
             showMessage("error", "This user already exists.");
         }
     } catch (err) {
-        // re-enable btn and disable overlay
-        enableBtn(signUpContinueBtn);
-        showOverlay(false);
-
         showMessage("error", "Could not sign you up. Please try again later.");
+    } finally {
+        unlockBtn(signUpBtn);
     }
 }
 

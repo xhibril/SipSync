@@ -15,11 +15,10 @@
 <div class="overlay"></div>
 <div class="mainSection">
     <div class="headerSection">
-
         <p id="notification">
-            <img src="/images/error.png" id="errorMessageIcon" class = "hidden">
-            <img src="/images/success.png" id="successMessageIcon" class = "hidden">
-            <span id="notificationText">Something went wrong</span>
+            <img src="/images/error.png" id="error-icon" class = "hidden">
+            <img src="/images/success.png" id="success-icon" class = "hidden">
+            <span id="notification-text"></span>
         </p>
 
         <div class="brandingContainer maxwidth90">
@@ -36,13 +35,13 @@
                 your water goals.</p>
         </div>
 
-        <div class="inputContainer">
+        <div class="inputContainer" id = "signup-container">
             <form class="form maxwidth90">
-                <span id="pageTitle">SignUp</span>
-                <input type="email" class="input" id ="emailSignUp" placeholder="Email">
-                <input type="password" class="input" id ="passwordSignUp" placeholder="Password">
+                <span class = "pageTitle" id="signup-page-title">SignUp</span>
+                <input type="email" class="input" id ="signup-email" placeholder="Email">
+                <input type="password" class="input" id ="signup-password" placeholder="Password">
 
-                <button class="confirmBtn" id ="signUpContinueBtn">Continue</button>
+                <button class="confirmBtn" id ="signup-btn">Continue</button>
             </form>
 
             <div class="footerContainer maxwidth90">
