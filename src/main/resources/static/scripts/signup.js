@@ -47,11 +47,9 @@ function handleSignUpClick(e){
         showMessage("error", `${passwordStrengthStatus}`);
         return;
     }
-
     lockBtn(signUpBtn, "Signing up...");
     handleSignUp(email, password);
 }
-
 
 
 async function handleSignUp(email, password) {
@@ -67,7 +65,6 @@ async function handleSignUp(email, password) {
         }
 
         const signUpRes = await signUpResponse.json();
-
         if(signUpRes){
             localStorage.setItem("userEmail", email);
             // nav to verify page after signing up

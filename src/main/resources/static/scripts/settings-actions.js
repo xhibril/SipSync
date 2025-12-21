@@ -1,6 +1,7 @@
 import {redirectToLoginPage} from "./redirect.js";
 import {refreshMainPage} from "./dashboard-refresh.js";
 import {showMessage} from "./validation.js";
+import {lockBtn, unlockBtn} from "./button-state.js";
 
 const settingsMenu = document.querySelector("#settings-menu");
 const overlay = document.querySelector("#app-overlay");
@@ -11,6 +12,7 @@ const weeklyBtn = document.querySelector("#view-weekly");
 const monthlyBtn = document.querySelector("#view-monthly");
 const amountDisplay = document.querySelector("#water-drank");
 const periodLabelDisplay = document.querySelector("#period-label");
+const logoutBtn = document.querySelector("#logout-btn");
 
 const state = {
     timeRange: "DAILY"
@@ -45,6 +47,9 @@ monthlyBtn.addEventListener("click", () => {
     view("/monthly", "Viewing monthly average water intake");
 })
 
+logoutBtn.addEventListener("click", ()=>{
+    logout();
+})
 async function deleteUserData() {
     try {
         const resetDataResponse = await fetch("/reset/data", {method: "POST"});
@@ -83,3 +88,20 @@ async function view(url, label){
         showMessage("error", "Could not load data. Please try again later.");
     }
 }
+
+async function logout(){
+    lockBtn(logoutBtn, "Logging in...");
+    try{
+        const logoutResponse = await fetch("/api/logout", {method:"POST"});
+        if(!logoutResponse.ok) {
+            throw new Error();
+        }
+        window.location.href = "/login";
+    } catch(err){
+        showMessage("error", "Could not log you out. Please try again.");
+    } finally{
+        unlockBtn(logoutBtn);
+    }
+}
+
+

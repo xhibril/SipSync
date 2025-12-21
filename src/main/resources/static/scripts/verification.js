@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // resend token
 export async function resendVerificationToken(){
-    console.log(userEmail);
     try {
         const resendToken = await fetch("/email/send-token",{
             method: "POST",
@@ -26,7 +25,6 @@ export async function resendVerificationToken(){
         if (!resendToken.ok){
             throw new Error();
         }
-
         showMessage("success", "Successfully sent. Please check your e-mail address.")
     } catch (err){
         showMessage("error", "Could not resend verification token. Please try again.");

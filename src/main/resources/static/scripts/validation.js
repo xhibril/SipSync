@@ -4,9 +4,8 @@ const errorMessageIcon = document.querySelector("#error-icon");
 const successMessageIcon = document.querySelector("#success-icon");
 
 // handle notification pop up
+let messageTimeout;
 export function showMessage(type, message) {
-    let messageTimeout;
-
     if(messageTimeout) {
         clearTimeout(messageTimeout);
     }
@@ -20,7 +19,6 @@ export function showMessage(type, message) {
     if(message){
         notificationText.innerHTML = message;
     }
-
     // make duration 3s for successful, and 3.5s for error
     let duration;
     if(type === "success"){

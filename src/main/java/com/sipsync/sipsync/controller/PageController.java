@@ -41,10 +41,24 @@ public class PageController {
 
     // load login page
     @GetMapping("/login")
-    public String LoginPage(){ return "LoginPage"; }
+    public String LoginPage(HttpServletRequest req){
+        Long userId = authService.getAuthenticatedUserId(req);
+        if (userId == null) {
+            return "LoginPage";
+        } else {
+            return "redirect:/home";
+        }
+    }
 
     // load sign up page
     @GetMapping("/signup")
-    public String SignUpPage(){return "SignUpPage";}
+    public String SignUpPage(HttpServletRequest req){
+        Long userId = authService.getAuthenticatedUserId(req);
+        if (userId == null) {
+            return "SignUpPage";
+        } else {
+            return "redirect:/home";
+        }
+    }
 
 }

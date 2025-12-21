@@ -4,9 +4,10 @@ import com.sipsync.sipsync.service.TokenService;
 import com.sipsync.sipsync.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class EmailVerificationController {
 
     @Autowired private TokenService tokenService;
@@ -14,6 +15,7 @@ public class EmailVerificationController {
 
     // send verification link to user
     @PostMapping("/email/send-token")
+    @ResponseBody
     public ResponseEntity<String> sendVerificationEmail(@RequestBody User user){
 
         try {

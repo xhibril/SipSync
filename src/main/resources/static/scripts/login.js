@@ -1,6 +1,6 @@
 import {showMessage, handleValidation, validateEmailDomain} from "./validation.js";
 import {resendVerificationToken} from "./verification.js";
-import {disableBtn, enableBtn, btnContent} from "./button-state.js";
+import {disableBtn, enableBtn, btnContent, unlockBtn, lockBtn} from "./button-state.js";
 
 const inputFields = document.querySelectorAll(".Input");
 const loginContainer = document.querySelector("#login-container");
@@ -62,8 +62,7 @@ function handleLoginClick(){
     }
 
     // temp disable btn
-    disableBtn(loginBtn);
-    btnContent(loginBtn, "Logging in...");
+    lockBtn(loginBtn, "Logging in...");
     handleLogin(email, password);
 }
 
@@ -87,16 +86,13 @@ async function handleLogin(email, password){
         const loginResponse = await fetch ("/api/login", {
             method: "POST",
             headers: {"Content-Type": "application/json" },
-            body: JSON.stringify({email, password, rememberMe})
+            body: JSON.stringify({email: email, password: password, rememberMe: rememberMe})
         });
 
         if(!loginResponse.ok){
-            enableBtn(loginBtn);
-            btnContent(loginBtn, "Continue");
             throw new Error("Server returned an error.");
         }
             const areCredentialsValid = await loginResponse.json();
-
             if(areCredentialsValid){
 
                 const isUserVerifiedResponse = await fetch("/api/verification-status", {
@@ -120,13 +116,12 @@ async function handleLogin(email, password){
                     window.location.href = "/verify"
                 }
             } else {
-                btnContent(loginBtn, "Continue");
                 showMessage("error", "Invalid credentials, try again.");
             }
-
     } catch (err){
-        btnContent(loginBtn, "Continue");
         showMessage("error", "Could not log in. Please try again later.");
+    } finally {
+        unlockBtn(loginBtn);
     }
 }
 

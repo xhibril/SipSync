@@ -15,7 +15,7 @@ public class StatsController {
     @Autowired StatsService statsService;
 
     // get total amount drank today
-    @GetMapping("/today")
+    @GetMapping("/daily")
     public ResponseEntity<Float> getTodayTotals(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
@@ -21,12 +22,12 @@ public class AuthService {
     @Autowired EmailVerificationRepository verifyRepo;
     @Autowired JavaMailSender mailSender;
 
-
     public Boolean isUserVerified(String email) {
         return userRepo.findUserByEmail(email);
     }
 
     // send verification email
+    @Async
     public void sendVerificationEmail(String email, String token){
         String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
 

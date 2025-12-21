@@ -18,7 +18,7 @@ const state = {
 export async function refreshMainPage(timeRange) {
     switch (timeRange) {
         case "DAILY":{
-            state.url = "/today";
+            state.url = "/daily";
             // hide viewing "weekly / monthly avg" label
             periodLabelDisplay.classList.add("hidden");
             break;

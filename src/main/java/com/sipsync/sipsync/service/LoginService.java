@@ -3,6 +3,7 @@ import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,6 @@ import java.util.Optional;
 @Service
 public class LoginService {
     @Autowired UserRepository userRepo;
-
 
     // check if user credentials are correct
     public Boolean isUserValid(String email, String password, Boolean rememberMe, HttpServletResponse res) {
@@ -30,7 +30,7 @@ public class LoginService {
 
                 // if details r successful gen token auth token and store it
                 String token = generateAuthToken(user.getId(), length);
-                storeAuthToken(token, Math.toIntExact(length/1000), res);
+                storeAuthToken(token, Math.toIntExact(length / 1000), res);
                 return true;
             }
         }
@@ -59,18 +59,30 @@ public class LoginService {
 
 
     // store auth token as http cookie
-    public void storeAuthToken(String token, int length, HttpServletResponse res){
+    public void storeAuthToken(String token, int length, HttpServletResponse res) {
         Cookie cookie = new Cookie("authToken", token);
         cookie.setHttpOnly(true);
+        //  cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setMaxAge(length); // expires in 7 days
         res.addCookie(cookie);
 
     }
 
-    private Long expiration(Boolean rememberMe){
+    private Long expiration(Boolean rememberMe) {
         final long TWO_WEEKS = 1000L * 60 * 60 * 24 * 14;
         final long TWO_HOURS = 1000L * 60 * 60 * 2;
-       return rememberMe ? TWO_WEEKS : TWO_HOURS;
+        return rememberMe ? TWO_WEEKS : TWO_HOURS;
+    }
+
+    public Boolean logout(HttpServletResponse res) {
+        Cookie cookie = new Cookie("authToken", null);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        //  cookie.setSecure(true);
+        cookie.setMaxAge(0);
+        res.addCookie(cookie);
+        return true;
     }
 }
+
