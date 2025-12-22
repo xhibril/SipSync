@@ -16,7 +16,12 @@ public class PageController {
         Long userId = authService.getAuthenticatedUserId(req);
         if (userId == null) {
             return "redirect:/login";
-        } else {
+        }
+
+        Boolean isVerified = authService.checkVerificationStatusById(userId);
+        if(!isVerified){
+            return "redirect:/verify";
+        }  else{
             return "HomePage";
         }
     }
@@ -34,7 +39,12 @@ public class PageController {
         Long userId = authService.getAuthenticatedUserId(req);
         if (userId == null) {
             return "redirect:/login";
-        } else {
+        }
+
+        Boolean isVerified = authService.checkVerificationStatusById(userId);
+        if(!isVerified){
+            return "redirect:/verify";
+        }  else{
             return "FeedbackPage";
         }
     }
@@ -42,23 +52,14 @@ public class PageController {
     // load login page
     @GetMapping("/login")
     public String LoginPage(HttpServletRequest req){
-        Long userId = authService.getAuthenticatedUserId(req);
-        if (userId == null) {
             return "LoginPage";
-        } else {
-            return "redirect:/home";
-        }
     }
 
     // load sign up page
     @GetMapping("/signup")
     public String SignUpPage(HttpServletRequest req){
-        Long userId = authService.getAuthenticatedUserId(req);
-        if (userId == null) {
+
             return "SignUpPage";
-        } else {
-            return "redirect:/home";
-        }
     }
 
 }

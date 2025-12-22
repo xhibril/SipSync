@@ -15,7 +15,7 @@ public class GoalController {
 
 
     // add goal
-    @PostMapping("/add/goal")
+    @PostMapping("/goal/add")
     public ResponseEntity<Void> setGoal(@RequestParam int goal, HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
@@ -27,7 +27,7 @@ public class GoalController {
     }
 
     // get user goal
-    @GetMapping("/goal")
+    @GetMapping("/goal/get")
     public ResponseEntity<Float> getSetGoal(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 

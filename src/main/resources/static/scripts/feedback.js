@@ -1,5 +1,6 @@
-import {redirectToLoginPage} from "./redirect.js";
-import {handleValidation, showMessage} from "./validation.js";
+import {rateLimited, redirectToLoginPage} from "./http-responses.js";
+import {handleValidation} from "./validation.js";
+import {showMessage} from "./notification.js";
 
 const feedBackBtn = document.querySelector("#feedback-send");
 const nameFeedback = document.querySelector("#feedback-name");
@@ -31,8 +32,8 @@ async function handleSubmitFeedback(){
 
         if (!feedbackResponse.ok){
             redirectToLoginPage(feedbackResponse);
-            return;
-            throw new Error("Server returned an error.");
+            rateLimited(feedbackResponse);
+            throw new Error();
         }
             showMessage("success", "Feedback sent! Thank you.");
             nameFeedback.value = "";

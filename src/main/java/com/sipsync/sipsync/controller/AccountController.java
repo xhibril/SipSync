@@ -15,10 +15,9 @@ public class AccountController {
 
 
     // reset user data
-    @PostMapping("/reset/data")
+    @PostMapping("/data/reset")
     public ResponseEntity<Void> resetData(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
-
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

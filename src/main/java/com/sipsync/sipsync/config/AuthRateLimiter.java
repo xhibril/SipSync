@@ -1,10 +1,8 @@
 package com.sipsync.sipsync.config;
-
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Bucket4j;
 import org.springframework.stereotype.Component;
-
 import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
@@ -12,16 +10,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class AuthRateLimiter {
+    enum AuthType {
+        LOGIN,
+        SIGNUP,
+        VERIFICATION_EMAIL,
+        PASSWORD_RESET
+    }
 
     private final Map<Long, Bucket> buckets = new ConcurrentHashMap<>();
 
-    public boolean limiter(Long userId, UserRateLimitFilter.AuthType type){
+    public boolean limiter(String ip, AuthType type){
         int limit, hourLimit;
         String endpoint;
 
         switch (type) {
             case LOGIN -> {
-                limit = 5;
+                limit = 10;
                 hourLimit = 25;
                 endpoint = "login";
             }
@@ -32,14 +36,14 @@ public class AuthRateLimiter {
             }
 
             case VERIFICATION_EMAIL -> {
-                limit = 1;
-                hourLimit = 3;
+                limit = 2;
+                hourLimit = 4;
                 endpoint = "verificationEmail";
             }
 
             case PASSWORD_RESET -> {
-                limit = 1;
-                hourLimit = 3;
+                limit = 2;
+                hourLimit = 4;
                 endpoint = "passwordReset";
             }
             default -> {
@@ -47,7 +51,7 @@ public class AuthRateLimiter {
             }
         }
 
-        long key = Objects.hash(userId, endpoint);     // unique key = user + endpoint
+        long key = Objects.hash(ip, endpoint);     // unique key = user + endpoint
         Bucket authBucket = buckets.computeIfAbsent(key, k ->
                 Bucket4j.builder()
                         .addLimit(Bandwidth.simple(limit, Duration.ofMinutes(1)))

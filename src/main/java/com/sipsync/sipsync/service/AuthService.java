@@ -1,4 +1,5 @@
 package com.sipsync.sipsync.service;
+import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.repository.UserRepository;
 import com.sipsync.sipsync.repository.EmailVerificationRepository;
 import io.jsonwebtoken.Claims;
@@ -12,8 +13,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -21,10 +25,6 @@ public class AuthService {
     @Autowired UserRepository userRepo;
     @Autowired EmailVerificationRepository verifyRepo;
     @Autowired JavaMailSender mailSender;
-
-    public Boolean isUserVerified(String email) {
-        return userRepo.findUserByEmail(email);
-    }
 
     // send verification email
     @Async
@@ -84,6 +84,7 @@ public class AuthService {
     }
 
 
+
     public String checkIfAuthTokenExists(HttpServletRequest req){
         // get all the cookies sent by the browser
         Cookie[] cookies = req.getCookies();
@@ -121,5 +122,47 @@ public class AuthService {
         }
         return userId;
     }
+
+
+
+
+    public void generateAuthTokenAfterSignup(Long userId, String email) {
+
+        System.out.println("USER IDDDDDDDDDDDDDDDDDDDDDDDD" + userId);
+        String token;
+
+        String secret = System.getenv("JWT_SECRET");
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
+
+        token = Jwts.builder()
+                .setSubject(String.valueOf(userId))
+                .claim("id", userId)
+                .claim("email", email)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60* 60))
+                .signWith(key)
+                .compact();
+
+        sendVerificationEmail(email, token);
+    }
+
+
+    public Long getUserIdByEmail(String email){
+        return userRepo.findIdByEmail(email);
+    }
+
+
+    public Boolean checkVerificationStatusByEmail(String email){
+     return userRepo.findIsVerifiedByEmail(email);
+    }
+
+    public Boolean checkVerificationStatusById(Long userId){
+       return userRepo.findIsVerifiedById(userId);
+    }
+
+
+
+
+
 }
+
 

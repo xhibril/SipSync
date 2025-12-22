@@ -1,6 +1,6 @@
-import {redirectToLoginPage} from "./redirect.js";
+import {rateLimited, redirectToLoginPage} from "./http-responses.js";
 import {refreshMainPage} from "./dashboard-refresh.js";
-import {showMessage} from "./validation.js";
+import {showMessage} from "./notification.js";
 import {lockBtn, unlockBtn} from "./button-state.js";
 
 const settingsMenu = document.querySelector("#settings-menu");
@@ -52,9 +52,10 @@ logoutBtn.addEventListener("click", ()=>{
 })
 async function deleteUserData() {
     try {
-        const resetDataResponse = await fetch("/reset/data", {method: "POST"});
+        const resetDataResponse = await fetch("/data/reset", {method: "POST"});
         if (!resetDataResponse.ok){
             redirectToLoginPage(resetDataResponse);
+            rateLimited(resetDataResponse);
             throw new Error();
         }
             showMessage("success", "Data deleted. Refreshing...");
@@ -94,6 +95,7 @@ async function logout(){
     try{
         const logoutResponse = await fetch("/api/logout", {method:"POST"});
         if(!logoutResponse.ok) {
+            rateLimited(logoutResponse);
             throw new Error();
         }
         window.location.href = "/login";

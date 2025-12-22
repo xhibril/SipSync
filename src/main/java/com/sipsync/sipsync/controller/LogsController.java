@@ -16,7 +16,7 @@ public class LogsController {
     @Autowired LogsService logsService;
 
     // returns today's logs for display
-    @GetMapping("/logs")
+    @GetMapping("/log/today")
     public ResponseEntity<List> getTodayLogs(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
@@ -27,7 +27,7 @@ public class LogsController {
     }
 
     // add a log
-    @PostMapping("/add")
+    @PostMapping("/log/add")
     public ResponseEntity<Logs> addLog(@RequestParam int amount, HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
@@ -39,7 +39,7 @@ public class LogsController {
 
 
     // delete a log
-    @PostMapping("/delete/log")
+    @PostMapping("/log/delete")
     public ResponseEntity<Void> deleteLog(@RequestParam Long logId, HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
@@ -52,7 +52,7 @@ public class LogsController {
 
 
     // update / edit a log
-    @PostMapping("/update/log")
+    @PostMapping("/log/update")
     public ResponseEntity<Void> updateLog(@RequestParam int amount, Long id, HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 

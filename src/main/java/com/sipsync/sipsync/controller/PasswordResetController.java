@@ -13,19 +13,19 @@ public class PasswordResetController {
     @Autowired PasswordResetService passwordResetService;
 
     // generates verification code and stores it to database
-    @PostMapping("/password-reset")
+    @PostMapping("/password/reset")
     public ResponseEntity<PasswordResetResponse> generateVerificationCode(@RequestBody PasswordResetRequest request) {
       return passwordResetService.requestPasswordReset(request.getEmail());
     }
 
     // compares verification code user enters with the one stored
-    @PostMapping("/password-reset/verify")
+    @PostMapping("/password/reset/verify")
         public ResponseEntity<PasswordResetResponse> compareVerificationCode(@RequestBody PasswordResetRequest request){
         return passwordResetService.compareVerificationCode(request.getCode(), request.getEmail());
     }
 
     // change password
-    @PostMapping("/password-reset/change")
+    @PostMapping("/password/reset/change")
     public ResponseEntity<PasswordResetResponse> changePassword(@RequestBody PasswordResetRequest request){
         return passwordResetService.changePassword(request.getEmail(), request.getPassword(), request.getResetToken());
     }

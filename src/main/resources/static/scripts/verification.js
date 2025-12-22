@@ -1,4 +1,5 @@
-import {showMessage} from "./validation.js";
+import {showMessage} from "./notification.js";
+import {rateLimited} from "./http-responses.js";
 const userEmail = localStorage.getItem("userEmail");
 
 
@@ -23,6 +24,7 @@ export async function resendVerificationToken(){
         });
 
         if (!resendToken.ok){
+            rateLimited(resendToken);
             throw new Error();
         }
         showMessage("success", "Successfully sent. Please check your e-mail address.")

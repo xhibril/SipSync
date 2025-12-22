@@ -25,6 +25,7 @@ public class User {
     public User(String email, String password, LocalDate lastStreakUpdateDate) {
         this.email = email;
         this.password = password;
+        this.streak = 0;
         this.lastStreakUpdateDate = lastStreakUpdateDate;
         this.isVerified = false;
     }

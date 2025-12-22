@@ -1,5 +1,5 @@
-import {redirectToLoginPage} from "./redirect.js";
-import {showMessage} from "./validation.js";
+import {rateLimited, redirectToLoginPage} from "./http-responses.js";
+import {showMessage} from "./notification.js";
 
 const waterDrankDisplay = document.querySelector("#water-drank");
 const goalDisplay = document.querySelector("#goal");
@@ -18,13 +18,13 @@ const state = {
 export async function refreshMainPage(timeRange) {
     switch (timeRange) {
         case "DAILY":{
-            state.url = "/daily";
+            state.url = "/stats/daily";
             // hide viewing "weekly / monthly avg" label
             periodLabelDisplay.classList.add("hidden");
             break;
         }
-        case "WEEKLY": state.url = "/weekly"; break;
-        case "MONTHLY": state.url = "/monthly"; break;
+        case "WEEKLY": state.url = "/stats/weekly"; break;
+        case "MONTHLY": state.url = "/stats/monthly"; break;
     }
 
     await refreshWaterIntake();
@@ -37,12 +37,12 @@ export async function refreshMainPage(timeRange) {
 // refresh goal
 export async function refreshGoal(){
     try{
-        const goalResponse = await fetch("/goal");
+        const goalResponse = await fetch("/goal/get");
 
         if(!goalResponse.ok){
             redirectToLoginPage(goalResponse);
-            return;
-            throw new Error("Server returned an error.");
+            rateLimited(goalResponse);
+            throw new Error();
         }
             const goalRes = await goalResponse.json();
             state.goal = goalRes;
@@ -60,8 +60,8 @@ export async function refreshWaterIntake(){
 
         if (!amountResponse.ok){
             redirectToLoginPage(amountResponse);
-            return;
-            throw new Error("Server returned an error.");
+            rateLimited(amountResponse);
+            throw new Error();
         }
             const amountRes = await amountResponse.json();
             state.waterDrank = amountRes;
@@ -108,8 +108,8 @@ async function incrementStreak() {
         const incrementStreakResponse = await fetch("/streak/increment", {method: "POST"});
         if(!incrementStreakResponse.ok){
             redirectToLoginPage(incrementStreakResponse);
-            return;
-            throw new Error("Server returned an error.");
+            rateLimited(incrementStreakResponse);
+            throw new Error();
         }
             const streakRes = await incrementStreakResponse.json();
             streakDisplay.innerHTML = streakRes;

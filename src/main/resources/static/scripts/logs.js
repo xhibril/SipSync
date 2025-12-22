@@ -1,6 +1,5 @@
-import {redirectToLoginPage} from "./redirect.js";
-import {refreshMainPage} from "./dashboard-refresh.js";
-import {showMessage} from "./validation.js";
+import {rateLimited, redirectToLoginPage} from "./http-responses.js";
+import {showMessage} from "./notification.js";
 
 const logs = document.querySelector("#logs-container");
 const noLogsFoundImage = document.querySelector("#no-logs-found-image");
@@ -59,10 +58,11 @@ async function handleLog(newValue, logId) {
 
 async function deleteLog(logId) {
     try {
-        const deleteLogResponse = await fetch(`/delete/log?logId=${logId}`, {method: "POST"});
+        const deleteLogResponse = await fetch(`/log/delete?logId=${logId}`, {method: "POST"});
         if (!deleteLogResponse.ok) {
             redirectToLoginPage(deleteLogResponse);
-            throw new Error("Server returned an error.");
+            rateLimited(deleteLogResponse);
+            throw new Error();
         }
         showMessage("success", "Log deleted.");
         return true;
@@ -75,10 +75,11 @@ async function deleteLog(logId) {
 
 async function updateLog(newValue, logId) {
     try {
-        const updateLog = await fetch(`/update/log?amount=${newValue}&id=${logId}`, {method: "POST"});
+        const updateLog = await fetch(`/log/update?amount=${newValue}&id=${logId}`, {method: "POST"});
         if (!updateLog.ok) {
             redirectToLoginPage(updateLog);
-            throw new Error("Server returned an error.");
+            rateLimited(updateLog);
+            throw new Error();
         }
         showMessage("success", "Log edited.");
         return true;

@@ -1,43 +1,4 @@
-const notification = document.querySelector("#notification");
-const notificationText = document.querySelector("#notification-text");
-const errorMessageIcon = document.querySelector("#error-icon");
-const successMessageIcon = document.querySelector("#success-icon");
-
-// handle notification pop up
-let messageTimeout;
-export function showMessage(type, message) {
-    if(messageTimeout) {
-        clearTimeout(messageTimeout);
-    }
-
-    notification.classList.remove(type);
-    notification.style.transition = 'none';
-    void notification.offsetWidth;
-    notification.style.transition = '';
-    notification.classList.add(type);
-
-    if(message){
-        notificationText.innerHTML = message;
-    }
-    // make duration 3s for successful, and 3.5s for error
-    let duration;
-    if(type === "success"){
-        successMessageIcon.classList.remove('hidden');
-        errorMessageIcon.classList.add('hidden');
-        duration = 3000;
-    } else {
-        successMessageIcon.classList.add('hidden');
-        errorMessageIcon.classList.remove('hidden');
-        duration = 3500;
-    }
-
-    messageTimeout = setTimeout(() => {
-        notification.classList.remove(type);
-        messageTimeout = null;
-    }, duration);
-}
-
-
+import {showMessage} from "./notification.js";
 // validate input is valid nums > 0
 export function validateNumInputs(...input){
     for (let value of input){

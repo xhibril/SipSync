@@ -13,6 +13,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
+    @Query("SELECT u.isVerified FROM User u WHERE u.id = :userId")
+    Boolean findIsVerifiedById(@Param("userId")Long userId);
+
+    @Query("SELECT u.isVerified FROM User u WHERE u.email = :email")
+    Boolean findIsVerifiedByEmail(@Param("email")String email);
+
     // needed to check if email is already registered
     @Query("SELECT u.email FROM User u WHERE u.email = :email")
     Optional<String> findEmailByEmail(@Param("email") String email);

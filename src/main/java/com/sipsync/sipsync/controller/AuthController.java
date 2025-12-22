@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired private SingUpService singUpService;
-    @Autowired LoginService loginService;
-    @Autowired AuthService authService;
+    @Autowired private LoginService loginService;
+    @Autowired private AuthService authService;
 
     // check if user credentials are correct
     @PostMapping("/api/login")
@@ -23,9 +23,9 @@ public class AuthController {
     }
 
     // check if user is verified after logging in
-    @GetMapping("/api/verification-status")
-    public Boolean isUserVerified(@RequestParam String email) {
-        return authService.isUserVerified(email);
+    @PostMapping("/api/verification-status")
+    public Boolean isUserVerified(@RequestBody SignUpRequest request) {
+        return authService.checkVerificationStatusByEmail(request.getEmail());
     }
 
     // sign up user

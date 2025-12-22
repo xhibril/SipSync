@@ -1,6 +1,8 @@
-import {showMessage, handleValidation, validateEmailDomain} from "./validation.js";
+import {handleValidation, validateEmailDomain} from "./validation.js";
 import {resendVerificationToken} from "./verification.js";
-import {disableBtn, enableBtn, btnContent, unlockBtn, lockBtn} from "./button-state.js";
+import {unlockBtn, lockBtn} from "./button-state.js";
+import {showMessage} from "./notification.js";
+import {rateLimited} from "./http-responses.js";
 
 const inputFields = document.querySelectorAll(".Input");
 const loginContainer = document.querySelector("#login-container");
@@ -81,7 +83,6 @@ inputFields.forEach(input =>{
 
 async function handleLogin(email, password){
     const rememberMe = document.querySelector("#remember-me").checked;
-
     try {
         const loginResponse = await fetch ("/api/login", {
             method: "POST",
@@ -90,19 +91,26 @@ async function handleLogin(email, password){
         });
 
         if(!loginResponse.ok){
-            throw new Error("Server returned an error.");
+            rateLimited(loginResponse);
+            throw new Error();
         }
+
             const areCredentialsValid = await loginResponse.json();
             if(areCredentialsValid){
-
                 const isUserVerifiedResponse = await fetch("/api/verification-status", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(email)
+                    body: JSON.stringify({email})
                 });
+
+                if(isUserVerifiedResponse){
+                    rateLimited(isUserVerifiedResponse);
+                    throw new Error();
+                }
+
                 const isUserVerifiedRes = await isUserVerifiedResponse.json();
 
-               if(isUserVerifiedRes){
+                 if(isUserVerifiedRes){
                    // if user is verified go to homepage
                     window.location.href = "/home";
 

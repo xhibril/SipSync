@@ -1,9 +1,11 @@
 import {lockBtn, unlockBtn} from "./button-state.js";
 import {
-    handleValidation, validatePasswordStrength, validateEmailDomain, showMessage, validateNumInputs
+    handleValidation, validatePasswordStrength, validateEmailDomain, validateNumInputs
 } from "./validation.js";
+import {showMessage} from "./notification.js";
+import {rateLimited} from "./http-responses.js";
 
-const emailReset = document.querySelector("#email-reset");
+const emailReset = document.querySelector("#reset-email");
 const verificationCode = document.querySelector("#verification-code");
 const newPassword = document.querySelector("#reset-password");
 const confirmNewPassword = document.querySelector("#reset-confirm-password");
@@ -23,7 +25,6 @@ resetPasswordBtn.addEventListener("click", (e) => {
 
 function goToStep(step) {
     currentStep = step;
-
     emailReset.classList.toggle("hidden", step !== STEPS.EMAIL);
     verificationCode.classList.toggle("hidden", step !== STEPS.CODE);
     newPassword.classList.toggle("hidden", step !== STEPS.NEW_PASSWORD);
@@ -32,7 +33,7 @@ function goToStep(step) {
 
 // sends email over to backend to gen veri code and save it
 async function handleEmailStep() {
-    lockBtn("Sending...");
+    lockBtn(resetPasswordBtn, "Sending...");
     try {
         const email = emailReset.value;
 
@@ -45,12 +46,15 @@ async function handleEmailStep() {
             showMessage("error", `${emailDomainValidationStatus}`);
             return;
         }
-        const emailResetResponse = await fetch("/password-reset", {
-            method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({email: email})
+        const emailResetResponse = await fetch("/password/reset", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({email: email})
         });
 
         if (!emailResetResponse.ok) {
             await handleError(emailResetResponse);
+            rateLimited(emailResetResponse);
             return;
         }
         // save user email in local storage to grab it later
@@ -59,15 +63,16 @@ async function handleEmailStep() {
 
         goToStep(STEPS.CODE);
     } catch (err) {
+        console.log(err);
         showMessage("error", "Could not send verification code. Please try again.");
     } finally {
-        unlockBtn();
+        unlockBtn(resetPasswordBtn);
     }
 }
 
 // sends code to compare
 async function handleCodeStep() {
-    lockBtn("Verifying...");
+    lockBtn(resetPasswordBtn, "Verifying...");
     try {
         const code = verificationCode.value;
         const email = localStorage.getItem("userEmail");
@@ -76,7 +81,7 @@ async function handleCodeStep() {
             showMessage("error", "Invalid code. Please try again.");
             return;
         }
-        const codeCompareResponse = await fetch("/password-reset/verify", {
+        const codeCompareResponse = await fetch("/password/reset/verify", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({email: email, code: code})
@@ -84,6 +89,7 @@ async function handleCodeStep() {
 
         if (!codeCompareResponse.ok) {
             await handleError(codeCompareResponse);
+            rateLimited(codeCompareResponse);
             return;
         }
         const data = await codeCompareResponse.json();
@@ -96,13 +102,13 @@ async function handleCodeStep() {
     } catch (err) {
         showMessage("Something went wrong. Please try again.");
     } finally {
-        unlockBtn();
+        unlockBtn(resetPasswordBtn);
     }
 }
 
 
 async function handleNewPasswordStep() {
-    lockBtn("Updating...");
+    lockBtn(resetPasswordBtn, "Updating...");
     try {
         const password = newPassword.value;
         const confirmPassword = confirmNewPassword.value;
@@ -131,7 +137,7 @@ async function handleNewPasswordStep() {
         const email = localStorage.getItem("userEmail");
         const resetToken = localStorage.getItem("resetToken");
 
-        const changePasswordResponse = await fetch("/password-reset/change", {
+        const changePasswordResponse = await fetch("/password/reset/change", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({email: email, password: password, resetToken: resetToken})
@@ -139,6 +145,7 @@ async function handleNewPasswordStep() {
 
         if (!changePasswordResponse.ok) {
             await handleError(changePasswordResponse);
+            rateLimited(changePasswordResponse);
             return;
         }
 
@@ -151,7 +158,7 @@ async function handleNewPasswordStep() {
     } catch (err) {
         showMessage("error", "Could not change password. Please try again.");
     } finally {
-        unlockBtn();
+        unlockBtn(resetPasswordBtn);
     }
 }
 

@@ -15,7 +15,7 @@ public class StatsController {
     @Autowired StatsService statsService;
 
     // get total amount drank today
-    @GetMapping("/daily")
+    @GetMapping("/stats/daily")
     public ResponseEntity<Float> getTodayTotals(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
@@ -27,7 +27,7 @@ public class StatsController {
 
 
     // get total amount drank this week
-    @GetMapping("/weekly")
+    @GetMapping("/stats/weekly")
     public ResponseEntity<Float> getWeeklyTotals(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
@@ -39,13 +39,13 @@ public class StatsController {
 
 
     // get total amount drank this month
-    @GetMapping("/monthly")
+    @GetMapping("/stats/monthly")
     public ResponseEntity<Float> getMonthlyTotals(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok(statsService.stats("MOONTLY", userId));
+        return ResponseEntity.ok(statsService.stats("MONTHLY", userId));
     }
 }
