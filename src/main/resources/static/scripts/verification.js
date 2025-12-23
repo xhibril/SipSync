@@ -1,5 +1,5 @@
 import {showMessage} from "./notification.js";
-import {rateLimited} from "./http-responses.js";
+import {isBeingRateLimited} from "./http-responses.js";
 const userEmail = localStorage.getItem("userEmail");
 
 
@@ -17,14 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
 // resend token
 export async function resendVerificationToken(){
     try {
-        const resendToken = await fetch("/email/send-token",{
+        const resendTokenResponse = await fetch("/email/send-token",{
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({email: userEmail})
         });
 
-        if (!resendToken.ok){
-            rateLimited(resendToken);
+        if (!resendTokenResponse.ok){
+            if(isBeingRateLimited(resendTokenResponse)) return;
             throw new Error();
         }
         showMessage("success", "Successfully sent. Please check your e-mail address.")

@@ -127,8 +127,6 @@ public class AuthService {
 
 
     public void generateAuthTokenAfterSignup(Long userId, String email) {
-
-        System.out.println("USER IDDDDDDDDDDDDDDDDDDDDDDDD" + userId);
         String token;
 
         String secret = System.getenv("JWT_SECRET");

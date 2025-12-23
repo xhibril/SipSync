@@ -1,4 +1,4 @@
-import {rateLimited, redirectToLoginPage} from "./http-responses.js";
+import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
 import {refreshMainPage} from "./dashboard-refresh.js";
 import {showMessage} from "./notification.js";
 import {lockBtn, unlockBtn} from "./button-state.js";
@@ -34,17 +34,17 @@ resetDataBtn.addEventListener("click", () => {
 
 dailyBtn.addEventListener("click", () => {
     state.timeRange = "DAILY";
-    view("/daily");
+    view("/stats/daily");
 })
 
 weeklyBtn.addEventListener("click", () => {
     state.timeRange = "WEEKLY";
-    view("/weekly", "Viewing weekly average water intake");
+    view("/stats/weekly", "Viewing weekly average water intake");
 })
 
 monthlyBtn.addEventListener("click", () => {
     state.timeRange = "MONTHLY";
-    view("/monthly", "Viewing monthly average water intake");
+    view("/stats/monthly", "Viewing monthly average water intake");
 })
 
 logoutBtn.addEventListener("click", ()=>{
@@ -55,7 +55,7 @@ async function deleteUserData() {
         const resetDataResponse = await fetch("/data/reset", {method: "POST"});
         if (!resetDataResponse.ok){
             redirectToLoginPage(resetDataResponse);
-            rateLimited(resetDataResponse);
+            if(isBeingRateLimited(resetDataResponse)) return;
             throw new Error();
         }
             showMessage("success", "Data deleted. Refreshing...");
@@ -95,7 +95,7 @@ async function logout(){
     try{
         const logoutResponse = await fetch("/api/logout", {method:"POST"});
         if(!logoutResponse.ok) {
-            rateLimited(logoutResponse);
+            if(isBeingRateLimited(logoutResponse)) return;
             throw new Error();
         }
         window.location.href = "/login";

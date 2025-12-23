@@ -7,7 +7,7 @@ export function disableBtn(btn){
 }
 
 export function btnContent(btn, content){
-    btn.textConent = content;
+    btn.textContent = content;
 }
 
 

@@ -31,7 +31,6 @@ public class LoginService {
                 // if details r successful gen token auth token and store it
                 String token = generateAuthToken(user.getId(), length);
                 storeAuthToken(token, Math.toIntExact(length / 1000), res);
-                System.out.println("TOKENNNNNNNNNNNNNNNNNNNN" + token);
                 return true;
             }
         }

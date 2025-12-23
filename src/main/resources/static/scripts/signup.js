@@ -1,7 +1,7 @@
 import {handleValidation, validatePasswordStrength, validateEmailDomain} from "./validation.js";
 import {lockBtn, unlockBtn} from "./button-state.js";
 import {showMessage} from "./notification.js";
-import {rateLimited} from "./http-responses.js";
+import {isBeingRateLimited} from "./http-responses.js";
 
 const inputs = document.querySelectorAll(".input");
 const emailSignUp = document.querySelector("#signup-email");
@@ -63,7 +63,7 @@ async function handleSignUp(email, password) {
         });
 
         if(!signUpResponse.ok){
-            rateLimited(signUpResponse);
+            if(isBeingRateLimited(signUpResponse)) return;
             throw new Error("Server returned an error.");
         }
 

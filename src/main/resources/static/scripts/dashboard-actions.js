@@ -2,7 +2,7 @@ import {refreshMainPage} from "./dashboard-refresh.js";
 import {addLog} from "./logs.js";
 import {validateNumInputs} from "./validation.js";
 import {showMessage} from "./notification.js";
-import {rateLimited, redirectToLoginPage} from "./http-responses.js";
+import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
 
 const actionTypeRadios = document.querySelectorAll('input[name="actionType"]');
 const quickAddBtns = document.querySelectorAll("[data-addvalue]");
@@ -82,7 +82,7 @@ async function handleSubmit(amount) {
 
                 if(!addResponse.ok){
                     redirectToLoginPage(addResponse);
-                    rateLimited(addResponse);
+                    if(isBeingRateLimited(addResponse)) return;
                     throw new Error();
                 }
                     const addRes = await addResponse.json();
@@ -99,9 +99,10 @@ async function handleSubmit(amount) {
         case "GOAL":
             try {
                 const goalResponse = await fetch(`/goal/add?goal=${amount}`, {method: "POST"});
+
                 if(!goalResponse.ok){
                     redirectToLoginPage(goalResponse);
-                    rateLimited(goalResponse);
+                    if(isBeingRateLimited(goalResponse)) return;
                     throw new Error();
                 }
                     await refreshMainPage("DAILY");

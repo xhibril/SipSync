@@ -2,7 +2,7 @@ import {handleValidation, validateEmailDomain} from "./validation.js";
 import {resendVerificationToken} from "./verification.js";
 import {unlockBtn, lockBtn} from "./button-state.js";
 import {showMessage} from "./notification.js";
-import {rateLimited} from "./http-responses.js";
+import {isBeingRateLimited} from "./http-responses.js";
 
 const inputFields = document.querySelectorAll(".Input");
 const loginContainer = document.querySelector("#login-container");
@@ -91,7 +91,7 @@ async function handleLogin(email, password){
         });
 
         if(!loginResponse.ok){
-            rateLimited(loginResponse);
+            if(isBeingRateLimited(loginResponse)) return;
             throw new Error();
         }
 
@@ -103,8 +103,8 @@ async function handleLogin(email, password){
                     body: JSON.stringify({email})
                 });
 
-                if(isUserVerifiedResponse){
-                    rateLimited(isUserVerifiedResponse);
+                if(!isUserVerifiedResponse.ok){
+                    if(isBeingRateLimited(isUserVerifiedResponse)) return;
                     throw new Error();
                 }
 
@@ -127,6 +127,7 @@ async function handleLogin(email, password){
                 showMessage("error", "Invalid credentials, try again.");
             }
     } catch (err){
+        console.log(err);
         showMessage("error", "Could not log in. Please try again later.");
     } finally {
         unlockBtn(loginBtn);

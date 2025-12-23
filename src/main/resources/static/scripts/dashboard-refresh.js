@@ -1,4 +1,4 @@
-import {rateLimited, redirectToLoginPage} from "./http-responses.js";
+import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
 import {showMessage} from "./notification.js";
 
 const waterDrankDisplay = document.querySelector("#water-drank");
@@ -41,7 +41,7 @@ export async function refreshGoal(){
 
         if(!goalResponse.ok){
             redirectToLoginPage(goalResponse);
-            rateLimited(goalResponse);
+            if(isBeingRateLimited(goalResponse)) return;
             throw new Error();
         }
             const goalRes = await goalResponse.json();
@@ -60,7 +60,7 @@ export async function refreshWaterIntake(){
 
         if (!amountResponse.ok){
             redirectToLoginPage(amountResponse);
-            rateLimited(amountResponse);
+            if(isBeingRateLimited(amountResponse)) return;
             throw new Error();
         }
             const amountRes = await amountResponse.json();
@@ -108,7 +108,7 @@ async function incrementStreak() {
         const incrementStreakResponse = await fetch("/streak/increment", {method: "POST"});
         if(!incrementStreakResponse.ok){
             redirectToLoginPage(incrementStreakResponse);
-            rateLimited(incrementStreakResponse);
+            if(isBeingRateLimited(incrementStreakResponse)) return;
             throw new Error();
         }
             const streakRes = await incrementStreakResponse.json();

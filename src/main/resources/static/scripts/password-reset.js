@@ -3,7 +3,7 @@ import {
     handleValidation, validatePasswordStrength, validateEmailDomain, validateNumInputs
 } from "./validation.js";
 import {showMessage} from "./notification.js";
-import {rateLimited} from "./http-responses.js";
+import {isBeingRateLimited} from "./http-responses.js";
 
 const emailReset = document.querySelector("#reset-email");
 const verificationCode = document.querySelector("#verification-code");
@@ -18,9 +18,18 @@ let currentStep = STEPS.EMAIL;
 
 resetPasswordBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    if (currentStep === STEPS.EMAIL) return handleEmailStep();
-    if (currentStep === STEPS.CODE) return handleCodeStep();
-    if (currentStep === STEPS.NEW_PASSWORD) return handleNewPasswordStep();
+    if (currentStep === STEPS.EMAIL)  {
+        lockBtn(resetPasswordBtn, "Sending...");
+        return handleEmailStep();
+    }
+    if (currentStep === STEPS.CODE){
+        lockBtn(resetPasswordBtn, "Verifying...");
+        return handleCodeStep();
+    }
+    if (currentStep === STEPS.NEW_PASSWORD) {
+        lockBtn(resetPasswordBtn, "Updating...");
+        return handleNewPasswordStep();
+    }
 });
 
 function goToStep(step) {
@@ -33,7 +42,6 @@ function goToStep(step) {
 
 // sends email over to backend to gen veri code and save it
 async function handleEmailStep() {
-    lockBtn(resetPasswordBtn, "Sending...");
     try {
         const email = emailReset.value;
 
@@ -46,7 +54,7 @@ async function handleEmailStep() {
             showMessage("error", `${emailDomainValidationStatus}`);
             return;
         }
-        const emailResetResponse = await fetch("/password/reset", {
+        const emailResetResponse = await fetch("/password/reset/code", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({email: email})
@@ -54,13 +62,12 @@ async function handleEmailStep() {
 
         if (!emailResetResponse.ok) {
             await handleError(emailResetResponse);
-            rateLimited(emailResetResponse);
+            if(isBeingRateLimited(emailResetResponse)) return;
             return;
         }
         // save user email in local storage to grab it later
         localStorage.setItem("userEmail", email);
         showMessage("success", "Code has been sent, please check your e-mail address");
-
         goToStep(STEPS.CODE);
     } catch (err) {
         console.log(err);
@@ -72,7 +79,6 @@ async function handleEmailStep() {
 
 // sends code to compare
 async function handleCodeStep() {
-    lockBtn(resetPasswordBtn, "Verifying...");
     try {
         const code = verificationCode.value;
         const email = localStorage.getItem("userEmail");
@@ -89,7 +95,7 @@ async function handleCodeStep() {
 
         if (!codeCompareResponse.ok) {
             await handleError(codeCompareResponse);
-            rateLimited(codeCompareResponse);
+            if(isBeingRateLimited(codeCompareResponse)) return;
             return;
         }
         const data = await codeCompareResponse.json();
@@ -108,7 +114,6 @@ async function handleCodeStep() {
 
 
 async function handleNewPasswordStep() {
-    lockBtn(resetPasswordBtn, "Updating...");
     try {
         const password = newPassword.value;
         const confirmPassword = confirmNewPassword.value;
@@ -145,7 +150,7 @@ async function handleNewPasswordStep() {
 
         if (!changePasswordResponse.ok) {
             await handleError(changePasswordResponse);
-            rateLimited(changePasswordResponse);
+            if(isBeingRateLimited(changePasswordResponse)) return;
             return;
         }
 

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
@@ -21,8 +20,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RateLimiter extends OncePerRequestFilter {
     private final Map<Long, Bucket> buckets = new ConcurrentHashMap<>();
 
+    // temp
+    public void clearAllBuckets() {
+        buckets.clear();
+    }
+
     @Autowired private AuthService authService;
-    @Autowired private AuthRateLimiter auth;
 
     // runs every http req before controllers
     @Override
@@ -34,42 +37,21 @@ public class RateLimiter extends OncePerRequestFilter {
 
         // get curr authenticated user
         Long userId = authService.getAuthenticatedUserId(request);
-
-        String ip = null;
-        if (userId == null) {
-            // get the ip if user id is null
-             ip = request.getRemoteAddr();
-        }
-
+        String ip = request.getRemoteAddr();
         String path = request.getRequestURI();
 
-        if (path.startsWith(Endpoints.LOGIN)) {
-            if (!auth.limiter(ip, AuthRateLimiter.AuthType.LOGIN)) {
-                response.setStatus(429);
-                return;
-            }
-        }
-        else if (path.startsWith(Endpoints.SIGNUP)) {
-            if (!auth.limiter(ip, AuthRateLimiter.AuthType.SIGNUP)) {
-                response.setStatus(429);
-                return;
-            }
-        }
-        else if (path.startsWith(Endpoints.PASSWORD_RESET)) {
-            if (!auth.limiter(ip, AuthRateLimiter.AuthType.PASSWORD_RESET)) {
-                response.setStatus(429);
-                return;
-            }
-        }
-        else if (path.startsWith(Endpoints.VERIFICATION_EMAIL)) {
-            if (!auth.limiter(ip, AuthRateLimiter.AuthType.VERIFICATION_EMAIL)) {
-                response.setStatus(429);
-                return;
+        // auth endpoints
+        for(AuthConfig ac : AUTH_CONFIGS){
+            if (path.startsWith(ac.endpoint)) {
+                if(!authActions(ip, ac)){
+                    response.setStatus(429);
+                    return;
+                }
+                break;
             }
         }
 
-
-
+        // normal actions
         if ((userId != null && path.startsWith("/logs"))
                         || path.startsWith("/goal")
                         || path.startsWith("/streak")
@@ -80,22 +62,51 @@ public class RateLimiter extends OncePerRequestFilter {
                 return;
             }
         }
-
         filterChain.doFilter(request, response);
     }
 
 
-
-    // make the limit 120/min for normal actions
-    private boolean normalActions(Long userId){
+    // 120 limit for normal actions
+    private boolean normalActions(Long userId) {
         long key = Objects.hash(userId, "normal");
+
+                Bucket bucket = buckets.computeIfAbsent(key, k ->
+                        Bucket4j.builder()
+                                .addLimit(Bandwidth.simple(120, Duration.ofMinutes(1)))
+                                .build()
+                );
+                return bucket.tryConsume(1);
+    }
+
+
+
+    private boolean authActions(String ip, AuthConfig ac){
+        long key = Objects.hash(ip, ac.key);
+
         Bucket bucket = buckets.computeIfAbsent(key, k ->
                 Bucket4j.builder()
-                        .addLimit(Bandwidth.simple(120, Duration.ofMinutes(1)))
+                        .addLimit(Bandwidth.simple(ac.perMin, Duration.ofMinutes(1)))
+                        .addLimit(Bandwidth.simple(ac.perHour, Duration.ofHours(1)))
                         .build()
         );
         return bucket.tryConsume(1);
     }
+
+    private record AuthConfig(
+            String endpoint,
+            String key,
+            int perMin,
+            int perHour
+    ){}
+
+    private static final AuthConfig[] AUTH_CONFIGS = {
+            new AuthConfig(Endpoints.LOGIN, "login", 10, 25),
+            new AuthConfig(Endpoints.SIGNUP, "signup", 3, 5),
+            new AuthConfig(Endpoints.PASSWORD_RESET_EMAIL, "resetEmail", 2, 6),
+            new AuthConfig(Endpoints.PASSWORD_RESET_CODE, "resetCode", 20, 25),
+            new AuthConfig(Endpoints.PASSWORD_RESET_CHANGE, "resetChange", 20, 25),
+            new AuthConfig(Endpoints.VERIFICATION_EMAIL, "verificationEmail", 2, 4)
+    };
 }
 
 

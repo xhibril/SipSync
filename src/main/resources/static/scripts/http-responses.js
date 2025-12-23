@@ -6,10 +6,12 @@ export function redirectToLoginPage(response){
     }
 }
 
-export function rateLimited(response){
+export function isBeingRateLimited(response){
     if(response.status === 429){
         showMessage("error", "Too many requests. Please try again later.");
+        return true;
     }
+    return false;
 }
 
 

@@ -13,7 +13,7 @@ public class PasswordResetController {
     @Autowired PasswordResetService passwordResetService;
 
     // generates verification code and stores it to database
-    @PostMapping("/password/reset")
+    @PostMapping("/password/reset/code")
     public ResponseEntity<PasswordResetResponse> generateVerificationCode(@RequestBody PasswordResetRequest request) {
       return passwordResetService.requestPasswordReset(request.getEmail());
     }

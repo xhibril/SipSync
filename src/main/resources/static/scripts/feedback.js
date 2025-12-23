@@ -1,4 +1,4 @@
-import {rateLimited, redirectToLoginPage} from "./http-responses.js";
+import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
 import {handleValidation} from "./validation.js";
 import {showMessage} from "./notification.js";
 
@@ -32,7 +32,7 @@ async function handleSubmitFeedback(){
 
         if (!feedbackResponse.ok){
             redirectToLoginPage(feedbackResponse);
-            rateLimited(feedbackResponse);
+            if(isBeingRateLimited(feedbackResponse)) return;
             throw new Error();
         }
             showMessage("success", "Feedback sent! Thank you.");

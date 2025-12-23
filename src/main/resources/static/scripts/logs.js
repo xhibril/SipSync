@@ -1,4 +1,4 @@
-import {rateLimited, redirectToLoginPage} from "./http-responses.js";
+import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
 import {showMessage} from "./notification.js";
 
 const logs = document.querySelector("#logs-container");
@@ -61,7 +61,7 @@ async function deleteLog(logId) {
         const deleteLogResponse = await fetch(`/log/delete?logId=${logId}`, {method: "POST"});
         if (!deleteLogResponse.ok) {
             redirectToLoginPage(deleteLogResponse);
-            rateLimited(deleteLogResponse);
+            if(isBeingRateLimited(deleteLogResponse)) return;
             throw new Error();
         }
         showMessage("success", "Log deleted.");
@@ -78,7 +78,7 @@ async function updateLog(newValue, logId) {
         const updateLog = await fetch(`/log/update?amount=${newValue}&id=${logId}`, {method: "POST"});
         if (!updateLog.ok) {
             redirectToLoginPage(updateLog);
-            rateLimited(updateLog);
+            if(isBeingRateLimited(updateLog)) return;
             throw new Error();
         }
         showMessage("success", "Log edited.");
