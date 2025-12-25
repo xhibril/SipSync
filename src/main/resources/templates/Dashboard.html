@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Global.css">
+    <link rel="stylesheet" href="Dashboard.css">
+    <link rel="stylesheet" href="Vars.css">
+    <link rel ="stylesheet" href ="Responsive.css">
+    <title>Dashboard</title>
+</head>
+
+<body>
+<div class="overlay" id="app-overlay"></div>
+
+<section class="main-section">
+
+    <p class="notification" id="notification">
+        <img src="/images/error.png" id="error-icon" class="">
+        <img src="/images/success.png" id="success-icon" class="error">
+        <span id="notification-text"></span>
+    </p>
+
+
+    <div class="left-section">
+
+        <div class="side-menu active">
+            <img src="side-menu-button-picture.png" class="side-menu-button active">
+
+            <div class="side-menu-content  ">
+
+                <button type="button" class="home-btn"> <img src="home.png"></button>
+                <button type="button" class="calculator-btn"> <img src="calculator.png"> </button>
+                <button type="button" class="feedback-btn"> <img src="feedback.png"> </button>
+                <button type="button" class="redirect-btn"> <img src="redirect.png"> </button>
+
+                <div class="dataAndAccount">
+                    <button type="button" id="data-reset" class="default-btn ">Reset Data</button>
+                </div>
+
+                <button type="button" id="logout-btn" class="default-btn">Logout</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="right-section">
+
+        <div class="content">
+            <div class="stats">
+                <div class="goal">
+                    <h3 id="goal" contenteditable="true">...</h3>
+                    <h3>mL</h3>
+                </div>
+                <p>Goal</p>
+
+                <span>
+                        <h3 id="water-drank">... mL</h3>
+                        <p>Drank</p>
+                    </span>
+            </div>
+
+            <div class="progress-and-period-container">
+                <div class="periods">
+                    <button type="button" id="view-daily" class="period-btn ">Daily</button>
+                    <button type="button" id="view-weekly" class="period-btn ">Weekly</button>
+                    <button type="button" id="view-monthly" class="period-btn ">Monthly</button>
+                </div>
+
+
+                <div class="progress">
+                    <div class="progressBar" style="--percent: 65;">
+                        <div class="donut-center">
+                            <div class="remaining">...</div>
+                            <div class="label">mL to go</div>
+                        </div>
+                    </div>
+
+                    <div class="streakStat">
+                        <img id="streakImg" src="streakImg.png">
+
+                        <div class="streakInfo maxwidth90">
+                            <p>Streak</p>
+                            <h3><span id="streak">...</span> days</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div class="history">
+                <p>Today's Logs</p>
+
+                <label class="hidden" id="no-logs-found-image">
+                    <img src="noLogsGif.gif">
+                    <p>None found</p>
+                </label>
+
+                <div class="logs" id="logs-container">
+
+                    <div class="row">
+
+
+                        <img src="clock.png">
+                        <p class="timeLogs" contenteditable="false">12:30</p>
+                        <p class="logAmount" contenteditable="true">500</p>
+                        <p>mL</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="input-container">
+                <div class="quick-add-amount-container" id="quick-add-amount-container">
+
+
+                    <button type="submit" data-addvalue="250" class="quick-add-btn" id="quickAdd250Btn"> <img
+                            src="waterDroplet.png ">
+                        <br>+ 250
+                        mL</button>
+
+
+                    <button type="submit" data-addvalue="500" class="quick-add-btn" id="quickAdd500Btn"> <img
+                            src="waterDroplet.png "> <br>+ 500
+                        mL</button>
+
+
+
+                    <button type="submit" data-addvalue="750" class="quick-add-btn" id="quickAdd750Btn"> <img
+                            src="waterDroplet.png "> <br>+ 750
+                        mL</button>
+
+                </div>
+                <input type="number" class="input" id="amount-input" placeholder="Enter amount"> <br>
+                <button type="submit" id="submit-btn" class="default-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+</section>
+</div>
+<script type="module" src="/scripts/startup.js" defer></script>
+<script type="module" src="/scripts/dashboard-actions.js" defer></script>
+<script type="module" src="/scripts/water-intake-calculator.js" defer></script>
+<script src="/scripts/fact-cards.js" defer></script>
+<script type="module" src="/scripts/settings-actions.js" defer></script>
+<script type="module" src="/scripts/logs.js" defer></script>
+</body>
+
+</html>

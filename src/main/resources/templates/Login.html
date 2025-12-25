@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Global.css">
+    <link rel="stylesheet" href="Vars.css">
+    <link rel="stylesheet" href="Login-Signup.css">
+    <title>Create an account</title>
+</head>
+
+<body>
+<div class="overlay"></div>
+<div class="main-section">
+
+    <div class="headerSection">
+        <p id="notification" class = "notification">
+            <img src="/images/error.png" id="error-icon" class = "hidden">
+            <img src="/images/success.png" id="success-icon" class = "hidden">
+            <span id="notification-text"></span>
+        </p>
+
+        <div class="brandingContainer ">
+            <h1 id="siteTitle">SIPSYNC</h1>
+            <p id="siteDesc">Track. Improve. Stay hydrated.</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="greetingContainer">
+            <h1 class="welcomeMsg ">Welcome. </h1>
+            <p class="description ">Track your daily hydration effortlessly. <br> Log in to continue
+                staying on top of
+                your water goals.</p>
+        </div>
+
+        <div class="input-container" id = "signup-container">
+            <form class="form">
+                <span class = "page-title" id="signup-page-title">Create an account</span>
+                <input type="email" class="input" id ="signup-email" placeholder="Email">
+                <input type="password" class="input" id ="signup-password" placeholder="Password">
+
+                <button class="default-btn" id ="signup-btn">Continue</button>
+            </form>
+
+            <div class="footer-container">
+                <label>Already have an account? <a href="" id = "login-link">Login</a> </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/scripts/button-state.js"></script>
+<script type = "module" src ="/scripts/signup.js" defer></script>
+
+</body>
+</html>

@@ -22,14 +22,14 @@ public class PageController {
         if(!isVerified){
             return "redirect:/verify";
         }  else{
-            return "HomePage";
+            return "Dashboard";
         }
     }
 
     // load verification page
     @GetMapping("/verify")
     public String verifyPage(){
-        return "VerifyPage";
+        return "Verification";
     }
 
 
@@ -45,21 +45,21 @@ public class PageController {
         if(!isVerified){
             return "redirect:/verify";
         }  else{
-            return "FeedbackPage";
+            return "Feedback";
         }
     }
 
     // load login page
     @GetMapping("/login")
     public String LoginPage(HttpServletRequest req){
-            return "LoginPage";
+            return "Login";
     }
 
     // load sign up page
     @GetMapping("/signup")
     public String SignUpPage(HttpServletRequest req){
 
-            return "SignUpPage";
+            return "Signup";
     }
 
 }

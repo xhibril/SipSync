@@ -1,7 +1,3 @@
-.appContent{
-    gap:15rem;
-}
-
 .feedback{
     display: flex;
     align-items:center;
@@ -24,8 +20,14 @@
     align-self:flex-start;
 }
 
-.confirmBtn{
+.default-btn{
     margin-top:1rem;
+}
+
+
+
+.description {
+    align-self: center;
 }
 
 #lineOne{
@@ -36,8 +38,12 @@
     font-size:4rem;
     font-family: 'Montserrat', sans-serif;
     font-weight: 800;
-    background: linear-gradient(90deg, #000000, #000000, #758fab, #94aac2);
+    background: linear-gradient(90deg, #ffffff, #fffafa, #758fab, #94aac2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.input, p {
+    margin :0;
 }
 

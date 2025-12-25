@@ -1,0 +1,213 @@
+.content {
+    margin-top: 1rem;
+    justify-content: center;
+    align-items: center;
+    gap: 10rem;
+}
+
+/* stats */
+.stats {
+    background-color: var(--bg-container-soft);
+    border-radius: .5rem;
+    width: 10rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.goal {
+    display: flex;
+    gap: 5px;
+}
+
+.stats p {
+    margin: .5rem;
+}
+
+/* period selection */
+.progress-and-period-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.period-btn {
+    border: transparent;
+    background-color: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+/* progress container */
+.progress {
+    background-color: var(--bg-container-soft);
+    border-radius: .5rem;
+    width: 33rem;
+    height: 18rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+}
+
+/* progress ring */
+.progressBar {
+    --size: 10rem;
+    --thickness: 1rem;
+    --track: #d1d1d1;
+    --progress: #5bace6;
+
+    width: var(--size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        conic-gradient(var(--progress) calc(var(--percent) * 1%),
+            var(--track) 0);
+    display: grid;
+    place-items: center;
+}
+
+.progressBar::before {
+    content: "";
+    width: calc(100% - var(--thickness) * 2);
+    aspect-ratio: 1;
+    background-color: var(--bg-container-soft);
+    border-radius: 50%;
+}
+
+.donut-center {
+    position: absolute;
+    text-align: center;
+}
+
+.label {
+    font-size: 0.8rem;
+}
+
+/* streak */
+.streakStat {
+    position: relative;
+    border-radius: .7rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.streakStat #streakImg {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: rgb(255, 223, 163);
+    border-radius: 3rem;
+    padding: 0.2rem;
+}
+
+.streakStat p {
+    scale: 0.8;
+}
+
+/* logs */
+.history {
+    background-color: var(--bg-container-soft);
+    border-radius: .5rem;
+    padding: 2rem;
+    width: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.history p {
+    color: var(--text-primary);
+}
+
+.history img {
+    width: 10rem;
+}
+
+
+.logs {
+    height: 10rem;
+    width: 12.5rem;
+    overflow-y: auto;
+    padding: .5rem;
+}
+
+.row {
+    background-color: rgb(192, 192, 239);
+    width: 100%;
+    text-align: center;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .2rem;
+    margin-bottom: .5rem;
+}
+
+.row p {
+    margin: 0;
+    padding-top: .2rem;
+    padding-bottom: .2rem
+}
+
+.timeLogs {
+    font-size: .6rem;
+    padding-right: 2rem;
+    padding-left: .5rem;
+}
+
+.row img {
+    width: 1rem;
+    margin-left: .5rem;
+}
+
+
+/* input */
+.input-container {
+    background-color: var(--bg-container-soft);
+    border-radius: .5rem;
+    width: 33rem;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+/* quick add buttons */
+.quick-add-amount-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+    gap: 1rem;
+    background-color: transparent;
+}
+
+.quick-add-btn {
+    border-radius: .4rem;
+    border: transparent;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: var(--bg-white);
+    transition: 0.2s;
+}
+
+.quick-add-btn:hover {
+    transform: scale(1.1);
+}
+
+.quick-add-btn img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.hidden {
+    display: none;
+}
+

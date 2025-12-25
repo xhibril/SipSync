@@ -1,28 +1,27 @@
-body {
-       background-color: #b1c2dc;
-}
-.main{
-    display:flex;
+.content {
+    display: flex;
     justify-content: center;
     align-items: center;
-    height:100vh;
-    font-family: "Inter", sans-serif;
+    width: 100%;
+    min-height: 100vh;
+    
 }
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    align-items: center;
     flex-direction: column;
-    width:90%;
     background-color:white;
     width:25rem;
     height:30rem;
     gap:2rem;
     border-radius: 1rem;
     padding:1rem;
+    max-width:80%;
 }
+
+
 
 .container img {
     width:5rem;
@@ -31,14 +30,19 @@ body {
 .container p {
     text-align: center;
     display: block;
-     color:#8e8a8a;
+    color:#8e8a8a;
 }
 
 .container a {
     text-decoration: none;
 }
 
+.page-title{
+    color: var(--text-black);
+}
 
 .hidden{
     display:none;
 }
+
+

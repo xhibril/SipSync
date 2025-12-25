@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Global.css">
+    <link rel="stylesheet" href="Feedback.css">
+    <link rel="stylesheet" href="Vars.css">
+    <link rel = "stylesheet" href = "Responsive.css">
+
+    <title>Feedback</title>
+</head>
+
+<body>
+
+<div class="main-section">
+
+    <p id="notification" class="notification">
+        <img src="/images/error.png" id="error-icon" class="">
+        <img src="/images/success.png" id="success-icon" class="">
+        <span id="notification-text"></span>
+    </p>
+
+    <div class="left-section">
+
+        <div class="side-menu active">
+            <img src="side-menu-button-picture.png" class="side-menu-button active">
+
+            <div class="side-menu-content  ">
+
+                <button type="button" class="home-btn"> <img src="home.png"></button>
+                <button type="button" class="calculator-btn"> <img src="calculator.png"> </button>
+                <button type="button" class="feedback-btn"> <img src="feedback.png"> </button>
+                <button type="button" class="redirect-btn"> <img src="redirect.png"> </button>
+
+                <div class="dataAndAccount">
+                    <button type="button" id="data-reset" class="default-btn ">Reset Data</button>
+                </div>
+
+                <button type="button" id="logout-btn" class="default-btn">Logout</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="right-section">
+        <div class="content">
+
+            <div class="description">
+                <h2 id="lineOne">EVERY OPINION</h2>
+                <h1 id="lineTwo">MATTERS</h1>
+            </div>
+
+            <div class="feedback">
+                <form>
+
+                    <p>Name</p>
+                    <input type="text" id="feedback-name" class="input" placeholder="John Smith" name="feedback">
+
+                    <p>Email</p>
+                    <input type="email" id="feedback-email" class="input" placeholder="example@gmail.com"
+                           name="feedback">
+
+                    <p>Message</p>
+                    <textarea rows="20" cols="50" id="feedback-message" placeholder="" maxlength="200"
+                              name="feedback"></textarea>
+
+                </form>
+                <button type="submit" id="feedback-send" class="default-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/scripts/feedback.js" defer></script>
+</body>
+
+</html>

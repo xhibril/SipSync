@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Global.css">
+    <link rel="stylesheet" href="Vars.css">
+    <link rel="stylesheet" href="Calculator.css">
+    <link rel ="stylesheet" href ="Responsive.css">
+    <title>Calculator</title>
+</head>
+
+<body>
+
+<section class="main-section">
+    <p class="notification" id="notification">
+        <img src="/images/error.png" id="error-icon" class="">
+        <img src="/images/success.png" id="success-icon" class="">
+        <span id="notification-text"></span>
+    </p>
+
+    <div class="left-section">
+
+        <div class="side-menu active">
+            <img src="side-menu-button-picture.png" class="side-menu-button active">
+
+            <div class="side-menu-content  ">
+
+                <button type="button" class="home-btn"> <img src="home.png"></button>
+                <button type="button" class="calculator-btn"> <img src="calculator.png"> </button>
+                <button type="button" class="feedback-btn"> <img src="feedback.png"> </button>
+                <button type="button" class="redirect-btn"> <img src="redirect.png"> </button>
+
+                <div class="dataAndAccount">
+                    <button type="button" id="data-reset" class="default-btn ">Reset Data</button>
+                </div>
+
+                <button type="button" id="logout-btn" class="default-btn">Logout</button>
+            </div>
+
+        </div>
+        <div>
+        </div>
+        <p id="calculator-recommended-intake"></p>
+    </div>
+
+    <div class="right-section">
+
+        <div class = "content">
+
+            <div class="calculator-input">
+
+                <div class="inputTypeSelection">
+                    <label class="radio">
+                        <input type="radio" name="unitType" value="IMPERIAL" checked>
+                        <span class="name">Imperial</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio" name="unitType" value="METRIC">
+                        <span class="name">Metric</span>
+                    </label>
+                </div>
+
+
+                <table>
+                    <tr>
+                        <td>
+                            <p>Age</p>
+                        </td>
+
+                        <td>
+                            <input type="number" class="input" id="calculator-age" placeholder="Enter age">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p>Gender</p>
+                        </td>
+                        <td>
+                            <label>
+                                <input type="radio" name="calculator-gender" value="MALE">
+                                <span class="name">Male</span>
+                            </label>
+
+                            <label>
+                                <input type="radio" name="calculator-gender" value="FEMALE">
+                                <span class="name">Female</span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Weight</p>
+                        </td>
+                        <td>
+                            <input type="number" class="input" id="calculator-weight" placeholder="Pounds">
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            <p>Activity</p>
+                        </td>
+                        <td>
+                            <select id="calculator-activity">
+                                <option value="" disabled selected hidden>Pick an option</option>
+                                <option value="NONE"> Sedentary(little to no excerises)</option>
+                                <option value="LIGHT"> Light (excerise 1-3 times a week)</option>
+                                <option value="MODERATE"> Moderate (excerise 3-5 times a week)</option>
+                                <option value="HIGH"> High (heavy 5-6 times a week)</option>
+                                <option value="EXTREME"> Extreme (very heavy excerise or physical job)</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <button type="button" id="calculator-calculate" class="default-btn">Confirm</button>
+            </div>
+
+
+            <div class="cardsContainer">
+
+                <div class="leftCards">
+
+                    <div class="card">
+                        <p class="cardPara">Click to view a fact</p>
+                    </div>
+
+                    <div class="card">
+                        <p class="cardPara">Click to view a fact</p>
+                    </div>
+                </div>
+
+                <div class="rightCards">
+
+                    <div class="card">
+                        <p class="cardPara">Click to view a fact</p>
+                    </div>
+
+                    <div class="card">
+                        <p class="cardPara">Click to view a fact</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+
+</html>
