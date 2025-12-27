@@ -6,6 +6,8 @@ import com.sipsync.sipsync.repository.UserRepository;
 import org.hibernate.boot.jaxb.internal.stax.LocalSchemaLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.temporal.ChronoUnit;
 
 import java.time.LocalDate;
@@ -15,53 +17,27 @@ import java.util.List;
 public class StreakService {
     @Autowired LogsRepository logsRepo;
     @Autowired UserRepository userRepo;
-    @Autowired GoalService goalService;
 
 
+    @Transactional
    // check if more than a day has passed since user last entered and amount
     public int evaluateStreak(Long userId){
-
-        // check last time user entered a log
-        LocalDate start = getLastLogDate(userId);
-        if (start == null){
+        LocalDate lastStreakUpdateDate = userRepo.findLastStreakUpdate(userId);
+        if(lastStreakUpdateDate == null){
             return 0;
         }
 
-        LocalDate end = LocalDate.now();
-        Long daysSinceLast = ChronoUnit.DAYS.between(start, end);
-
-        // if it is more than a day reset the streak
-        if(daysSinceLast > 1){
-            // null is last update streak date
-            userRepo.updateStreak(0, null , userId);
+        long daysGap = ChronoUnit.DAYS.between(lastStreakUpdateDate, LocalDate.now());
+        // missed a day → streak broken
+        if (daysGap > 1) {
+            userRepo.resetUserStreak(userId);
             return 0;
         }
 
-        // get all the amounts stored in that day to check if it is >= goal
-        if(didMeetGoalOnDate(userId, start)){
-            return getStreakStored(userId);
-        } else {
-            return 0;
-        }
+        return getStreakStored(userId);
     }
 
 
-    // check if goal was reached
-    private boolean didMeetGoalOnDate(Long userId, LocalDate time){
-        Float amountDrank = 0f;
-        Float goal = goalService.getSetGoal(userId);
-        List<Logs> logs = logsRepo.findByDateAndUserId(time, userId);
-
-        for(Logs saved : logs) {
-            amountDrank += saved.getAmount();
-        }
-
-        if(amountDrank >= goal){
-            return true;
-        } else {
-            return false;
-        }
-    }
 
 
     // get the latest date the user entered a value
@@ -87,7 +63,6 @@ public class StreakService {
         }
         return streak;
     }
-
 
     public int getStreakStored(Long userId){
         return userRepo.findStreakByUserId(userId);

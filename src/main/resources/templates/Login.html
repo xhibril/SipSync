@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Global.css">
-    <link rel="stylesheet" href="Vars.css">
-    <link rel="stylesheet" href="Login-Signup.css">
-    <title>Create an account</title>
+    <link rel="stylesheet" href="/css/Global.css">
+    <link rel="stylesheet" href="/css/Vars.css">
+    <link rel="stylesheet" href="/css/Login-Signup.css">
+    <title>Login</title>
 </head>
 
 <body>
 <div class="overlay"></div>
 <div class="main-section">
-
     <div class="headerSection">
         <p id="notification" class = "notification">
             <img src="/images/error.png" id="error-icon" class = "hidden">
@@ -21,11 +20,13 @@
             <span id="notification-text"></span>
         </p>
 
-        <div class="brandingContainer ">
+
+        <div class="brandingContainer">
             <h1 id="siteTitle">SIPSYNC</h1>
             <p id="siteDesc">Track. Improve. Stay hydrated.</p>
         </div>
     </div>
+
 
     <div class="content">
         <div class="greetingContainer">
@@ -35,24 +36,51 @@
                 your water goals.</p>
         </div>
 
-        <div class="input-container" id = "signup-container">
-            <form class="form">
-                <span class = "page-title" id="signup-page-title">Create an account</span>
-                <input type="email" class="input" id ="signup-email" placeholder="Email">
-                <input type="password" class="input" id ="signup-password" placeholder="Password">
 
-                <button class="default-btn" id ="signup-btn">Continue</button>
+        <div class="input-container" id = "login-container">
+            <form class="form">
+
+                <span class="page-title">Login</span>
+                <input type="email" class="input" id = "login-email" placeholder="Email">
+                <input type="password" class="input" id = "login-password" placeholder="Password">
+
+                <label class="rememberRow">
+                    <input type="checkbox" class="rememberMe" id = "remember-me">
+                    <span>Remember me</span>
+                </label>
+
+                <a href="" id = "forgot-password">Forgot Password?</a>
+                <button class="default-btn" id = "login-confirm">Continue</button>
+            </form>
+
+            <div class="footer-container ">
+                <label>Don't have an account? <a href="" class = "go-sign-up-page" id = "signup-link">Sign Up</a> </label>
+            </div>
+        </div>
+
+        <!-- forgot password container -->
+
+        <div class="input-container hidden" id = "forgot-password-container">
+            <form class="form ">
+
+                <span class="page-title">Reset Password</span>
+                <input type="email" class= "input"  id = "reset-email" placeholder="Enter email">
+                <input type="number" class= "input hidden" id = "verification-code" placeholder="Enter 6-digit code">
+                <input type="password" class= "input hidden" id = "reset-password" placeholder="Enter new password">
+                <input type="password" class= "input hidden" id = "reset-confirm-password" placeholder="Re-enter new password">
+
+                <button class="default-btn" id = "reset-btn">Continue</button>
             </form>
 
             <div class="footer-container">
-                <label>Already have an account? <a href="" id = "login-link">Login</a> </label>
+                <label>Don't have an account? <a href="" class = "go-sign-up-page" id = "signup-link">Sign Up</a> </label>
             </div>
         </div>
     </div>
 </div>
 
-<script type="module" src="/scripts/button-state.js"></script>
-<script type = "module" src ="/scripts/signup.js" defer></script>
-
+<script type="module" src="/scripts/button-state.js" defer></script>
+<script type = "module" src ="/scripts/login.js" defer ></script>
+<script type = "module" src ="/scripts/password-reset.js" defer ></script>
 </body>
 </html>

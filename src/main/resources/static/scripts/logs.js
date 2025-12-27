@@ -1,9 +1,9 @@
 import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
 import {showMessage} from "./notification.js";
+import {refreshMainPage} from "./dashboard-refresh.js";
 
 const logs = document.querySelector("#logs-container");
 const noLogsFoundImage = document.querySelector("#no-logs-found-image");
-
 
 // add log to "Today's Logs"
 export function addLog(amount, id, time) {
@@ -26,10 +26,9 @@ export function addLog(amount, id, time) {
         if (e.key === "Enter") {
             let newValue = parseInt(logAmount.textContent.trim(), 10); // base 10
             e.preventDefault();
-            let logId = id;
 
             // check if update / deletion is successful
-            if (await handleLog(newValue, logId)) {
+            if (await handleLog(newValue, id)) {
                 logAmount.blur();                         // exit editing
                 if (Number.isNaN(newValue) || newValue <= 0){
                     row.remove();                 // remove the log if value is 0 or empty
@@ -59,11 +58,13 @@ async function handleLog(newValue, logId) {
 async function deleteLog(logId) {
     try {
         const deleteLogResponse = await fetch(`/log/delete?logId=${logId}`, {method: "POST"});
+
         if (!deleteLogResponse.ok) {
             redirectToLoginPage(deleteLogResponse);
             if(isBeingRateLimited(deleteLogResponse)) return;
             throw new Error();
         }
+        await refreshMainPage("DAILY");
         showMessage("success", "Log deleted.");
         return true;
 
@@ -81,6 +82,8 @@ async function updateLog(newValue, logId) {
             if(isBeingRateLimited(updateLog)) return;
             throw new Error();
         }
+
+        await refreshMainPage("DAILY");
         showMessage("success", "Log edited.");
         return true;
 

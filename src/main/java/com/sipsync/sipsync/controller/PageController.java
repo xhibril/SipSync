@@ -32,6 +32,11 @@ public class PageController {
         return "Verification";
     }
 
+    @GetMapping("/calculator")
+        public String calculatorPage(){
+            return "Calculator";
+    }
+
 
     // feedback page
     @GetMapping("/feedback")

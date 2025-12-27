@@ -51,7 +51,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Modifying
     @Query("UPDATE User u SET u.streak = 0, u.lastStreakUpdateDate = null WHERE u.id = :id")
-     void deleteUserStreak(@Param("id") Long id);
+     void resetUserStreak(@Param("id") Long id);
 
     @Transactional
     @Modifying

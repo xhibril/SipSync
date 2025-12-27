@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Global.css">
-    <link rel="stylesheet" href="Dashboard.css">
-    <link rel="stylesheet" href="Vars.css">
-    <link rel ="stylesheet" href ="Responsive.css">
+    <link rel="stylesheet" href="/css/Global.css">
+    <link rel="stylesheet" href="/css/Dashboard.css">
+    <link rel="stylesheet" href="/css/Vars.css">
+    <link rel="stylesheet" href="/css/Responsive.css">
     <title>Dashboard</title>
 </head>
 
@@ -26,15 +26,17 @@
 
     <div class="left-section">
 
-        <div class="side-menu active">
-            <img src="side-menu-button-picture.png" class="side-menu-button active">
+        <div class="side-menu " id = "side-menu">
+            <button class="side-menu-button inactive" id="side-menu-btn">
+                <img src="/images/side-menu-button-picture.png" >
+            </button>
 
-            <div class="side-menu-content  ">
+            <div class="side-menu-content " id = "side-menu-content">
 
-                <button type="button" class="home-btn"> <img src="home.png"></button>
-                <button type="button" class="calculator-btn"> <img src="calculator.png"> </button>
-                <button type="button" class="feedback-btn"> <img src="feedback.png"> </button>
-                <button type="button" class="redirect-btn"> <img src="redirect.png"> </button>
+                <button type="button" class="home-btn" id ="home-btn"><img src="/images/home.png"></button>
+                <button type="button"  class= "calculator-btn" id ="calculator-btn"><img src="/images/calculator.png"></button>
+                <button type="button"  class="feedback-btn" id = "feedback-btn"><img src="/images/feedback.png"></button>
+                <a href="https://github.com/xhibril" target="_blank" rel="noopener noreferrer" class="redirect-btn" id = "redirect-btn"><img src="/images/redirect.png"></a>
 
                 <div class="dataAndAccount">
                     <button type="button" id="data-reset" class="default-btn ">Reset Data</button>
@@ -51,16 +53,18 @@
 
         <div class="content">
             <div class="stats">
-                <div class="goal">
-                    <h3 id="goal" contenteditable="true">...</h3>
-                    <h3>mL</h3>
-                </div>
-                <p>Goal</p>
 
-                <span>
-                        <h3 id="water-drank">... mL</h3>
-                        <p>Drank</p>
-                    </span>
+            <div class = "goal-wrapper">
+               <p id="goal" contenteditable="true">...</p>
+               <p>mL</p>
+            </div>
+               <p>Goal</p>
+
+                <div class = "water-drank-wrapper">
+                    <p id="water-drank">...</p>
+                    <p>mL</p>
+                </div>
+                <p>Drank</p>
             </div>
 
             <div class="progress-and-period-container">
@@ -72,20 +76,24 @@
 
 
                 <div class="progress">
-                    <div class="progressBar" style="--percent: 65;">
+                    <p id = "period-label" class = "hidden">...</p>
+
+                    <div class = "progress-wrapper">
+                    <div class="progressBar">
                         <div class="donut-center">
-                            <div class="remaining">...</div>
+                            <div class="remaining" id="remaining">...</div>
                             <div class="label">mL to go</div>
                         </div>
                     </div>
 
                     <div class="streakStat">
-                        <img id="streakImg" src="streakImg.png">
+                        <img id="streakImg" src="/images/streakImg.png">
 
-                        <div class="streakInfo maxwidth90">
+                        <div class="streakInfo">
                             <p>Streak</p>
                             <h3><span id="streak">...</span> days</h3>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -97,20 +105,11 @@
                 <p>Today's Logs</p>
 
                 <label class="hidden" id="no-logs-found-image">
-                    <img src="noLogsGif.gif">
-                    <p>None found</p>
+                    <img src="/images/noLogsGif.gif">
                 </label>
 
                 <div class="logs" id="logs-container">
-
-                    <div class="row">
-
-
-                        <img src="clock.png">
-                        <p class="timeLogs" contenteditable="false">12:30</p>
-                        <p class="logAmount" contenteditable="true">500</p>
-                        <p>mL</p>
-                    </div>
+                    <div class="row"></div>
                 </div>
 
             </div>
@@ -119,21 +118,23 @@
                 <div class="quick-add-amount-container" id="quick-add-amount-container">
 
 
-                    <button type="submit" data-addvalue="250" class="quick-add-btn" id="quickAdd250Btn"> <img
-                            src="waterDroplet.png ">
+                    <button type="submit" data-addvalue="250" class="quick-add-btn" id="quickAdd250Btn"><img
+                            src="/images/waterDroplet.png ">
                         <br>+ 250
-                        mL</button>
+                        mL
+                    </button>
 
 
-                    <button type="submit" data-addvalue="500" class="quick-add-btn" id="quickAdd500Btn"> <img
-                            src="waterDroplet.png "> <br>+ 500
-                        mL</button>
+                    <button type="submit" data-addvalue="500" class="quick-add-btn" id="quickAdd500Btn"><img
+                            src="/images/waterDroplet.png "> <br>+ 500
+                        mL
+                    </button>
 
 
-
-                    <button type="submit" data-addvalue="750" class="quick-add-btn" id="quickAdd750Btn"> <img
-                            src="waterDroplet.png "> <br>+ 750
-                        mL</button>
+                    <button type="submit" data-addvalue="750" class="quick-add-btn" id="quickAdd750Btn"><img
+                            src="/images/waterDroplet.png "> <br>+ 750
+                        mL
+                    </button>
 
                 </div>
                 <input type="number" class="input" id="amount-input" placeholder="Enter amount"> <br>
@@ -146,9 +147,9 @@
 </div>
 <script type="module" src="/scripts/startup.js" defer></script>
 <script type="module" src="/scripts/dashboard-actions.js" defer></script>
-<script type="module" src="/scripts/water-intake-calculator.js" defer></script>
+<script type="module" src="/scripts/dashboard-refresh.js" defer></script>
 <script src="/scripts/fact-cards.js" defer></script>
-<script type="module" src="/scripts/settings-actions.js" defer></script>
+<script type="module" src="/scripts/side-menu.js" defer></script>
 <script type="module" src="/scripts/logs.js" defer></script>
 </body>
 

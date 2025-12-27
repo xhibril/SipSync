@@ -1,3 +1,9 @@
+@property --percent {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0;
+}
+
 .content {
     margin-top: 1rem;
     justify-content: center;
@@ -16,14 +22,35 @@
     justify-content: center;
     align-items: center;
 }
-
-.goal {
+.stats p{
+    margin-top:.3rem;
+}
+.goal-wrapper, .water-drank-wrapper{
     display: flex;
-    gap: 5px;
+    flex-direction: row;
+    gap:.3rem;
+    align-items: center;
+    justify-content: center;
 }
 
-.stats p {
-    margin: .5rem;
+.water-drank-wrapper{
+    width:100%;
+    border-top: 1px solid white;
+}
+
+#period-label{
+    font-size:.8rem;
+    color: #c7c6c6;
+    position:absolute;
+    top: 0;
+}
+
+#goal{
+    color: #a6f6e6;
+}
+
+#water-drank{
+    color: #94e594;
 }
 
 /* period selection */
@@ -47,10 +74,17 @@
     width: 33rem;
     height: 18rem;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    position: relative;
     align-items: center;
     gap: 5rem;
+}
+
+.progress-wrapper{
+    display:flex;
+    flex-direction: row;
+    gap:5rem;
 }
 
 /* progress ring */
@@ -59,15 +93,18 @@
     --thickness: 1rem;
     --track: #d1d1d1;
     --progress: #5bace6;
-
+    --percent: 0;
     width: var(--size);
     aspect-ratio: 1;
     border-radius: 50%;
     background:
-        conic-gradient(var(--progress) calc(var(--percent) * 1%),
-            var(--track) 0);
+            conic-gradient(
+                    var(--progress) calc(var(--percent) * 1%),
+                    var(--track) 0
+            );
     display: grid;
     place-items: center;
+    transition: --percent 0.4s cubic-bezier(.4,0,.2,1);
 }
 
 .progressBar::before {

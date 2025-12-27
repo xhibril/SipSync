@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Global.css">
-    <link rel="stylesheet" href="Feedback.css">
-    <link rel="stylesheet" href="Vars.css">
-    <link rel = "stylesheet" href = "Responsive.css">
+    <link rel="stylesheet" href="/css/Global.css">
+    <link rel="stylesheet" href="/css/Feedback.css">
+    <link rel="stylesheet" href="/css/Vars.css">
+    <link rel = "stylesheet" href = "/css/Responsive.css">
 
     <title>Feedback</title>
 </head>
@@ -22,27 +22,26 @@
         <img src="/images/success.png" id="success-icon" class="">
         <span id="notification-text"></span>
     </p>
-
     <div class="left-section">
+    <div class="side-menu " id = "side-menu">
+        <button class="side-menu-button inactive" id="side-menu-btn">
+            <img src="/images/side-menu-button-picture.png" >
+        </button>
 
-        <div class="side-menu active">
-            <img src="side-menu-button-picture.png" class="side-menu-button active">
+        <div class="side-menu-content " id = "side-menu-content">
 
-            <div class="side-menu-content  ">
+            <button type="button" class="home-btn" id ="home-btn"><img src="/images/home.png"></button>
+            <button type="button"  class= "calculator-btn" id ="calculator-btn"><img src="/images/calculator.png"></button>
+            <button type="button"  class="feedback-btn" id = "feedback-btn"><img src="/images/feedback.png"></button>
+            <a href="https://github.com/xhibril" target="_blank" rel="noopener noreferrer" class="redirect-btn" id = "redirect-btn"><img src="/images/redirect.png"></a>
 
-                <button type="button" class="home-btn"> <img src="home.png"></button>
-                <button type="button" class="calculator-btn"> <img src="calculator.png"> </button>
-                <button type="button" class="feedback-btn"> <img src="feedback.png"> </button>
-                <button type="button" class="redirect-btn"> <img src="redirect.png"> </button>
-
-                <div class="dataAndAccount">
-                    <button type="button" id="data-reset" class="default-btn ">Reset Data</button>
-                </div>
-
-                <button type="button" id="logout-btn" class="default-btn">Logout</button>
+            <div class="dataAndAccount">
+                <button type="button" id="data-reset" class="default-btn ">Reset Data</button>
             </div>
 
+            <button type="button" id="logout-btn" class="default-btn">Logout</button>
         </div>
+</div>
     </div>
 
 
@@ -77,6 +76,7 @@
 </div>
 
 <script type="module" src="/scripts/feedback.js" defer></script>
+<script type="module" src="/scripts/side-menu.js" defer></script>
 </body>
 
 </html>

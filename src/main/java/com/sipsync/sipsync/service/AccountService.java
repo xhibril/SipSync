@@ -15,6 +15,6 @@ public class AccountService {
     public void resetData(Long userId) {
         addRepo.deleteUserDataLogs(userId);
         addUserGoalRepo.deleteUserDataGoal(userId);
-        userRepo.deleteUserStreak(userId);
+        userRepo.resetUserStreak(userId);
     }
 }

@@ -1,0 +1,90 @@
+
+@media (max-width: 1024px) {
+    .main-section {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .left-section {
+        width: 100%;
+    }
+
+    .side-menu-button {
+        position: absolute;
+        left: 0;
+        margin-left: -4rem;
+        width: 1.8rem;
+
+
+    }
+
+    .side-menu.active {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        border-radius: 0;
+        margin: 0;
+        justify-content: center;
+    }
+
+    .side-menu-content {
+        flex-direction: row;
+        gap: 1.5rem;
+
+    }
+
+    .home-btn img,
+    .calculator-btn img,
+    .feedback-btn img,
+    .redirect-btn img {
+        width: 1.8rem;
+    }
+
+    #logout-btn, #data-reset{
+        width:1.8rem;
+        height:auto;
+    }
+
+
+    /* Right content */
+    .right-section {
+        padding: 1rem;
+    }
+
+    .content {
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    .progress {
+        max-width: 80%;
+        max-width: 22rem;
+        flex-direction: column;
+        gap: .5rem;
+    }
+
+    .stats {
+        max-width: 80%;
+        max-width: 20rem;
+    }
+
+    .progress-and-period-container {
+        align-items: center;
+    }
+
+
+    .input-container {
+        max-width: 80%;
+        max-width: 22rem;
+
+    }
+
+    .quick-add-amount-container {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .history {
+        max-width: 80%;
+    }
+}
