@@ -3,7 +3,6 @@ import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +16,19 @@ import java.util.Optional;
 public class LoginService {
     @Autowired UserRepository userRepo;
 
+    private final SecurityHashService hashService;
+    public LoginService(SecurityHashService hashService){
+        this.hashService = hashService;
+    }
+
     // check if user credentials are correct
-    public Boolean isUserValid(String email, String password, Boolean rememberMe, HttpServletResponse res) {
+    public Boolean isUserValid(String email, String rawPassword, Boolean rememberMe, HttpServletResponse res) {
         Optional<User> userOpt = userRepo.findByEmail(email);
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();
 
-            if (user.getPassword().equals(password)) {
+            if (hashService.compare(rawPassword, user.getPassword())){
                 // set expiration
                 Long length = expiration(rememberMe);
 

@@ -1,23 +1,23 @@
 package com.sipsync.sipsync.service;
-import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.repository.UserRepository;
 import com.sipsync.sipsync.repository.EmailVerificationRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import javax.crypto.SecretKey;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -29,15 +29,47 @@ public class AuthService {
     // send verification email
     @Async
     public void sendVerificationEmail(String email, String token){
-        String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
 
+        String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
         String link = "http://localhost:8080/email/check-token?token=" + encodedToken;
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("Please clicking the following link to verify: ");
-        message.setText(link);
-        mailSender.send(message);
+
+        try {
+
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(email);
+            helper.setSubject("Verify your email");
+
+            String html = """
+                    <div style="font-family: Arial; line-height:1.6;">
+                        <h2>Verify your email</h2>
+                        <p>Click the button below to verify your account:</p>
+                        <a href="%s"
+                           style="
+                             display:inline-block;
+                             padding:12px 20px;
+                             background: #667085;
+                             color:white;
+                             text-decoration:none;
+                             border-radius:6px;
+                             font-weight:bold;">
+                           Verify Email
+                        </a>
+                        <p style="margin-top:20px;font-size:12px;color:#666;">
+                            If you didn’t request this, ignore this email.
+                        </p>
+                    </div>
+                    """.formatted(link);
+
+            helper.setText(html, true);
+            mailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
 
     // rebuild token to verify user email

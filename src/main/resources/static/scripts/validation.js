@@ -3,12 +3,9 @@ import {showMessage} from "./notification.js";
 export function validateNumInputs(...input){
     for (let value of input){
         value = Number(value)
-        if(value <= 0) {
+        if(value <= 0 || isNaN(value)) {
             return false;
         }
-       if(isNaN(value)){
-           return false;
-       }
     }
     return true;
 }

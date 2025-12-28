@@ -1,4 +1,5 @@
 import {validateNumInputs} from "./validation.js";
+import {showMessage} from "./notification.js";
 
 const displayWaterIntake = document.querySelector("#calculator-recommended-intake");
 const unitType = document.querySelectorAll('input[name="unitType"]');
@@ -42,8 +43,8 @@ calculateBtn.addEventListener("click", () => {
 
 function calculateWaterIntake(unitTypeValue) {
     // get the gender selected
-    const selectedGender = document.querySelector('input[name="inputGender"]:checked');
-    let gender = selectedGender.value;
+    const selectedGender = document.querySelector('input[name="calculator-gender"]:checked');
+    let gender = selectedGender ? selectedGender.value : null;
 
     // check weight based on unit type
     const weight = getWeightInKg(unitTypeValue);
@@ -57,14 +58,16 @@ function calculateWaterIntake(unitTypeValue) {
     activity = parseFloat(getActivityMultiplier(activity));
 
     // check if input is valid
-    if (validateNumInputs(weight, age, gender, activity)) {
-
-        let waterIntake = calculate(weight, age, gender, activity);
-        let roundedWaterIntake = Number(waterIntake.toFixed(2));
-
-        displayWaterIntake.style.visibility = "visible";
-        displayWaterIntake.innerHTML = "Your recommended water intake: " + roundedWaterIntake + " L";
+    if (!validateNumInputs(weight, age, gender, activity)) {
+        showMessage("error", "Please fill in all fields with valid values");
+        return;
     }
+
+    let waterIntake = calculate(weight, age, gender, activity);
+    let roundedWaterIntake = Number(waterIntake.toFixed(2));
+
+    displayWaterIntake.style.visibility = "true";
+    displayWaterIntake.innerHTML = "Your recommended water intake: " + roundedWaterIntake + " L";
 }
 
 
@@ -78,17 +81,17 @@ function getGenderMultiplier(gender) {
             return 1;
         case "FEMALE":
             return 0.95;
-        default: return 1;
+        default: return null;
     }
 }
 
 function getAgeMultiplier(age) {
 
-    if (age >= 14 && age <= 30) return 1;
+    if (age >= 0 && age <= 30) return 1;
     if (age >= 31 && age <= 50) return 0.98;
     if (age >= 51 && age <= 65) return 0.95;
     if (age >= 66) return 0.90;
-    return 1;
+    return null;
 }
 
 function getActivityMultiplier(activity) {
@@ -104,7 +107,7 @@ function getActivityMultiplier(activity) {
             return 1.35;
         case "EXTREME":
             return 1.5;
-        default: return 1;
+        default: return null;
     }
 }
 /*

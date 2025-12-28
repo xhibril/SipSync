@@ -1,27 +1,26 @@
 package com.sipsync.sipsync.service;
 import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.repository.UserRepository;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.Optional;
-
 @Service
 public class SingUpService {
-    @Autowired
-    AuthService authService;
-    @Autowired
-    UserRepository userRepo;
+    @Autowired AuthService authService;
+    @Autowired UserRepository userRepo;
+
+    private final SecurityHashService hashService;
+    public SingUpService(SecurityHashService hashService) {
+        this.hashService = hashService;
+    }
 
     // add user and return it
     public Boolean addUser(String email, String password) {
         // check if user it not already registered
         if (!(userRepo.existsByEmail(email))) {
-            User user = new User(email, password, null);   // null is last streak update date
+
+            String hashPassword = hashService.hashPassword(password);
+            User user = new User(email, hashPassword, null);   // null is last streak update date
 
             // save the saved user for id
             User savedUser = userRepo.save(user);

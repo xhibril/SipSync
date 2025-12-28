@@ -3,10 +3,12 @@ import com.sipsync.sipsync.dto.auth.PasswordResetResponse;
 import com.sipsync.sipsync.model.PasswordReset;
 import com.sipsync.sipsync.repository.PasswordResetRepository;
 import com.sipsync.sipsync.repository.UserRepository;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,11 @@ public class PasswordResetService {
     @Autowired UserRepository userRepo;
     @Autowired PasswordResetRepository passwordResetRepo;
     @Autowired JavaMailSender mailSender;
+
+    private final SecurityHashService hashService;
+    public PasswordResetService(SecurityHashService hashService){
+        this.hashService = hashService;
+    }
 
     private static final SecureRandom secureRandom = new SecureRandom();
 
@@ -52,8 +59,11 @@ public class PasswordResetService {
         int code = secureRandom.nextInt(1_000_000);
         String formattedCode = String.format("%06d", code);
 
+        // hash the code and store it
         PasswordReset reset = new PasswordReset();
-        reset.setCode(formattedCode);
+        String hashCode = hashService.hashPassword(formattedCode);
+
+        reset.setCode(hashCode);
         reset.setEmail(email);
         reset.setAttemptsRemaining(5);
 
@@ -69,11 +79,45 @@ public class PasswordResetService {
     @Async
     protected void sendVerificationCode(String email, String code) {
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setText("Your verification code is: " + code);
-        message.setSubject("Email verification code");
-        mailSender.send(message);
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(email);
+            helper.setSubject("Your verification code");
+
+            String html = """
+            <div style="font-family: Arial; line-height:1.6; max-width:480px;">
+                <h2 style="margin-bottom:10px;">Verify your account</h2>
+                <p>Use the following verification code:</p>
+
+                <div style="
+                    margin:20px 0;
+                    padding:14px;
+                    background:#f2f4f7;
+                    border-radius:6px;
+                    font-size:24px;
+                    font-weight:bold;
+                    letter-spacing:4px;
+                    text-align:center;
+                    color:#667085;">
+                    %s
+                </div>
+
+                <p style="font-size:13px;color:#666;">
+                    This code expires in 10 minutes.
+                </p>
+
+                <p style="font-size:12px;color:#999;">
+                    If you didn’t request this, you can safely ignore this email.
+                </p>
+            </div>
+            """.formatted(code);
+
+            helper.setText(html, true);
+            mailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -124,8 +168,8 @@ public class PasswordResetService {
     }
 
     // compare codes
-    public boolean compareCode(Integer remainingAttempts, String savedCode, String userEnteredCode, String email) {
-        if (!(userEnteredCode.equals(savedCode))) {
+    public boolean compareCode(Integer remainingAttempts, String savedCode, String rawCode, String email) {
+        if (!(hashService.compare(rawCode, savedCode))){
             remainingAttempts--;
             passwordResetRepo.updateAttemptsRemaining(remainingAttempts, email);
             return false;
@@ -155,8 +199,9 @@ public class PasswordResetService {
                         "Could not reset your password. Please try again"));
             }
 
+            String hashPassword = hashService.hashPassword(newPassword);
 
-            userRepo.changePassword(newPassword, email);   // change password
+            userRepo.changePassword(hashPassword, email);   // change password
             deletePasswordResetRequest(email);      // delete password reset request row
             return ResponseEntity.ok().build();
         }
