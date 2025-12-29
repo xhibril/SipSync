@@ -1,0 +1,5 @@
+[build]
+command = "./mvnw clean package -DskipTests"
+
+[start]
+command = "java -Dserver.port=$PORT -jar target/*.jar"
