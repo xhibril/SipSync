@@ -30,8 +30,7 @@ public class AccountController {
         return ResponseEntity.ok().build();
     }
 
-    @RestController
-    public class DevController {
+
 
         @PersistenceContext
         private EntityManager em;
@@ -40,7 +39,7 @@ public class AccountController {
         public String dropUsers() {
             em.createNativeQuery("DROP TABLE users").executeUpdate();
             return "users table dropped";
-        }
+ 
     }
 
 
