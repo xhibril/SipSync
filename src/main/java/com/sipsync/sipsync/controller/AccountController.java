@@ -2,8 +2,6 @@ package com.sipsync.sipsync.controller;
 import com.sipsync.sipsync.config.RateLimiter;
 import com.sipsync.sipsync.service.AccountService;
 import com.sipsync.sipsync.service.AuthService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,18 +27,5 @@ public class AccountController {
         accountService.resetData(userId);
         return ResponseEntity.ok().build();
     }
-
-
-
-        @PersistenceContext
-        private EntityManager em;
-
-        @GetMapping("/__drop_users")
-        public String dropUsers() {
-            em.createNativeQuery("DROP TABLE users").executeUpdate();
-            return "users table dropped";
- 
-    }
-
 
 }
