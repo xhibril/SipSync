@@ -11,7 +11,7 @@ public class PageController {
     private AuthService authService;
 
     // home page
-    @GetMapping("/home")
+    @GetMapping({"/", "/home"})
     public String MainPage(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
         if (userId == null) {
