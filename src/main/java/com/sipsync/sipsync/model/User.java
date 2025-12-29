@@ -36,7 +36,6 @@ public class User {
     public void setPassword(String password){ this.password = password; }
     public String getPassword(){ return password; }
 
-    public void setId(Long id){ this.id = id; }
     public Long getId(){ return id; }
 
     public void setStreak(int streak){ this.streak = streak; }
