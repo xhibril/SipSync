@@ -53,9 +53,11 @@ public class EmailService {
 
             helper.setText(html, true);
             mailSender.send(message);
-        } catch (Exception ignored) {
+            } catch(Exception e){
+                e.printStackTrace();
+            }
         }
-    }
+
 
 
 
@@ -99,7 +101,10 @@ public class EmailService {
 
             helper.setText(html, true);
             mailSender.send(message);
-        } catch (Exception ignored) {
+          } catch(Exception e) {
+            e.printStackTrace();
+        }
         }
     }
-}
+
+
