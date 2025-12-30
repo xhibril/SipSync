@@ -9,6 +9,7 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -24,53 +25,7 @@ public class AuthService {
 
     @Autowired UserRepository userRepo;
     @Autowired EmailVerificationRepository verifyRepo;
-    @Autowired JavaMailSender mailSender;
-
-    // send verification email
-    @Async
-    public void sendVerificationEmail(String email, String token){
-
-        String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
-        String link = "http://localhost:8080/email/check-token?token=" + encodedToken;
-
-        try {
-
-
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setTo(email);
-            helper.setSubject("Verify your email");
-
-            String html = """
-                    <div style="font-family: Arial; line-height:1.6;">
-                        <h2>Verify your email</h2>
-                        <p>Click the button below to verify your account:</p>
-                        <a href="%s"
-                           style="
-                             display:inline-block;
-                             padding:12px 20px;
-                             background: #667085;
-                             color:white;
-                             text-decoration:none;
-                             border-radius:6px;
-                             font-weight:bold;">
-                           Verify Email
-                        </a>
-                        <p style="margin-top:20px;font-size:12px;color:#666;">
-                            If you didn’t request this, ignore this email.
-                        </p>
-                    </div>
-                    """.formatted(link);
-
-            helper.setText(html, true);
-            mailSender.send(message);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
+    @Autowired EmailService emailService;
 
     // rebuild token to verify user email
     public Boolean verifyUser(String token) {
@@ -172,7 +127,7 @@ public class AuthService {
                 .signWith(key)
                 .compact();
 
-        sendVerificationEmail(email, token);
+        emailService.sendVerificationEmail(email, token);
     }
 
 

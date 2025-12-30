@@ -21,7 +21,7 @@ import java.util.UUID;
 public class PasswordResetService {
     @Autowired UserRepository userRepo;
     @Autowired PasswordResetRepository passwordResetRepo;
-    @Autowired JavaMailSender mailSender;
+    @Autowired EmailService emailService;
 
     private final SecurityHashService hashService;
     public PasswordResetService(SecurityHashService hashService){
@@ -44,7 +44,7 @@ public class PasswordResetService {
 
             // generate new code and send it to email
             String formattedCode = generateVerificationCode(email);
-            sendVerificationCode(email, formattedCode);
+            emailService.sendVerificationCode(email, formattedCode);
 
             return ResponseEntity.ok().build();
         }
@@ -74,51 +74,6 @@ public class PasswordResetService {
         return formattedCode;
     }
 
-
-    // send verification to their email
-    @Async
-    protected void sendVerificationCode(String email, String code) {
-
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setTo(email);
-            helper.setSubject("Your verification code");
-
-            String html = """
-            <div style="font-family: Arial; line-height:1.6; max-width:480px;">
-                <h2 style="margin-bottom:10px;">Verify your account</h2>
-                <p>Use the following verification code:</p>
-
-                <div style="
-                    margin:20px 0;
-                    padding:14px;
-                    background:#f2f4f7;
-                    border-radius:6px;
-                    font-size:24px;
-                    font-weight:bold;
-                    letter-spacing:4px;
-                    text-align:center;
-                    color:#667085;">
-                    %s
-                </div>
-
-                <p style="font-size:13px;color:#666;">
-                    This code expires in 10 minutes.
-                </p>
-
-                <p style="font-size:12px;color:#999;">
-                    If you didn’t request this, you can safely ignore this email.
-                </p>
-            </div>
-            """.formatted(code);
-
-            helper.setText(html, true);
-            mailSender.send(message);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
     @Transactional
