@@ -3,9 +3,10 @@ package com.sipsync.sipsync.controller;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class DbFixController {
 
     @PersistenceContext
@@ -19,6 +20,6 @@ public class DbFixController {
             MODIFY id BIGINT NOT NULL AUTO_INCREMENT
         """).executeUpdate();
 
-        return "OK: users.id is now AUTO_INCREMENT";
+        return "done";
     }
 }
