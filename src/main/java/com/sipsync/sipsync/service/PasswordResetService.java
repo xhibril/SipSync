@@ -34,6 +34,7 @@ public class PasswordResetService {
     @Transactional
     public ResponseEntity<PasswordResetResponse> requestPasswordReset(String email) {
         //check if user email exists
+        System.out.println("EMAILLLLLLLLLL" +email);
         Optional<String> isEmailPresent = userRepo.findEmailByEmail(email);
 
         if (isEmailPresent.isPresent()) {
@@ -41,7 +42,6 @@ public class PasswordResetService {
                 // delete prev requests if they are found
                  deletePasswordResetRequest(email);
             }
-
             // generate new code and send it to email
             String formattedCode = generateVerificationCode(email);
             emailService.sendVerificationCode(email, formattedCode);
