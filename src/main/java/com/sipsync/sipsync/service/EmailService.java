@@ -19,11 +19,6 @@ public class EmailService {
 
     @Async
     public void sendVerificationEmail(String email, String token){
-
-        System.out.println(" ASYNC METHOD CALLED");
-        System.out.println("EMAIL PARAM = " + email);
-        System.out.println("THREAD = " + Thread.currentThread().getName());
-
         String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
         String link = baseUrl + "/email/check-token?token=" + encodedToken;
         try {
@@ -69,11 +64,6 @@ public class EmailService {
     // send verification to their email
     @Async
     public void sendVerificationCode(String email, String code) {
-
-        System.out.println(" ASYNC METHOD CALLED");
-        System.out.println("EMAIL PARAM = " + email);
-        System.out.println("THREAD = " + Thread.currentThread().getName());
-
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
