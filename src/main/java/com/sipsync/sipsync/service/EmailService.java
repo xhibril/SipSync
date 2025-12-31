@@ -1,19 +1,20 @@
 package com.sipsync.sipsync.service;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
 @Service
 public class EmailService {
 
-    @Autowired private JavaMailSender mailSender;
+    private static final HttpClient client = HttpClient.newHttpClient();
     @Value("${app.base-url}") private String baseUrl;
 
 
@@ -22,13 +23,8 @@ public class EmailService {
         String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
         String link = baseUrl + "/email/check-token?token=" + encodedToken;
         try {
-
-
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setTo(email);
-            helper.setSubject("Verify your email");
+            String apiKey = System.getenv("SMTP2GO_API_KEY");
+            String fromEmail = System.getenv("FROM_EMAIL");
 
             String html = """
                     <div style="font-family: Arial; line-height:1.6;">
@@ -51,8 +47,34 @@ public class EmailService {
                     </div>
                     """.formatted(link);
 
-            helper.setText(html, true);
-            mailSender.send(message);
+            String json = """
+        {
+          "api_key": "%s",
+          "to": ["%s"],
+          "sender": "%s",
+          "subject": "Verify your email",
+          "html_body": "%s"
+        }
+        """.formatted(
+                    apiKey,
+                    email,
+                    fromEmail,
+                    escapeJson(html)
+            );
+
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.smtp2go.com/v3/email/send"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            HttpResponse<String> response =
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println("SMTP2GO RESPONSE: " + response.body());
+
+
             } catch(Exception e){
                 e.printStackTrace();
             }
@@ -60,15 +82,22 @@ public class EmailService {
 
 
 
+    private static String escapeJson(String s) {
+        return s.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "");
+    }
+
+
 
     // send verification to their email
     @Async
     public void sendVerificationCode(String email, String code) {
         try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setTo(email);
-            helper.setSubject("Your verification code");
+
+            String apiKey = System.getenv("SMTP2GO_API_KEY");
+            String fromEmail = System.getenv("FROM_EMAIL");
 
             String html = """
             <div style="font-family: Arial; line-height:1.6; max-width:480px;">
@@ -97,10 +126,37 @@ public class EmailService {
                 </p>
             </div>
             """.formatted(code);
+            String json = """
+        {
+          "api_key": "%s",
+          "to": ["%s"],
+          "sender": "%s",
+          "subject": "Verify your email",
+          "html_body": "%s"
+        }
+        """.formatted(
+                    apiKey,
+                    email,
+                    fromEmail,
+                    escapeJson(html)
+            );
 
-            helper.setText(html, true);
-            mailSender.send(message);
-          } catch(Exception e) {
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.smtp2go.com/v3/email/send"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            HttpResponse<String> response =
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println("SMTP2GO RESPONSE: " + response.body());
+
+
+
+
+        } catch(Exception e) {
             e.printStackTrace();
         }
         }
