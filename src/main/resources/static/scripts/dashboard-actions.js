@@ -1,8 +1,6 @@
-import {refreshMainPage} from "./dashboard-refresh.js";
-import {addLog} from "./logs.js";
+import {addGoal, addWater, refreshMainPage} from "./dashboard-refresh.js";
 import {validateNumInputs} from "./validation.js";
 import {showMessage} from "./notification.js";
-import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
 
 const goal = document.querySelector("#goal");
 const quickAddBtns = document.querySelectorAll("[data-addvalue]");
@@ -68,19 +66,7 @@ monthlyBtn.addEventListener("click", async () => {
 // handles user inputs
 async function handleAdd(amount) {
     try {
-        const addResponse = await fetch(`/log/add?amount=${amount}`, {method: "POST"});
-
-        if (!addResponse.ok) {
-            redirectToLoginPage(addResponse);
-            if (isBeingRateLimited(addResponse)) return;
-            throw new Error();
-        }
-        const addRes = await addResponse.json();
-        addLog(amount, addRes.id, addRes.time);  // display log to user
-
-        // if user enters an amount, send them back to daily view period
-        await refreshMainPage("DAILY");
-        showMessage("success", "Water intake added.");
+        await addWater(amount);
     } catch (err) {
         showMessage("error", "Could not add your water intake. Please try again.");
     }
@@ -89,15 +75,7 @@ async function handleAdd(amount) {
 
 async function handleGoal(amount) {
     try {
-        const goalResponse = await fetch(`/goal/add?goal=${amount}`, {method: "POST"});
-
-        if (!goalResponse.ok) {
-            redirectToLoginPage(goalResponse);
-            if (isBeingRateLimited(goalResponse)) return;
-            throw new Error();
-        }
-        await refreshMainPage("DAILY");
-        showMessage("success", "Goal added.");
+       await addGoal(amount);
     } catch (err) {
         showMessage("error", "Could not add your goal. Please try again.");
     }

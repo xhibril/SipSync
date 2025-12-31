@@ -68,7 +68,10 @@ public class StatsService {
                 prev = saved.getDate();
             }
         }
-        // make sure count is not zero so it doesnt crash
-        return count == 0 ? 0f : sum / count;
+
+        if (count == 0) return 0f;
+
+        String avg = String.format("%.2f", sum / count);
+        return Float.parseFloat(avg);
     }
 }

@@ -1,6 +1,6 @@
 import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
 import {showMessage} from "./notification.js";
-import {refreshMainPage} from "./dashboard-refresh.js";
+import {refreshMainPage, refreshWaterIntake} from "./dashboard-refresh.js";
 
 const logs = document.querySelector("#logs-container");
 const noLogsFoundImage = document.querySelector("#no-logs-found-image");
@@ -9,65 +9,75 @@ const noLogsFoundImage = document.querySelector("#no-logs-found-image");
 export function addLog(amount, id, time) {
     const row = document.createElement("div");
     row.className = "row";
+    row.dataset.logId = id;
 
     row.innerHTML = `
         <img src="/images/clock.png">
-        <p class="timeLogs" contenteditable="false"></p>
+        <p class="timeLogs"></p>
         <p class="logAmount" contenteditable="true"></p>
-        <p>mL</p>`;
+        <p>mL</p>
+    `;
 
     const logAmount = row.querySelector(".logAmount");
     const timeLogs = row.querySelector(".timeLogs");
+
     logAmount.textContent = amount;
-    logAmount.contentEditable = true;
     timeLogs.textContent = time;
 
-    logAmount.addEventListener("keydown", async (e) => {
+    logAmount.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
-            let newValue = parseInt(logAmount.textContent.trim(), 10); // base 10
             e.preventDefault();
+            logAmount.blur();
 
-            // check if update / deletion is successful
-            if (await handleLog(newValue, id)) {
-                logAmount.blur();                         // exit editing
-                if (Number.isNaN(newValue) || newValue <= 0){
-                    row.remove();                 // remove the log if value is 0 or empty
-
-                    // display pic if no logs found
-                    if (logs.children.length === 0) {
-                        logsFound(false);
-                    }
-                }
-            }
+            const newValue = parseInt(logAmount.textContent.trim(), 10);
+            onLogEdit(row, id, newValue);
         }
-    })
+    });
+
     logsFound(true);
-    logs.appendChild(row);
+    logs.prepend(row);
 }
 
-async function handleLog(newValue, logId) {
-    newValue = Number(newValue);
+export function removeLog(id){
+    const row = document.querySelector(`.row[data-log-id="${id}"]`);
 
-    // delete log if its zero or empty
-    if(Number.isNaN(newValue) || newValue <= 0) return deleteLog(logId);
+    if (!row) return;
+    row.remove();
 
-    // update otherwise
-    return updateLog(newValue, logId);
+    if (logs.children.length === 0) {
+        logsFound(false);
+    }
 }
+
+
+async function onLogEdit(row, logId, newValue) {
+    // delete
+    if (Number.isNaN(newValue) || newValue <= 0) {
+        row.remove();
+
+        if (logs.children.length === 0) {
+            logsFound(false);
+        }
+
+        await deleteLog(logId); return;
+    }
+
+    // update
+    await updateLog(newValue, logId);
+}
+
 
 async function deleteLog(logId) {
     try {
         const deleteLogResponse = await fetch(`/log/delete?logId=${logId}`, {method: "POST"});
-
         if (!deleteLogResponse.ok) {
             redirectToLoginPage(deleteLogResponse);
             if(isBeingRateLimited(deleteLogResponse)) return;
             throw new Error();
         }
-        await refreshMainPage("DAILY");
-        showMessage("success", "Log deleted.");
-        return true;
+            await refreshMainPage("DAILY");
 
+        return true;
     } catch (err) {
         showMessage("error", "Could not delete log. Please try again later.");
         return false;
@@ -82,11 +92,8 @@ async function updateLog(newValue, logId) {
             if(isBeingRateLimited(updateLog)) return;
             throw new Error();
         }
-
         await refreshMainPage("DAILY");
-        showMessage("success", "Log edited.");
         return true;
-
     } catch (err) {
         showMessage("error", "Could not edit log. Please try again later");
         return false;

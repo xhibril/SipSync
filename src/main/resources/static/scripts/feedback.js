@@ -23,6 +23,10 @@ async function handleSubmitFeedback(){
     if(!(handleValidation("EMAIL", email, "email"))) return;
     if(!(handleValidation("MESSAGE", message, "message"))) return;
 
+    nameFeedback.value = "";
+    emailFeedback.value = "";
+    messageFeedback.value = "";
+
     try {
         const feedbackResponse = await fetch("/api/feedback",{
             method: "POST",
@@ -35,11 +39,8 @@ async function handleSubmitFeedback(){
             if(isBeingRateLimited(feedbackResponse)) return;
             throw new Error();
         }
-            showMessage("success", "Feedback sent! Thank you.");
-            nameFeedback.value = "";
-            emailFeedback.value = "";
-            messageFeedback.value = "";
 
+        showMessage("success", "Feedback sent! Thank you.");
     } catch (err){
         showMessage("error", "Could not send your feedback. Please try again.");
     }
