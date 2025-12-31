@@ -24,7 +24,7 @@ async function handleSubmitFeedback(){
     if(!(handleValidation("MESSAGE", message, "message"))) return;
 
     try {
-        const feedbackResponse = await fetch("/post/feedback",{
+        const feedbackResponse = await fetch("/api/feedback",{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, message })
