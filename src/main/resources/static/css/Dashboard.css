@@ -89,6 +89,7 @@
 
 /* progress ring */
 .progressBar {
+    position: relative;
     --size: 10rem;
     --thickness: 1rem;
     --track: #d1d1d1;

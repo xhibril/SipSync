@@ -13,9 +13,6 @@ const feedbackBtn = document.querySelector("#feedback-btn");
 const resetDataBtn = document.querySelector("#data-reset");
 const logoutBtn = document.querySelector("#logout-btn");
 
-
-
-
 sideMenuBtn.addEventListener("click", ()=>{
     sideMenuContainer.classList.toggle("active");
     sideMenuContent.classList.toggle("active");
@@ -42,13 +39,6 @@ resetDataBtn.addEventListener("click", () => {
 logoutBtn.addEventListener("click", ()=>{
     logout();
 })
-
-if (window.innerWidth > 1024) {
-    sideMenuBtn.addEventListener("click", () => {
-        sideMenuContainer.classList.toggle("active");
-    });
-}
-
 
 async function deleteUserData() {
     try {

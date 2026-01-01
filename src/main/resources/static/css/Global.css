@@ -1,5 +1,6 @@
 html {
     font-size: clamp(16px, 1vw, 500px);
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -42,13 +43,12 @@ body {
 /* sidebar toggle button */
 .side-menu-button {
     position: absolute;
-
+    cursor: pointer;
     top: 0.5rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2000;
     width:2rem;
-    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -200,6 +200,7 @@ transform: scale(1.05);
   user-select: none;
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
+    font-size:1rem;
 }
 
 .default-btn:hover {
