@@ -1,10 +1,7 @@
 package com.sipsync.sipsync.service;
-
 import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.repository.LogsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -13,11 +10,10 @@ import java.util.List;
 @Service
 public class LogsService {
 
-    @Autowired
-    LogsRepository logsRepo;
-
-    @Autowired
-    LogsRepository addRepo;
+    private final LogsRepository logsRepo;
+    public LogsService(LogsRepository logsRepo){
+        this.logsRepo = logsRepo;
+    }
 
     public List todayLogs(Long userId){
         LocalDate today = LocalDate.now();
@@ -25,7 +21,6 @@ public class LogsService {
 
         return todayLogs;
     }
-
 
     // add amount
     public Logs addLog(int amount, Long userId) {
@@ -41,7 +36,7 @@ public class LogsService {
         log.setAmount(amount);
         log.setDate(today);
         log.setTime(timeString);
-        Logs saved = addRepo.save(log);
+        Logs saved = logsRepo.save(log);
 
         // return it so it can be displayed to user daily logs
         return saved;

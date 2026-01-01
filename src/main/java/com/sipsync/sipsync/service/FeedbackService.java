@@ -6,7 +6,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FeedbackService {
-    @Autowired FeedbackRepository feedbackRepo;
+
+    private final FeedbackRepository feedbackRepo;
+    public FeedbackService(FeedbackRepository feedbackRepo){
+        this.feedbackRepo = feedbackRepo;
+    }
 
     public void saveFeedback(Long userId, String name, String email, String message){
         Feedback feedback = new Feedback(userId, name, email, message);

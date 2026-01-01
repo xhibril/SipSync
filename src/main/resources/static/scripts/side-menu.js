@@ -43,6 +43,13 @@ logoutBtn.addEventListener("click", ()=>{
     logout();
 })
 
+if (window.innerWidth > 1024) {
+    sideMenuBtn.addEventListener("click", () => {
+        sideMenuContainer.classList.toggle("active");
+    });
+}
+
+
 async function deleteUserData() {
     try {
         const resetDataResponse = await fetch("/data/reset", {method: "POST"});

@@ -3,13 +3,7 @@ import com.sipsync.sipsync.dto.auth.PasswordResetResponse;
 import com.sipsync.sipsync.model.PasswordReset;
 import com.sipsync.sipsync.repository.PasswordResetRepository;
 import com.sipsync.sipsync.repository.UserRepository;
-import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.security.SecureRandom;
@@ -19,13 +13,21 @@ import java.util.UUID;
 
 @Service
 public class PasswordResetService {
-    @Autowired UserRepository userRepo;
-    @Autowired PasswordResetRepository passwordResetRepo;
-    @Autowired EmailService emailService;
+
+    private final UserRepository userRepo;
+    private final PasswordResetRepository passwordResetRepo;
+    private final EmailService emailService;
 
     private final SecurityHashService hashService;
-    public PasswordResetService(SecurityHashService hashService){
+    public PasswordResetService(SecurityHashService hashService,
+                                UserRepository userRepo,
+                                PasswordResetRepository passwordResetRepo,
+                                EmailService emailService)
+    {
         this.hashService = hashService;
+        this.userRepo = userRepo;
+        this.passwordResetRepo = passwordResetRepo;
+        this.emailService = emailService;
     }
 
     private static final SecureRandom secureRandom = new SecureRandom();
@@ -34,7 +36,6 @@ public class PasswordResetService {
     @Transactional
     public ResponseEntity<PasswordResetResponse> requestPasswordReset(String email) {
         //check if user email exists
-        System.out.println("EMAILLLLLLLLLL" +email);
         Optional<String> isEmailPresent = userRepo.findEmailByEmail(email);
 
         if (isEmailPresent.isPresent()) {

@@ -4,21 +4,23 @@ import com.sipsync.sipsync.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.Cookie;
-
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Optional;
 
 @Service
 public class LoginService {
-    @Autowired UserRepository userRepo;
 
+    private final UserRepository userRepo;
     private final SecurityHashService hashService;
-    public LoginService(SecurityHashService hashService){
+
+    public LoginService(SecurityHashService hashService,
+                        UserRepository userRepo)
+    {
         this.hashService = hashService;
+        this.userRepo = userRepo;
     }
 
     // check if user credentials are correct

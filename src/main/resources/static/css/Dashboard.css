@@ -54,7 +54,7 @@
 }
 
 /* period selection */
-.progress-and-period-container {
+.progress-container {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -67,8 +67,8 @@
     cursor: pointer;
 }
 
-/* progress container */
-.progress {
+/* progress stats */
+.progress-stats {
     background-color: var(--bg-container-soft);
     border-radius: .5rem;
     width: 33rem;
@@ -81,7 +81,7 @@
     gap: 5rem;
 }
 
-.progress-wrapper{
+.progress-stats-wrapper{
     display:flex;
     flex-direction: row;
     gap:5rem;
@@ -119,6 +119,8 @@
     position: absolute;
     text-align: center;
 }
+
+
 
 .label {
     font-size: 0.8rem;

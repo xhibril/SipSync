@@ -12,7 +12,6 @@
     .side-menu-button {
         display: none !important;
         visibility: hidden !important;
-        pointer-events: none !important;
     }
 
     .side-menu,
@@ -26,17 +25,22 @@
 
         margin: 0;
         border-radius: 0;
+        padding: 0.5rem 0;
 
         opacity: 1 !important;
         transform: none !important;
-        pointer-events: auto !important;
     }
 
     .side-menu-content {
         display: flex;
         flex-direction: row;
-        gap: 1.5rem;
+        flex-wrap: wrap;
         opacity: 1 !important;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        width:max-content;
+        pointer-events: auto !important;
     }
 
 
@@ -46,7 +50,7 @@
     .redirect-btn img,
     #logout-btn,
     #data-reset {
-        width: 1.8rem;
+        max-width: 1.8rem;
         height: auto;
     }
 
@@ -57,21 +61,37 @@
     .content {
         flex-direction: column;
         gap: 2.5rem;
+        width:100%;
     }
 
-    .progress {
-        max-width: 22rem;
+    .stats {
+        width: 18rem;
+        max-width:90%;
+    }
+
+    .progress-container {
+        align-items: center;
+         max-width:100%;
+    }
+
+    .progress-stats {
+        max-width:90%;
         flex-direction: column;
         gap: 0.5rem;
     }
 
-    .stats {
-        max-width: 20rem;
+    .progress-stats-wrapper{
+        gap:2rem;
+        max-width:100%;
     }
 
-    .progress-and-period-container {
-        align-items: center;
+    .streakStat{
+        display: flex;
+        flex-direction: column;
+        gap:0;
+        margin-top:.5rem;
     }
+
 
     .input-container {
         max-width: 22rem;
@@ -82,7 +102,7 @@
         gap: 0.8rem;
     }
 
-    .history {
-        max-width: 80%;
+    .history{
+        max-width:90%;
     }
 }

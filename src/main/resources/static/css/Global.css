@@ -1,3 +1,7 @@
+html {
+    font-size: clamp(16px, 1vw, 500px);
+}
+
 body {
     margin: 0;
     background-color: var(--bg-app);
@@ -34,9 +38,6 @@ body {
     flex-direction: row;
     gap: 10rem;
 }
-
-/* left section */
-
 
 /* sidebar toggle button */
 .side-menu-button {

@@ -1,17 +1,21 @@
 package com.sipsync.sipsync.service;
 import com.sipsync.sipsync.model.User;
 import com.sipsync.sipsync.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SingUpService {
-    @Autowired AuthService authService;
-    @Autowired UserRepository userRepo;
+    private final AuthService authService;
+    private final UserRepository userRepo;
 
     private final SecurityHashService hashService;
-    public SingUpService(SecurityHashService hashService) {
+    public SingUpService(SecurityHashService hashService,
+                         AuthService authService,
+                         UserRepository userRepo)
+    {
         this.hashService = hashService;
+        this.authService = authService;
+        this.userRepo = userRepo;
     }
 
     // add user and return it

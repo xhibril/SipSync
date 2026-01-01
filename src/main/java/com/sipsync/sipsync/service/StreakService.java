@@ -1,23 +1,24 @@
 package com.sipsync.sipsync.service;
-
 import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.repository.LogsRepository;
 import com.sipsync.sipsync.repository.UserRepository;
-import org.hibernate.boot.jaxb.internal.stax.LocalSchemaLocator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.temporal.ChronoUnit;
-
 import java.time.LocalDate;
-import java.util.List;
+
 
 @Service
 public class StreakService {
-    @Autowired LogsRepository logsRepo;
-    @Autowired UserRepository userRepo;
+    private final LogsRepository logsRepo;
+    private final UserRepository userRepo;
 
+    public StreakService(LogsRepository logsRepo,
+                         UserRepository userRepo)
+    {
+        this.logsRepo = logsRepo;
+        this.userRepo = userRepo;
+    }
 
     @Transactional
    // check if more than a day has passed since user last entered and amount

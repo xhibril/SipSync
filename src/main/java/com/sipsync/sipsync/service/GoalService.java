@@ -8,7 +8,11 @@ import java.util.Optional;
 
 @Service
 public class GoalService {
-    @Autowired GoalRepository goalRepo;
+
+    private final GoalRepository goalRepo;
+    public GoalService(GoalRepository goalRepo){
+        this.goalRepo = goalRepo;
+    }
 
     // set user goal
     public void setGoal(float amount, Long userId) {

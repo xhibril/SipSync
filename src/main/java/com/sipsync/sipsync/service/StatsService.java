@@ -1,16 +1,17 @@
 package com.sipsync.sipsync.service;
-
 import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.repository.LogsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.*;
 import java.util.List;
 
 @Service
 public class StatsService {
-    @Autowired LogsRepository logsRepo;
+
+    private final LogsRepository logsRepo;
+    public StatsService(LogsRepository logsRepo){
+        this.logsRepo = logsRepo;
+    }
 
     private enum Period {
         WEEKLY,

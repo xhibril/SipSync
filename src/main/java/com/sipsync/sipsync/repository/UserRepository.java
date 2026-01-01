@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -31,13 +30,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u.id FROM User u WHERE u.email = :email")
     Long findIdByEmail(String email);
 
-    @Query("SELECT u.isVerified FROM User u WHERE u.email = :email")
-    Boolean findUserByEmail(String email);
-
     @Query("SELECT u.lastStreakUpdateDate FROM User u WHERE u.id =:userId")
     LocalDate findLastStreakUpdate(Long userId);
-
-
 
 
     @Transactional

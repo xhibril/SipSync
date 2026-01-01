@@ -140,6 +140,7 @@ export async function addWater(amount) {
         minute: '2-digit',
         hour12: true
     });
+
     const tempId = `temp-${crypto.randomUUID()}`;
     addLog(amount, tempId, time, true);
 
