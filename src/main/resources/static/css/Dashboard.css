@@ -236,6 +236,7 @@
     font-weight: bold;
     background-color: var(--bg-white);
     transition: 0.2s;
+    font-size:1rem;
 }
 
 .quick-add-btn:hover {

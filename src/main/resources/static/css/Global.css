@@ -3,6 +3,10 @@ html {
     -webkit-text-size-adjust: 100%;
 }
 
+button  {
+        -webkit-text-size-adjust: 100%;
+}
+
 body {
     margin: 0;
     background-color: var(--bg-app);
@@ -200,7 +204,7 @@ transform: scale(1.05);
   user-select: none;
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
-    font-size:1rem;
+  font-size:1rem;
 }
 
 .default-btn:hover {
