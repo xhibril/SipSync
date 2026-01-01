@@ -61,7 +61,7 @@ async function deleteUserData() {
 
 
 async function logout(){
-    lockBtn(logoutBtn, "Logging in...");
+    lockBtn(logoutBtn, "Logging out...");
     try{
         const logoutResponse = await fetch("/api/logout", {method:"POST"});
         if(!logoutResponse.ok) {
