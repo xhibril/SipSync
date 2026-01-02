@@ -24,26 +24,11 @@ html, body {
     letter-spacing: -0.5px;
 }
 
-.input{
-    max-width:60%;
-    margin-top:0;
-}
-
-
-.input-container{
+.credentials-wrapper{
     display: flex;
     flex-direction: column;
 }
 
-.page-title{
-    margin-bottom:4rem;
-    font-size:1.5rem;
-    font-weight:bold;
-}
-
-span{
-    color: var(--text-black);
-}
 
 .form {
     width: 18em;
@@ -56,11 +41,68 @@ span{
     align-items: center;
     display: flex;
     max-width:90%;
-    max-height: 90%;
     gap:1rem;
-
-
 }
+
+
+.input{
+    max-width:70%;
+    margin-top:0;
+    align-self: center;
+}
+
+.credentials-field{
+    position: relative;
+    width: 60%;
+    align-self: center;
+    margin:0;
+    gap:1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.credentials-field .input {
+    width: 100%;
+    padding-right: 2.5rem;
+    margin: 0;
+}
+
+.toggle-password img{
+    width: 1rem;
+}
+
+.toggle-password {
+    position: absolute;
+    align-self: flex-end;
+    top: 80%;
+    right:.5rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #777;
+}
+
+.toggle-password:hover {
+    color: var(--text-black);
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.page-title{
+    margin-bottom:4rem;
+    font-size:1.5rem;
+    font-weight:bold;
+}
+
+span, label{
+    color: var(--text-black);
+}
+
 
 .footer-container {
     border-radius: .5rem;
@@ -112,14 +154,12 @@ a {
     }
 
     .form {
-        width: 90%;
-        max-width: 400px;
+        width:15rem;
+        max-width: 90%;
         padding: 2rem;
     }
 
-    .input {
-        width: 100%;
-        max-width: 100%;
+    .input{
         height: 3rem;
     }
 
@@ -131,4 +171,5 @@ a {
     .input-container{
         align-items: center;
     }
+
 }

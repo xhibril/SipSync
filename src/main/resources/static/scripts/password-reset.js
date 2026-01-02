@@ -2,6 +2,7 @@ import {lockBtn, unlockBtn} from "./button-state.js";
 import {
     handleValidation, validatePasswordStrength, validateEmailDomain, validateNumInputs
 } from "./validation.js";
+
 import {showMessage} from "./notification.js";
 import {isBeingRateLimited} from "./http-responses.js";
 
@@ -10,6 +11,7 @@ const verificationCode = document.querySelector("#verification-code");
 const newPassword = document.querySelector("#reset-password");
 const confirmNewPassword = document.querySelector("#reset-confirm-password");
 const resetPasswordBtn = document.querySelector("#reset-btn");
+const togglePassword = document.querySelector("#reset-toggle-login-password");
 
 const STEPS = {
     EMAIL: 1, CODE: 2, NEW_PASSWORD: 3
@@ -32,12 +34,23 @@ resetPasswordBtn.addEventListener("click", (e) => {
     }
 });
 
+
+togglePassword.addEventListener("click", ()=>{
+    newPassword.type =
+        newPassword.type === "password" ? "text" : "password";
+
+    confirmNewPassword.type =
+        confirmNewPassword.type === "password" ? "text" : "password";
+})
+
+
 function goToStep(step) {
     currentStep = step;
     emailReset.classList.toggle("hidden", step !== STEPS.EMAIL);
     verificationCode.classList.toggle("hidden", step !== STEPS.CODE);
-    newPassword.classList.toggle("hidden", step !== STEPS.NEW_PASSWORD);
-    confirmNewPassword.classList.toggle("hidden", step !== STEPS.NEW_PASSWORD);
+    togglePassword.classList.toggle("hidden", step !== STEPS.NEW_PASSWORD);
+   newPassword.classList.toggle("hidden", step !== STEPS.NEW_PASSWORD);
+  confirmNewPassword.classList.toggle("hidden", step !== STEPS.NEW_PASSWORD);
 }
 
 // sends email over to backend to gen veri code and save it

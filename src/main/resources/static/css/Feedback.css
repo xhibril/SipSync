@@ -3,6 +3,7 @@
     align-items:center;
     justify-content: center;
     flex-direction: column;
+    width:100%;
 }
 
 .feedback form {
@@ -14,6 +15,11 @@
 
 .feedback textarea{
     border-radius:  0.5em;
+}
+
+textarea{
+    min-width:20rem;
+    max-width:90%;
 }
 
 .input{

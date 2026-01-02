@@ -7,7 +7,9 @@ const inputs = document.querySelectorAll(".input");
 const emailSignUp = document.querySelector("#signup-email");
 const passwordSignUp = document.querySelector("#signup-password");
 const signUpBtn = document.querySelector("#signup-btn");
-const loginLink = document.querySelector('#login-link');
+const loginLink = document.querySelector("#login-link");
+const togglePassword = document.querySelector("#toggle-signup-password");
+
 
 loginLink.addEventListener("click", (e)=>{
     e.preventDefault();
@@ -26,6 +28,11 @@ inputs.forEach(input => {
         }
     });
 });
+
+togglePassword.addEventListener("click", ()=>{
+   passwordSignUp.type =
+       passwordSignUp.type === "password" ? "text" : "password";
+})
 
 function handleSignUpClick(e){
     e.preventDefault();

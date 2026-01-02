@@ -10,12 +10,11 @@ const emailLogin = document.querySelector("#login-email");
 const passwordLogin = document.querySelector("#login-password");
 const loginBtn = document.querySelector("#login-confirm");
 const signUpLink = document.querySelector("#signup-link");
+const togglePassword = document.querySelector("#toggle-login-password");
 
 // forgot password
 const forgotPassword = document.querySelector("#forgot-password");
 const forgotPasswordContainer = document.querySelector("#forgot-password-container");
-
-
 
 // show any flash messages (eg after user changes password and is redirected to login)
 document.addEventListener("DOMContentLoaded", () => {
@@ -46,6 +45,11 @@ loginBtn.addEventListener("click", (e) => {
     handleLoginClick();
 });
 
+togglePassword.addEventListener("click", ()=>{
+    passwordLogin.type =
+        passwordLogin.type === "password" ? "text" : "password";
+})
+
 function handleLoginClick(){
     const email = emailLogin.value;
     const password = passwordLogin.value;
@@ -67,8 +71,6 @@ function handleLoginClick(){
     lockBtn(loginBtn, "Logging in...");
     handleLogin(email, password);
 }
-
-
 
 
 inputFields.forEach(input =>{

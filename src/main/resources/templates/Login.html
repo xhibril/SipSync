@@ -15,9 +15,9 @@
 <div class="overlay"></div>
 <div class="main-section">
     <div class="headerSection">
-        <p id="notification" class = "notification">
-            <img src="/images/error.png" id="error-icon" class = "">
-            <img src="/images/success.png" id="success-icon" class = "">
+        <p id="notification" class="notification">
+            <img src="/images/error.png" id="error-icon" class="">
+            <img src="/images/success.png" id="success-icon" class="">
             <span id="notification-text"></span>
         </p>
 
@@ -37,51 +37,63 @@
                 your water goals.</p>
         </div>
 
+        <div class="credentials-wrapper">
+            <div class="input-container" id="login-container">
+                <form class="form">
+                    <span class="page-title">Login</span>
 
-        <div class="input-container" id = "login-container">
-            <form class="form">
+                    <div class = "credentials-field">
+                        <input type="email" class="input" id="login-email" placeholder="Email">
 
-                <span class="page-title">Login</span>
-                <input type="email" class="input" id = "login-email" placeholder="Email">
-                <input type="password" class="input" id = "login-password" placeholder="Password">
+                            <input type="password" class="input" id="login-password" placeholder="Password">
+                            <button type="button" class="toggle-password" id="toggle-login-password">
+                                <img src = "/images/eye.png">
+                            </button>
+                    </div>
 
-                <label class="rememberRow">
-                    <input type="checkbox" class="rememberMe" id = "remember-me">
-                    <span>Remember me</span>
-                </label>
 
-                <a href="" id = "forgot-password">Forgot Password?</a>
-                <button class="default-btn" id = "login-confirm">Continue</button>
-            </form>
+                        <label class="rememberRow">
+                            <input type="checkbox" class="rememberMe" id="remember-me">
+                            <span>Remember me</span>
+                        </label>
 
-            <div class="footer-container ">
-                <label>Don't have an account? <a href="" class = "go-sign-up-page" id = "signup-link">Sign Up</a> </label>
+                        <a href="" id="forgot-password">Forgot Password?</a>
+                        <button class="default-btn" id="login-confirm">Continue</button>
+                </form>
             </div>
-        </div>
 
-        <!-- forgot password container -->
 
-        <div class="input-container hidden" id = "forgot-password-container">
-            <form class="form ">
+            <!-- forgot password container -->
 
-                <span class="page-title">Reset Password</span>
-                <input type="email" class= "input"  id = "reset-email" placeholder="Enter email">
-                <input type="number" class= "input hidden" id = "verification-code" placeholder="Enter 6-digit code">
-                <input type="password" class= "input hidden" id = "reset-password" placeholder="Enter new password">
-                <input type="password" class= "input hidden" id = "reset-confirm-password" placeholder="Re-enter new password">
+            <div class="input-container hidden" id="forgot-password-container">
+                <form class="form ">
+                    <span class="page-title">Reset Password</span>
 
-                <button class="default-btn" id = "reset-btn">Continue</button>
-            </form>
+                    <div class = "credentials-field">
+                        <input type="email" class="input" id="reset-email" placeholder="Enter email">
 
+                        <input type="number" class="input hidden" id="verification-code" placeholder="Enter 6-digit code">
+
+                        <input type="password" class="input hidden" id="reset-password" placeholder="Enter new password">
+                        <input type="password" class="input hidden" id="reset-confirm-password" placeholder="Re-enter new password">
+                        <button type="button" class="toggle-password hidden" id="reset-toggle-login-password">
+                            <img src = "/images/eye.png">
+                        </button>
+
+                    </div>
+
+                    <button class="default-btn" id="reset-btn">Continue</button>
+                </form>
+            </div>
             <div class="footer-container">
-                <label>Don't have an account? <a href="" class = "go-sign-up-page" id = "signup-link">Sign Up</a> </label>
+                <label>Don't have an account? <a href="" class="go-sign-up-page" id="signup-link">Sign Up</a> </label>
             </div>
         </div>
     </div>
-</div>
 
-<script type="module" src="/scripts/button-state.js" defer></script>
-<script type = "module" src ="/scripts/login.js" defer ></script>
-<script type = "module" src ="/scripts/password-reset.js" defer ></script>
+
+    <script type="module" src="/scripts/button-state.js" defer></script>
+    <script type="module" src="/scripts/login.js" defer></script>
+    <script type="module" src="/scripts/password-reset.js" defer></script>
 </body>
 </html>
