@@ -1,0 +1,31 @@
+# SipSync
+
+SipSync is a full-stack web application for tracking daily water intake.
+
+![SipSync demo](docs/demo.gif)
+
+**Live:** https://sipsync.xhibril.dev
+
+## Overview
+SipSync allows users to register, authenticate, log water consumption, and view progress over time.
+
+## Tech Stack ▪️
+- Java 17
+- Spring Boot
+- MySQL
+- HTML, CSS, JavaScript
+
+## Features ▫️
+- Secure, account-scoped hydration tracking
+- Request throttling to prevent abuse
+- Hydration logging with history
+- Streak-based progress tracking
+
+## Run Locally ⚙️
+
+Requires Java 17+, Maven, and MySQL.
+
+```bash
+git clone https://github.com/xhibril/SipSync.git
+cd SipSync
+mvn spring-boot:run
