@@ -16,7 +16,7 @@ SipSync allows users to register, authenticate, log water consumption, and view 
 - HTML, CSS, JavaScript
 
 ## Features ▫️
-- Secure, account-scoped hydration tracking
+- Secure user accounts with verified access
 - Request throttling to prevent abuse
 - Hydration logging with history
 - Streak-based progress tracking
