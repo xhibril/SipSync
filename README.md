@@ -23,7 +23,7 @@ SipSync allows users to register, authenticate, log water consumption, and view 
 
 ## Run Locally ⚙️
 
-Requires Java 17+, Maven, and MySQL.
+**Requirements:** Java 17+, Maven, and MySQL.
 
 ```bash
 git clone https://github.com/xhibril/SipSync.git
