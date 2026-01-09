@@ -1,7 +1,5 @@
 package com.sipsync.sipsync.model;
 import jakarta.persistence.*;
-
-import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
@@ -33,5 +31,4 @@ public class Logs {
 
     public Long getUserId(){ return userId; }
     public void setUserId(Long userId){  this.userId = userId; }
-
 }

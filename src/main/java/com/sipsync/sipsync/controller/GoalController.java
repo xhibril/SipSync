@@ -2,7 +2,6 @@ package com.sipsync.sipsync.controller;
 import com.sipsync.sipsync.service.AuthService;
 import com.sipsync.sipsync.service.GoalService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +9,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class GoalController {
 
-    @Autowired AuthService authService;
-    @Autowired GoalService goalService;
+    private final AuthService authService;
+    private final GoalService goalService;
+
+    public GoalController(AuthService authService, GoalService goalService){
+        this.authService = authService;
+        this.goalService = goalService;
+    }
 
 
     // add goal

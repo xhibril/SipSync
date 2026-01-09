@@ -31,7 +31,6 @@ public class AuthService {
     public Boolean verifyUser(String token) {
 
         String secretKey = System.getenv("JWT_SECRET");
-
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
@@ -56,12 +55,11 @@ public class AuthService {
         String token = checkIfAuthTokenExists(req);
         if (token == null) return null;
 
-        // extract id from token
         Long userId = extractId(token);
         if(userId == null) return null;
 
-        // check if that user id is valid
-        Boolean isUserIdValid = userRepo.existsById(userId);
+        // check if user id is valid
+        boolean isUserIdValid = userRepo.existsById(userId);
 
         if(isUserIdValid){
             return userId;
@@ -71,7 +69,6 @@ public class AuthService {
     }
 
 
-
     public String checkIfAuthTokenExists(HttpServletRequest req){
         // get all the cookies sent by the browser
         Cookie[] cookies = req.getCookies();
@@ -79,7 +76,6 @@ public class AuthService {
         if(cookies != null){
             for(Cookie cookie : cookies){
                 if("authToken".equals(cookie.getName())){
-                    // Get the value of that cookie
                     String token = cookie.getValue();
                     return token;
                 }
@@ -115,7 +111,6 @@ public class AuthService {
 
     public void generateAuthTokenAfterSignup(Long userId, String email) {
         String token;
-
         String secret = System.getenv("JWT_SECRET");
         SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
 
@@ -135,7 +130,6 @@ public class AuthService {
         return userRepo.findIdByEmail(email);
     }
 
-
     public Boolean checkVerificationStatusByEmail(String email){
      return userRepo.findIsVerifiedByEmail(email);
     }
@@ -143,11 +137,6 @@ public class AuthService {
     public Boolean checkVerificationStatusById(Long userId){
        return userRepo.findIsVerifiedById(userId);
     }
-
-
-
-
-
 }
 
 

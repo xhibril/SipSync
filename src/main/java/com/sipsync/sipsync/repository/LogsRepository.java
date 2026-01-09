@@ -38,6 +38,5 @@ public interface LogsRepository extends JpaRepository<Logs, Long> {
                    @Param("userId") Long userId,
                    @Param("id") Long id);
 
-
 }
 

@@ -3,7 +3,6 @@ import com.sipsync.sipsync.model.Feedback;
 import com.sipsync.sipsync.service.AuthService;
 import com.sipsync.sipsync.service.FeedbackService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class FeedbackController {
+    private final AuthService authService;
+    private final FeedbackService feedbackService;
 
-    @Autowired AuthService authService;
-    @Autowired FeedbackService feedbackService;
+    public FeedbackController(AuthService authService, FeedbackService feedbackService){
+        this.authService = authService;
+        this.feedbackService = feedbackService;
+    }
 
     // post a feedback
     @PostMapping("/api/feedback")

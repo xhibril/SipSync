@@ -2,7 +2,6 @@ package com.sipsync.sipsync.controller;
 import com.sipsync.sipsync.dto.auth.PasswordResetRequest;
 import com.sipsync.sipsync.dto.auth.PasswordResetResponse;
 import com.sipsync.sipsync.service.PasswordResetService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,8 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PasswordResetController {
-    @Autowired PasswordResetService passwordResetService;
 
+    private final PasswordResetService passwordResetService;
+    public PasswordResetController(PasswordResetService passwordResetService){
+        this.passwordResetService = passwordResetService;
+    }
     // generates verification code and stores it to database
     @PostMapping("/password/reset/code")
     public ResponseEntity<PasswordResetResponse> generateVerificationCode(@RequestBody PasswordResetRequest request) {

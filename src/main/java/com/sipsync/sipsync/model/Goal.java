@@ -1,11 +1,9 @@
 package com.sipsync.sipsync.model;
-
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "goal")
 public class Goal {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +23,6 @@ public class Goal {
     public Long getUserId(){
         return userId;
     }
-
 
     public void setId(Long id) {this.id = id;}
     public Long getId(){ return id; }

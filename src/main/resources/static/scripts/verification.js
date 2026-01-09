@@ -6,7 +6,7 @@ const userEmail = localStorage.getItem("userEmail");
 // if user clicks "resend token link"
 document.addEventListener("DOMContentLoaded", () => {
     const resendToken = document.querySelector("#resend-token-link");
-    if (!resendToken) return;  // stops errors if element doesn’t exist
+    if (!resendToken) return;
 
     resendToken.addEventListener("click", async (e) => {
         e.preventDefault();

@@ -1,5 +1,4 @@
 package com.sipsync.sipsync.controller;
-
 import com.sipsync.sipsync.service.AuthService;
 import com.sipsync.sipsync.service.StreakService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,9 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class StreakController {
+    private final AuthService authService;
+    private final StreakService streakService;
 
-    @Autowired AuthService authService;
-    @Autowired StreakService streakService;
+    public StreakController(AuthService authService, StreakService streakService){
+        this.authService = authService;
+        this.streakService = streakService;
+    }
 
     // get user streak
     @GetMapping("/streak/evaluate")

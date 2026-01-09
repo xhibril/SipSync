@@ -67,9 +67,9 @@ public class LoginService {
     public void storeAuthToken(String token, int length, HttpServletResponse res) {
         Cookie cookie = new Cookie("authToken", token);
         cookie.setHttpOnly(true);
-        //  cookie.setSecure(true);
+        cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge(length); // expires in 7 days
+        cookie.setMaxAge(length);
         res.addCookie(cookie);
 
     }
@@ -84,7 +84,7 @@ public class LoginService {
         Cookie cookie = new Cookie("authToken", null);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        //  cookie.setSecure(true);
+        cookie.setSecure(true);
         cookie.setMaxAge(0);
         res.addCookie(cookie);
         return true;

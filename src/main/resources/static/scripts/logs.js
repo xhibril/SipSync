@@ -1,6 +1,6 @@
 import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
 import {showMessage} from "./notification.js";
-import {refreshMainPage, refreshWaterIntake} from "./dashboard-refresh.js";
+import {refreshMainPage} from "./dashboard-refresh.js";
 
 const logs = document.querySelector("#logs-container");
 const noLogsFoundImage = document.querySelector("#no-logs-found-image");

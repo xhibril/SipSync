@@ -4,12 +4,12 @@ import com.sipsync.sipsync.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SingUpService {
+public class SignUpService {
     private final AuthService authService;
     private final UserRepository userRepo;
 
     private final SecurityHashService hashService;
-    public SingUpService(SecurityHashService hashService,
+    public SignUpService(SecurityHashService hashService,
                          AuthService authService,
                          UserRepository userRepo)
     {
@@ -26,7 +26,6 @@ public class SingUpService {
             String hashPassword = hashService.hashPassword(password);
             User user = new User(email, hashPassword, null);   // null is last streak update date
 
-            // save the saved user for id
             User savedUser = userRepo.save(user);
 
             // generate token and send email

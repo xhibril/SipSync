@@ -1,5 +1,4 @@
 package com.sipsync.sipsync.model;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -25,7 +24,6 @@ public class Feedback {
     }
 
     public Feedback() {
-
     }
 
 
@@ -39,7 +37,6 @@ public class Feedback {
     public void setEmail(String email){this.email = email;}
     public String getEmail(){return email;}
 
-    public void setMessage(String message){ this.message = message;}
     public String getMessage(){return message;}
 
     public void setId(Long id) {this.id = id;}

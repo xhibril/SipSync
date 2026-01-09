@@ -19,7 +19,7 @@ export function showMessage(type, message) {
     if(message){
         notificationText.innerHTML = message;
     }
-    // make duration 3s for successful, and 3.5s for error
+
     let duration;
     if(type === "success"){
         successMessageIcon.classList.remove('hidden');

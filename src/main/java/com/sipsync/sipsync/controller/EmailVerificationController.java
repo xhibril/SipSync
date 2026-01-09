@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class EmailVerificationController {
 
-    @Autowired private AuthService authService;
+    private final AuthService authService;
+    public EmailVerificationController(AuthService authService){
+        this.authService = authService;
+    }
 
     // send verification link to user
     @PostMapping("/email/send-token")

@@ -60,17 +60,4 @@ public class PasswordReset {
     public String getResetToken() {
         return resetToken;
     }
-
-    public void setResetToken(String resetToken) {
-        this.resetToken = resetToken;
-    }
-
-    public Instant getResetTokenExpiration() {
-        return resetTokenExpiration;
-    }
-
-    public void setResetTokenExpiration(Instant resetTokenExpiration) {
-        this.resetTokenExpiration = resetTokenExpiration;
-    }
-
 }

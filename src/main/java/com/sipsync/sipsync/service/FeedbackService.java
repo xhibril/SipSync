@@ -1,7 +1,6 @@
 package com.sipsync.sipsync.service;
 import com.sipsync.sipsync.model.Feedback;
 import com.sipsync.sipsync.repository.FeedbackRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

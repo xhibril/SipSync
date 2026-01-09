@@ -12,7 +12,4 @@ public class EmailVerification {
 
     public void setId(Long id){ this.id = id; }
     public Long getId(){ return id; }
-
-    public Boolean getIsVerified() { return isVerified; }
-    public void setIsVerified(Boolean isVerified) { this.isVerified = isVerified; }
 }

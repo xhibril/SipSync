@@ -19,12 +19,12 @@ public class StatsService {
     }
 
     public Float stats(String type, Long userId) {
-        switch (type) {
-            case "DAILY": return todayTotal(userId);
-            case "WEEKLY": return average(Period.WEEKLY, userId);
-            case "MONTHLY": return average(Period.MONTHLY, userId);
-        }
-        return 0f;
+        return switch (type) {
+            case "DAILY" -> todayTotal(userId);
+            case "WEEKLY" -> average(Period.WEEKLY, userId);
+            case "MONTHLY" -> average(Period.MONTHLY, userId);
+            default -> 0f;
+        };
     }
 
 
@@ -44,7 +44,6 @@ public class StatsService {
 
     // average water drank daily for weekly / monthly
     private Float average(Period period, Long userId) {
-        // bad argument error
         if (period == null) {
             throw new IllegalArgumentException("Period cannot be null");
         }

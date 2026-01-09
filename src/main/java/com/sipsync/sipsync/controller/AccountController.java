@@ -1,21 +1,21 @@
 package com.sipsync.sipsync.controller;
-import com.sipsync.sipsync.config.RateLimiter;
 import com.sipsync.sipsync.service.AccountService;
 import com.sipsync.sipsync.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AccountController {
-    @Autowired AuthService authService;
-    @Autowired AccountService accountService;
-@Autowired
-    RateLimiter rateLimiter;
+    private final AuthService authService;
+    private final AccountService accountService;
+
+    public AccountController(AuthService authService, AccountService accountService){
+        this.authService = authService;
+        this.accountService = accountService;
+    }
 
     // reset user data
     @PostMapping("/data/reset")
@@ -27,5 +27,4 @@ public class AccountController {
         accountService.resetData(userId);
         return ResponseEntity.ok().build();
     }
-
 }

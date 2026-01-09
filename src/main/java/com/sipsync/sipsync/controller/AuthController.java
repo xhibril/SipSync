@@ -1,20 +1,27 @@
 package com.sipsync.sipsync.controller;
-
 import com.sipsync.sipsync.dto.auth.LoginRequest;
 import com.sipsync.sipsync.dto.auth.SignUpRequest;
 import com.sipsync.sipsync.service.AuthService;
 import com.sipsync.sipsync.service.LoginService;
-import com.sipsync.sipsync.service.SingUpService;
+import com.sipsync.sipsync.service.SignUpService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthController {
 
-    @Autowired private SingUpService singUpService;
-    @Autowired private LoginService loginService;
-    @Autowired private AuthService authService;
+    private final SignUpService signUpService;
+    private final LoginService loginService;
+    private final AuthService authService;
+
+
+    public AuthController(SignUpService signUpService,
+                          LoginService loginService,
+                          AuthService authService){
+        this.signUpService = signUpService;
+        this.loginService = loginService;
+        this.authService = authService;
+    }
 
     // check if user credentials are correct
     @PostMapping("/api/login")
@@ -31,11 +38,10 @@ public class AuthController {
     // sign up user
     @PostMapping("/api/signup")
     public Boolean addUser(@RequestBody SignUpRequest request) {
-        return singUpService.addUser(request.getEmail(), request.getPassword());
+        return signUpService.addUser(request.getEmail(), request.getPassword());
     }
 
 
-    // logout
     @PostMapping("/api/logout")
     public Boolean logout(HttpServletResponse res){
         return loginService.logout(res);

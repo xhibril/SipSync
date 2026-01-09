@@ -11,10 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface EmailVerificationRepository extends JpaRepository<EmailVerification, Long> {
 
-    // verify user email when they click the link after signing up
     @Modifying
     @Transactional
     @Query("UPDATE EmailVerification v SET v.isVerified = true WHERE v.id = :id")
     void verifyById(@Param("id") Long id);
-
 }

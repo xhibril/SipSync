@@ -1,5 +1,4 @@
 import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
-import {refreshMainPage} from "./dashboard-refresh.js";
 import {showMessage} from "./notification.js";
 import {lockBtn, unlockBtn} from "./button-state.js";
 

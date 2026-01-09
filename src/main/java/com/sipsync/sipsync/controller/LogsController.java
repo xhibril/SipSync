@@ -3,7 +3,6 @@ import com.sipsync.sipsync.model.Logs;
 import com.sipsync.sipsync.service.AuthService;
 import com.sipsync.sipsync.service.LogsService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +11,14 @@ import java.util.List;
 
 @RestController
 public class LogsController {
-    @Autowired AuthService authService;
-    @Autowired LogsService logsService;
+
+    private final AuthService authService;
+    private final LogsService logsService;
+
+    public LogsController(AuthService authService, LogsService logsService){
+        this.authService = authService;
+        this.logsService = logsService;
+    }
 
     // returns today's logs for display
     @GetMapping("/log/today")

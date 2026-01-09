@@ -20,19 +20,17 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RateLimiter extends OncePerRequestFilter {
     private final Map<Long, Bucket> buckets = new ConcurrentHashMap<>();
 
-    // temp
-    public void clearAllBuckets() {
-        buckets.clear();
+    private final AuthService authService;
+    public RateLimiter(AuthService authService){
+        this.authService = authService;
     }
-
-    @Autowired private AuthService authService;
 
     // runs every http req before controllers
     @Override
     protected void doFilterInternal(
-            HttpServletRequest request,   // incoming request
-            HttpServletResponse response, // outgoing response
-            FilterChain filterChain       // lets the request continue
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain       // let req continue
     ) throws ServletException, IOException {
 
         // get curr authenticated user

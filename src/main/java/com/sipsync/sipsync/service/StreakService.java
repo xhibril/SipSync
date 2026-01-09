@@ -29,7 +29,7 @@ public class StreakService {
         }
 
         long daysGap = ChronoUnit.DAYS.between(lastStreakUpdateDate, LocalDate.now());
-        // missed a day → streak broken
+        // streak broken if day missed
         if (daysGap > 1) {
             userRepo.resetUserStreak(userId);
             return 0;
@@ -37,7 +37,6 @@ public class StreakService {
 
         return getStreakStored(userId);
     }
-
 
 
 

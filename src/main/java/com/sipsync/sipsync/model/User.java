@@ -1,6 +1,5 @@
 package com.sipsync.sipsync.model;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -40,14 +39,4 @@ public class User {
 
     public void setStreak(int streak){ this.streak = streak; }
     public int getStreak(){ return streak; }
-
-    public void setLastStreakUpdateDate(LocalDate date){ this.lastStreakUpdateDate = date; }
-    public LocalDate getLastStreakUpdateDate(){ return lastStreakUpdateDate; }
-
-    public Boolean getVerified() {
-        return isVerified;
-    }
-    public void setVerified(Boolean verified) {
-        isVerified = verified;
-    }
 }
