@@ -23,7 +23,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    // check if user credentials are correct
+
     @PostMapping("/api/login")
     public Boolean areCredentialsValid(@RequestBody LoginRequest request, HttpServletResponse res) {
         return loginService.isUserValid(request.getEmail(), request.getPassword(), request.getRememberMe(), res);

@@ -20,7 +20,6 @@ public class LogsController {
         this.logsService = logsService;
     }
 
-    // returns today's logs for display
     @GetMapping("/log/today")
     public ResponseEntity<List> getTodayLogs(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);

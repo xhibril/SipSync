@@ -19,7 +19,7 @@ public class StreakController {
         this.streakService = streakService;
     }
 
-    // get user streak
+
     @GetMapping("/streak/evaluate")
     public ResponseEntity<Integer> evaluateStreak(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
@@ -31,7 +31,6 @@ public class StreakController {
     }
 
 
-    // increase streak
     @PostMapping("/streak/increment")
     public ResponseEntity<Integer> setStreak(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
