@@ -11,7 +11,7 @@ public class PageController {
         this.authService = authService;
     }
 
-    // home page
+
     @GetMapping({"/", "/home"})
     public String MainPage(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
@@ -39,8 +39,7 @@ public class PageController {
     }
 
 
-    // feedback page
-    @GetMapping("/feedback")
+    // feedback page    @GetMapping("/feedback")
     public String FeedbackPage(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
         if (userId == null) {
@@ -55,13 +54,13 @@ public class PageController {
         }
     }
 
-    // load login page
+
     @GetMapping("/login")
     public String LoginPage(HttpServletRequest req){
             return "Login";
     }
 
-    // load sign up page
+
     @GetMapping("/signup")
     public String SignUpPage(HttpServletRequest req){
        return "Signup";

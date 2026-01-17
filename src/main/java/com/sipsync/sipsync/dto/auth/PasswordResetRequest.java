@@ -7,12 +7,10 @@ public class PasswordResetRequest {
     private String resetToken;
 
     public String getResetToken(){ return resetToken; }
-    public void setResetToken(String resetToken) { this.resetToken = resetToken; }
 
     public void setEmail(String email) { this.email = email; }
     public String getEmail() { return email; }
 
-    public void setCode(String code) { this.code = code; }
     public String getCode() {return code;}
 
     public String getPassword() {

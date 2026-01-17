@@ -28,7 +28,6 @@ public class StatsService {
     }
 
 
-    // today totals
     private Float todayTotal(Long userId) {
         LocalDate today = LocalDate.now();
 

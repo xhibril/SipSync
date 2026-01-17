@@ -21,7 +21,7 @@ public class StreakController {
 
     // get user streak
     @GetMapping("/streak/evaluate")
-    public ResponseEntity<Integer> updateStreak(HttpServletRequest req) {
+    public ResponseEntity<Integer> evaluateStreak(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
 
         if (userId == null) {

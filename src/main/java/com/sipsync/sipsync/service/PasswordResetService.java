@@ -43,7 +43,7 @@ public class PasswordResetService {
                 // delete prev requests if they are found
                  deletePasswordResetRequest(email);
             }
-            // generate new code and send it to email
+
             String formattedCode = generateVerificationCode(email);
             emailService.sendVerificationCode(email, formattedCode);
 
@@ -60,7 +60,6 @@ public class PasswordResetService {
         int code = secureRandom.nextInt(1_000_000);
         String formattedCode = String.format("%06d", code);
 
-        // hash the code and store it
         PasswordReset reset = new PasswordReset();
         String hashCode = hashService.hashPassword(formattedCode);
 
@@ -91,13 +90,11 @@ public class PasswordResetService {
             Instant expiration = reset.getCodeExpiration();
             Instant current = Instant.now();
 
-            // check if user has any remaining attempts
             if (remainingAttempts <= 0) {
                 return ResponseEntity.badRequest().body(errorHandling(
                         "Verification attempts exceeded. Please request a new code."));
             }
 
-            // check if code is expired
             if (current.isAfter(expiration)) {
                 return ResponseEntity.badRequest().body(errorHandling(
                         "Code has expired. Please try again."));
@@ -144,7 +141,6 @@ public class PasswordResetService {
             Instant expiration = reset.resetTokenExpiration;
             Instant current = Instant.now();
 
-            // check if reset token has expired
             if (current.isAfter(expiration) || storedResetToken == null) {
                 return ResponseEntity.badRequest().body(errorHandling(
                         "Password reset expired. Please try again"));
@@ -187,7 +183,6 @@ public class PasswordResetService {
         passwordResetRepo.clearVerificationCode(email);
     }
 
-    // error handling for responses
     private PasswordResetResponse errorHandling(String error) {
         PasswordResetResponse res = new PasswordResetResponse();
         res.setMessage(error);

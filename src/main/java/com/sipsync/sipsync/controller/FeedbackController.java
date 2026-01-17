@@ -19,7 +19,7 @@ public class FeedbackController {
         this.feedbackService = feedbackService;
     }
 
-    // post a feedback
+
     @PostMapping("/api/feedback")
     public ResponseEntity<Void> postFeedback(@RequestBody Feedback feedback, HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);

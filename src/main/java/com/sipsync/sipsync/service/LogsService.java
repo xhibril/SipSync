@@ -22,7 +22,6 @@ public class LogsService {
         return todayLogs;
     }
 
-    // add amount
     public Logs addLog(int amount, Long userId) {
         Logs log = new Logs();
 

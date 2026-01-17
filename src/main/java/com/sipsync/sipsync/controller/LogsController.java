@@ -31,7 +31,7 @@ public class LogsController {
         return ResponseEntity.ok(logsService.todayLogs(userId));
     }
 
-    // add a log
+
     @PostMapping("/log/add")
     public ResponseEntity<Logs> addLog(@RequestParam int amount, HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
@@ -43,7 +43,6 @@ public class LogsController {
     }
 
 
-    // delete a log
     @PostMapping("/log/delete")
     public ResponseEntity<Void> deleteLog(@RequestParam Long logId, HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
@@ -56,7 +55,6 @@ public class LogsController {
     }
 
 
-    // update / edit a log
     @PostMapping("/log/update")
     public ResponseEntity<Void> updateLog(@RequestParam int amount, Long id, HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);

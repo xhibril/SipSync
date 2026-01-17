@@ -4,7 +4,7 @@ SipSync is a full-stack web application for tracking daily water intake.
 
 ![SipSync demo](docs/demo.gif)
 
-**Live:** https://sipsync.xhibril.dev 
+**Live:** https://sipsync.xhibril.dev <br> 
 **Note:** Live demo may be offline at times to reduce hosting costs.
 
 

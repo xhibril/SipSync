@@ -18,7 +18,6 @@ public class SignUpService {
         this.userRepo = userRepo;
     }
 
-    // add user and return it
     public Boolean addUser(String email, String password) {
         // check if user it not already registered
         if (!(userRepo.existsByEmail(email))) {

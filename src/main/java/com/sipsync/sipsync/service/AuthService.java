@@ -88,9 +88,8 @@ public class AuthService {
 
     public Long extractId(String token) {
         String secretKey = System.getenv("JWT_SECRET");
-        Long userId = null;
+        Long userId;
 
-        // rebuild token and extract id from payload
         try {
         Claims claims = Jwts.parser()
                 .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))

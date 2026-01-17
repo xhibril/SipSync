@@ -14,7 +14,6 @@ public class GoalService {
         this.goalRepo = goalRepo;
     }
 
-    // set user goal
     public void setGoal(float amount, Long userId) {
 
         // if goal already exits edit the existing one
@@ -32,7 +31,6 @@ public class GoalService {
 
 
     public Float getSetGoal(Long userId) {
-        // check if user has set their goal
         Optional<Goal> result = goalRepo.findByUserId(userId);
 
         if (result.isPresent()) {

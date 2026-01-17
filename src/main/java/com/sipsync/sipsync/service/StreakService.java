@@ -21,7 +21,6 @@ public class StreakService {
     }
 
     @Transactional
-   // check if more than a day has passed since user last entered and amount
     public int evaluateStreak(Long userId){
         LocalDate lastStreakUpdateDate = userRepo.findLastStreakUpdate(userId);
         if(lastStreakUpdateDate == null){
@@ -38,16 +37,6 @@ public class StreakService {
         return getStreakStored(userId);
     }
 
-
-
-    // get the latest date the user entered a value
-    private LocalDate getLastLogDate(Long userId){
-        Logs log = logsRepo.findTopByUserIdOrderByIdDesc(userId);
-        if (log == null) {
-            return null;
-        }
-        return log.getDate();
-    }
 
 
     public int incrementStreakIfNotUpdatedToday(Long userId){
