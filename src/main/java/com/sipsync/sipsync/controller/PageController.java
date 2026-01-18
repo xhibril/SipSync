@@ -56,13 +56,13 @@ public class PageController {
 
 
     @GetMapping("/login")
-    public String LoginPage(HttpServletRequest req){
+    public String LoginPage(){
             return "Login";
     }
 
 
     @GetMapping("/signup")
-    public String SignUpPage(HttpServletRequest req){
+    public String SignUpPage(){
        return "Signup";
     }
 
