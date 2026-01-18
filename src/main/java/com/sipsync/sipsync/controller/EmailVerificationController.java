@@ -12,7 +12,7 @@ public class EmailVerificationController {
         this.authService = authService;
     }
 
-    // send verification link to user
+
     @PostMapping("/email/send-token")
     @ResponseBody
     public void sendVerificationEmail(@RequestBody User user){
@@ -24,7 +24,6 @@ public class EmailVerificationController {
           }
     }
 
-    // verify user email
     @GetMapping("/email/check-token")
     public String verifyUser(@RequestParam("token")String token){
         Boolean verified = authService.verifyUser(token);

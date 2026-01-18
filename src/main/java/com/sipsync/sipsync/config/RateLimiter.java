@@ -25,7 +25,6 @@ public class RateLimiter extends OncePerRequestFilter {
         this.authService = authService;
     }
 
-    // runs every http req before controllers
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,

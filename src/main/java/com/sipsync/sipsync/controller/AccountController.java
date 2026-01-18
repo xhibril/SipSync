@@ -17,7 +17,7 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    // reset user data
+
     @PostMapping("/data/reset")
     public ResponseEntity<Void> resetData(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
