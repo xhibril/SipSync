@@ -1,5 +1,5 @@
 import {isBeingRateLimited, redirectToLoginPage} from "./http-responses.js";
-import {handleValidation} from "./validation.js";
+import {handleValidation, validateEmailDomain} from "./validation.js";
 import {showMessage} from "./notification.js";
 
 const feedBackBtn = document.querySelector("#feedback-send");

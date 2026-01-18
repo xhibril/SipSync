@@ -16,7 +16,7 @@ public class EmailService {
     private final String apiKey = System.getenv("SMTP2GO_API_KEY");
     private final String fromEmail = System.getenv("FROM_EMAIL");
 
-   // @Value("${app.base-url}")
+    @Value("${app.base-url}")
     private String baseUrl;
 
     @Async
