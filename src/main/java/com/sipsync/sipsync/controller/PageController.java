@@ -39,7 +39,7 @@ public class PageController {
     }
 
 
-    // feedback page    @GetMapping("/feedback")
+    @GetMapping("/feedback")
     public String FeedbackPage(HttpServletRequest req) {
         Long userId = authService.getAuthenticatedUserId(req);
         if (userId == null) {
